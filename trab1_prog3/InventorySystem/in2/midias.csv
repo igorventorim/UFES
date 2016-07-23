@@ -1,0 +1,21 @@
+Código;Nome;Tipo;Diretor;A(u)tores;Tamanho;Gênero;Série;Temporada;Possui?;Consumiu?;Deseja?;Preço
+1;Malandros da UFES;L;;7;1232;C;;;;x;;9,99
+2;Senhor dos Anéis de Madagascar;L;;9;1234;CH;;;x;x;;1231,51
+3;Felicidade;L;;7;4180;CN;;;;x;x;323,11
+4;Dr Dre;F;11;8,9;122;SF;;;;x;x;16,99
+5;Laranja Enferrujada;F;1;10,11,12,13;166;JAVA;;;;x;x;39,99
+6;De volta para o futuro;F;30;14,15,16,17;192;SF;;;x;;;39,99
+7;De volta para o passado;F;30;14,15,16,17;192;SF;;;;x;;39,99
+8;De volta para o presente;F;30;14,15,16,17;192;SF;;;;;x;39,99
+9;Turminha da Pesada;L;;1,9;2;C;;;;;x;394,29
+10;HUE;L;;8;24;CN;;;;;x;255,00
+11;BR;L;;9;3522;CN;;;x;x;;421,23
+12;Calourices;S;;20,21,22,23,25,26,27,28;999;CN;Caulorices da ufes;99;;x;x;5,99
+13;Calourices: O Grande Retorno;S;;20,21,22,23,25,26,27;998;CN;Caulorices da ufes;1;;x;;5,99
+14;Um filme da galera de artes;F;3;29,30,11,22;98;CH;;;;x;;1,49
+15;Outro filme da galera de artes;F;3;29;79;JAVA;;;x;;;0,50
+16;Star Wars Indiano;F;1;1;199;SF;;;;x;;39,91
+17;Star Wars Russo;F;1;1;200;CN;;;x;;;39,91
+18;Star Wars Japa;F;3;30,25,26,27,28;69;SF;;;;x;x;39,91
+19;Meu Bondoso Favorito;F;27;28;444;C;;;;;x;39,92
+20;Livro de PROG;L;;9;9999999;CH;;;;;x;50,50

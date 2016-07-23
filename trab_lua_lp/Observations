@@ -1,0 +1,7 @@
+You normally use either require or dofile, depending of your situation. It is also possible to call the lower level functions loadfile or load if you need more flexibility.
+
+require is used to load library modules. The argument is the name of the module, and Lua then searches for the file in the package.path path. It also maintains a cache of loaded modules, so that the second time you call require for the same name it will only return the cached value.
+http://www.lua.org/manual/5.2/manual.html#pdf-require
+
+dofile is simpler. It just take the file path as argument. It loads and executes the code every time it is called.
+http://www.lua.org/manual/5.2/manual.html#pdf-dofile

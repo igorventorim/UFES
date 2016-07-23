@@ -1,0 +1,21 @@
+Código;Nome;Tipo;Diretor;A(u)tores;Tamanho;Gênero;Série;Temporada;Possui?;Consumiu?;Deseja?;Preço
+1;O Homem que calculava;L;;5;250;CA;;;x;x;;19,9
+2;Meus Anos de General Motors;L;;7;700;CU;;;x;;;80,5
+3;A Menina do vale;L;;7;350;FR;;;;;x;52,8
+4;A Volta dos que não foram;F;2;7,8;112;FR;;;;;x;40,5
+5;Minha mãe é uma peça;F;1;10,13,14,8;90;CH;;;;;x;9,9
+6;Amante Muito Louca;F;1;14,15,16,17;142;CH;;;x;x;;38,9
+7;Amei um Bicheiro;F;1;18;336;CA;;;x;;;28
+8;As Amorosas;F;2;18;362;CH;;;;;x;43,5
+9;Apenas o Fim;F;3;18;290;CA;;;;;x;39
+10;Bacalhau;F;4;18;274;CA;;;;;x;25
+11;O Batedor de Carteiras;F;3;19;152;CH;;;x;;;31,23
+12;O Beijo;F;3;20,21,22,23,24,25,26,27,28;100;FR;;;x;x;;59,9
+13;Cada um Dá o que Tem;F;2;20,21,22,23,24,25,26,27,28;150;FR;;;;;x;59,9
+14;O Cangaceiro;F;3;19,10,11,12,13,14;178;CU;;;x;x;;30,9
+15;O Cangaceiro Trapalhão;F;3;19,10,11,12,13,14;179;CA;;;x;x;;59,9
+16;Canta Maria;F;3;9,10,11,12,13,14;201;CH;;;x;x;;49,9
+17;Malhação - Temporada 1;S;;1,5,6,7,8;1690;CA;Malhacao;1;x;x;;25,9
+18;Rebelde - Temp 2;S;;3,5,6,7,8;290;DA;Rebelde;2;x;x;;29,9
+19;Toma lá da cá - Temporada 1;S;;3,4,5,6;430;CH;Toma lá da cá;1;;x;x;49,9
+20;Chaves - Temp 3;S;;4,5,6,7;640;CU;Chaves;3;;;x;80,5
