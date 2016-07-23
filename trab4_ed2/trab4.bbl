@@ -1,0 +1,68 @@
+\begin{thebibliography}{10}
+
+\bibitem{Bubble}
+Wikipedia, {\em Bubble Sort}, Nov. 2015.
+
+\bibitem{Selection}
+Wikipedia, {\em Selection Sort}, Nov. 2015.
+
+\bibitem{Insertion}
+Wikipedia, {\em Insertion Sort}, Nov. 2015.
+
+\bibitem{Shake}
+Wikipedia, {\em Shake Sort}, Nov. 2015.
+
+\bibitem{Shell}
+Wikipedia, {\em Shell Sort}, Nov. 2015.
+
+\bibitem{Quick}
+Wikipedia, {\em Quick Sort}, Nov. 2015.
+
+\bibitem{Heap}
+Wikipedia, {\em Heap Sort}, Nov. 2015.
+
+\bibitem{Merge}
+Wikipedia, {\em Merge Sort}, Nov. 2015.
+
+\bibitem{Heapp}
+P.~Feofillof, {\em Heap Sort}.
+\newblock Disponível em
+  \url{http://www.ime.usp.br/~pf/algoritmos/aulas/hpsrt.html}.
+
+\bibitem{Algoritmos}
+P.~Feofillof, {\em Algoritmos Elementares de ordenação}.
+\newblock Disponível em
+  \url{http://www.ime.usp.br/~pf/algoritmos/aulas/ordena.html}.
+
+\bibitem{Análisee}
+none, {\em Análise de algoritmos}.
+\newblock Disponível em
+  \url{http://www.inf.ufsc.br/~awangenh/Analise/Exercicio-Ordena.html}.
+
+\bibitem{Análise}
+none, {\em Análise do algoritmo quick sort}.
+\newblock Disponível em
+  \url{http://www-usr.inf.ufsm.br/~vconrado/elc118/t1/analise.php}.
+
+\bibitem{Análiseee}
+J.~F. de~Souza, {\em Quick Sort}.
+\newblock Disponível em
+  \url{http://www.ufjf.br/jairo_souza/files/2009/12/2-Ordena%C3%A7%C3%A3o-QuickSort.pdf}.
+
+\bibitem{Quicksortt}
+none, {\em Quick sort}.
+\newblock Disponível em
+  \url{http://homepages.dcc.ufmg.br/~cunha/teaching/20121/aeds2/quicksort.pdf}.
+
+\bibitem{Algoritmoss}
+P.~R.~S. André Ricardo~Gonçalves, Luis Gustavo Andrade dos~Santos, {\em
+  Algoritmos de ordenação}.
+\newblock Disponível em
+  \url{http://www-users.cs.umn.edu/~andre/arquivos/Algoritmos_de_ordenacao.pdf}.
+
+\bibitem{Shelll}
+none, {\em Shell Sort}.
+\newblock Disponível em
+  \url{http://homepages.dcc.ufmg.br/~cunha/teaching/20121/aeds2/shellsort.pdf}.
+
+\end{thebibliography}

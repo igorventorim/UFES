@@ -1,0 +1,1369 @@
+% ------------------------------------------------------------------------
+% ------------------------------------------------------------------------
+% Relatório do Trabalho 4 de Estrutura de Dados II
+% Autor: Igor Ventorim
+% ------------------------------------------------------------------------
+% ------------------------------------------------------------------------
+
+\documentclass[
+	12pt,				% tamanho da fonte
+	oneside,			% para impressão apenas no verso. Oposto a twoside
+	a4paper,			% tamanho do papel. 
+	english,			% idioma adicional para hifenização
+	brazil,				% o último idioma é o principal do documento
+	]{article}
+
+
+% ---
+% PACOTES
+% ---
+\usepackage{lmodern}			% Usa a fonte Latin Modern
+\usepackage[T1]{fontenc}		% Selecao de codigos de fonte.
+\usepackage[utf8]{inputenc}		% Codificacao do documento (conversão automática dos acentos)
+\usepackage{indentfirst}		% Indenta o primeiro parágrafo de cada seção.
+\usepackage{nomencl} 			% Lista de simbolos
+\usepackage{color}				% Controle das cores
+\usepackage{graphicx}			% Inclusão de gráficos
+\usepackage{microtype} 			% para melhorias de justificação
+\usepackage{makeidx}			% Gerar índice
+\usepackage[portuguese,linesnumbered,vlined]{algorithm2e}	% Gerar pseudo-códigos
+\usepackage{multirow,tabularx}
+\usepackage{multicol}
+\usepackage{listings}			% Include the listings-package
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage{cite}
+\usepackage{url}
+\usepackage[brazilian]{babel}
+\usepackage[brazilian,hyperpageref]{backref}	 % Paginas com as citações na bibl
+\usepackage{amssymb,amsfonts}
+\usepackage{latexsym}
+\usepackage{float}
+
+\usepackage{lipsum}
+% ---
+
+% ---
+% Configurações do pacote listings
+% ---
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\lstset{
+	backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+	basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+	breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+	breaklines=true,                 % sets automatic line breaking
+	captionpos=b,                    % sets the caption-position to bottom
+	commentstyle=\color{mygreen},    % comment style
+	deletekeywords={...},            % if you want to delete keywords from the given language
+	escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+	extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+	keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+	keywordstyle=\color{blue},       % keyword style
+	language=C,                      % the language of the code
+	otherkeywords={*,...},           % if you want to add more keywords to the set
+	numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+	numbersep=5pt,                   % how far the line-numbers are from the code
+	numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+	rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+	showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+	showstringspaces=false,          % underline spaces within strings only
+	showtabs=false,                  % show tabs within strings adding particular underscores
+	stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
+	stringstyle=\color{mymauve},     % string literal style
+	tabsize=2,	                   % sets default tabsize to 2 spaces
+	title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+% ---
+	
+% ---
+% Informações de dados para CAPA e FOLHA DE ROSTO
+% ---
+%\title{\textbf{Algoritmos de \textit{Ordenação}}}
+%\author{
+%Igor Ventorim\\\\
+%\normalsize Universidade Federal do Espírito Santo\\
+%\normalsize Vitória, Espírito Santo
+%}
+%\date{02 de Dezembro de 2015}
+\title{\textbf{Análise de algoritmos de \textit{ordenação}}}
+\author{Igor Ventorim\\\\Universidade Federal do Espírito Santo\\Departamento de Informática}
+%\locale{Vitória, Espírito Santo}
+\date{02 de Dezembo, 2015}
+% ---
+
+% ---
+% Configurações de aparência do PDF final
+% ---
+\definecolor{blue}{RGB}{41,5,195}
+
+% informações do PDF
+\makeatletter
+\hypersetup{
+	pdftitle={\@title}, 
+	pdfauthor={\@author},
+	pdfsubject={Algoritmos de Ordenação},
+	pdfcreator={LaTeX with abnTeX2},
+	pdfkeywords={abnt}{latex}{abntex}{abntex2}{atigo científico}, 
+	colorlinks=true,       		% false: boxed links; true: colored links
+	linkcolor=blue,          	% color of internal links
+	citecolor=blue,        		% color of links to bibliography
+	filecolor=magenta,      	% color of file links
+	urlcolor=blue,
+	bookmarksdepth=4
+}
+\makeatother
+% --- 
+
+% ---
+% Compila o indice
+% ---
+\makeindex
+% ---
+
+% --- 
+% Espaçamentos entre linhas e parágrafos 
+% --- 
+\setlength{\parindent}{1.3cm}
+\setlength{\parskip}{0.2cm}  % tente também \onelineskip
+% ---
+
+% ----
+% Início do documento
+% ----
+\begin{document}
+
+% Seleciona o idioma do documento (conforme pacotes do babel)
+\selectlanguage{brazil}
+
+% Retira espaço extra obsoleto entre as frases.
+\frenchspacing
+
+\maketitle
+
+% página de titulo
+%\begin{titlepage}
+%	\centering
+%	{\scshape \Large Universidade Federal do Espírito Santo \par}
+%	\vspace{1cm}
+%	{\large Igor Ventorim\par}
+%	
+%	\vfill
+%	{\LARGE \bfseries Algoritmos de \textit{Ordenação}\par}
+%	\vspace{1cm}
+%	{\large Trabalho 4 de Estrutura de Dados II\par}
+%
+%	\vfill
+
+% Bottom of the page
+%	{\large Vitória\par}
+%	{\large 2015\par}
+
+%\end{titlepage}
+
+% ----------------------------------------------------------
+% Resumo
+% ----------------------------------------------------------
+\begin{abstract}
+Este artigo destina-se a apresentar e avaliar algoritmos de ordenação de vetores, exibindo as comparações dos algoritmos para um sequência de números aleatória,
+crescente e decrescente. Através das implementações e das comparações exibidas no artigo, é possível escolher o melhor algoritmo para o problema que se tem, de 
+acordo com a complexidade da implementação que se deseja obter, sendo também possível saber as vantagens e desvantagens de cada algoritmo.
+\end{abstract}
+
+
+% ----------------------------------------------------------
+% Introdução
+% ----------------------------------------------------------
+\section{Introdução}
+Algoritmos de ordenação, em ciência da computação, é um algoritmo que coloca os elementos de um conjunto em uma determinada ordem. As ordens mais utilizadas são 
+a numérica e a lexicográfica. Existem diversos motivos para se ordenar um conjunto, uma bem convincente  é a possibilidade de acessar dados de modo mais eficiente.\\
+\\ \indent Neste trabalho iremos abordar diversos algoritmos de ordenação, desde a apresentação até casos de testes, com o objetivo a implementação e comparação do desempenho dos principais algoritmos de ordenação existentes,
+para que seja possível conhecer e entender a forma na qual cada algoritmo trabalha. Poderemos também observar que existem vários algoritmos de ordenação quer 
+dependente do conjunto passado como entrada, desta forma sendo necessário ter um conhecimento sobre o algoritmo, e a partir disto, poder efetuar a escolha 
+do algoritmo conforme o problema e recursos disponíveis.\\
+\\ \indent \textit{* Códigos fontes foram escritos na linguagem de programação C.}
+
+% ----------------------------------------------------------
+% Implementação
+% ----------------------------------------------------------
+\section{Algoritmos}
+Existem vários algoritmos de ordenação, no entanto foram abordados os mais conhecidos na ciência da computação, com a finalidade
+de poder apresentar os pontos positivos e negativos de cada algoritmo, e suas devidas comparações entre si. Os algoritmos de ordenação são 
+divididos em duas classes em comum, sendo elas os métodos simples e os métodos eficientes, ao qual cada um tem as suas devidas características.\\ \\
+\textbf{Métodos Simples:}
+\begin{itemize}
+ \item Adequados para pequenos arquivos.
+ \item Requerem \begin{math} O(n^2)\end{math} comparações.
+ \item Produzem programas pequenos.
+\end{itemize}
+\textbf{Métodos Eficientes:}
+\begin{itemize}
+ \item Adequados para arquivos maiores.
+ \item Requerem \begin{math} O(n logn)\end{math} comparações.
+ \item Usam menos comparações.
+ \item As comparações são mais complexas nos detalhes.
+ \item Método simples são mais eficientes para pequenos arquivos.
+\end{itemize}
+
+
+
+\subsection{\textit{Bubble Sort}}
+O bubble sort, é um algoritmo simples. A ideia é percorrer o vetor várias vezes, a cada passagem fazendo ir o maior elemento da sequência para o final
+daquela sequência e decrementando um na sequência ao qual vai continuar percorrendo. No algoritmo abaixo foi feito uma pequena otimização com a flag, caso
+durante um loop em uma sequência não seja feito nenhuma troca, quer dizer que o algoritmo já está ordenado, então ele finaliza o algoritmo. Este algoritmo se 
+enquadra na classe de métodos simples.
+\begin{lstlisting}[language=C, caption=Estrutura \textit{Bubble}]
+void bubbleSort(int *vet,const int N)
+{
+	int i,j,aux,flag = 1;
+	for(i = N-1; (i > 0) && (flag == 1); i--)
+	{
+		flag = 0;
+		for(j = 0; j < i;j++)
+		{
+			if(vet[j] > vet[j+1])
+			{
+				aux = vet[j];
+				vet[j] = vet[j+1];
+				vet[j+1] = aux;
+				flag = 1;
+			}
+		}
+	}
+}
+\end{lstlisting}
+\textbf{Vantagens:}
+\begin{itemize}
+ \item A principal vantagem do algoritmo é a conhecida e fácil implementação.
+\end{itemize}
+\textbf{Desvantagens:}
+\begin{itemize}
+ \item A maior desvantagem é devido a uma grande quantidade de elementos não apresentar bons resultados por ser quadrático.
+\end{itemize}
+
+\subsection{\textit{Shake Sort}}
+O shake sort, também conhecido com bubble sort bidirecional, é uma variação do bubble sort, no qual muitos se enganam dizendo que é uma otimização do bubble sort
+ o que não está correto em se afirmar. O algoritmo se difere do bubble sort por realizar a ordenação em ambas as direções em cada passagem pelo vetor. Este algoritmo 
+ pode ser concluído que só é mais difícil de implementar do que o bubble sort, porém é equivalente em complexidade ao bubble com a flag, devido ele fazer um
+ loop para a bolha indo e voltando, ordenando em ambas as direções até as ordenações se encontrarem. Este algoritmo se enquadra na classe de métodos simples.
+\begin{lstlisting}[language=C, caption=Estrutura \textit{Shake}]
+void shakeSort(int *vet,const int N)
+{
+	int inicio,fim,swap,aux,i;
+
+	inicio = 0;
+	fim = N -1;
+	swap = 0;
+
+	while(swap == 0 && (inicio < fim))
+	{
+		swap = 1;
+
+		for(i = inicio; i < fim; i++)
+		{
+			if(vet[i] > vet[i+1])
+			{
+				aux = vet[i];
+				vet[i] = vet[i+1];
+				vet[i+1] = aux;
+				swap = 0;
+			}
+		}
+
+		fim--;
+
+		for(i = fim; i > inicio; i--)
+		{
+			if(vet[i] < vet[i-1])
+			{
+				aux = vet[i];
+				vet[i] = vet[i-1];
+				vet[i-1] = aux;
+				swap=0;
+			}
+		}
+
+		inicio++;
+	}
+
+}
+\end{lstlisting}
+\textbf{Vantagens:}
+\begin{itemize}
+ \item A principal vantagem do algoritmo é a conhecida e fácil implementação.
+ \item Caso saiba se o vetor já está quase ordenado, tem melhor desempenho que o bubble sort.
+\end{itemize}
+\textbf{Desvantagens:}
+\begin{itemize}
+ \item A maior desvantagem é devido a uma grande quantidade de elementos não apresentar bons resultados por ser quadrático.
+ \item Ser mais complexo a implementação que o bubble sort e ser equivalente.
+\end{itemize}
+
+
+\subsection{\textit{Insertion Sort}}
+O insertion sort, é eficiente quando aplicado a um pequeno número de elementos. Uma de suas características é varrer a sequência repetidamente e, a cada 
+loop insere um item da sequência desordenada na sua devida posição. Este algoritmo se enquadra na classe de métodos simples.
+\begin{lstlisting}[language=C, caption=Estrutura \textit{Insertion}]
+void insertionSort(int *vet, const int N)
+{
+	int i,j,aux;
+
+	for(i = 1; i < N; i++)
+	{
+		aux = vet[i];
+		j = i - 1;
+		while(j >= 0 && vet[j] > aux)
+		{
+			vet[j+1] = vet[j];
+			j--;
+		}
+		vet[j+1] = aux;
+	}
+}
+\end{lstlisting}
+\textbf{Vantagens:}
+\begin{itemize}
+ \item Menor número de trocas e comparações quando o vetor já está ordenado.
+\end{itemize}
+\textbf{Desvantagens:}
+\begin{itemize}
+ \item A maior desvantagem é devido não funcionar bem com uma grande quantidade de elementos que não sejam ordenados.
+\end{itemize}
+
+\subsection{\textit{Shell Sort}}
+O shell sort, pode ser dito que é um aperfeiçoamento do insertion sort. O algoritmo difere do método de inserção no ponto de considerar o vetor a ser ordenado 
+como uma única sequência, ele considera várias sequências, ou seja várias partes do vetor, aplicando o método insertion sort em cada uma delas. Desta forma o 
+algoritmo passa várias vezes pelo vetor, dividindo o vetor em subpedaços no qual vai aplicando o método de inserção em cada pedaço. Mesmo o shell sort sendo
+um algoritmo bom, ele também se enquadra na classe de métodos simples.
+Obs.:Ninguém ainda foi capaz de encontrar uma fórmula fechada para sua função de complexidade.
+\begin{lstlisting}[language=C, caption=Estrutura \textit{Shell}]
+void shellSort(int *vet, const int N)
+{
+	int i,j, valor;
+	int h = 1;
+
+	while(h < N)
+	{
+		h = 3 * h + 1;
+	}
+
+	while( h > 1)
+	{
+		h /= 3;
+		for( i = h; i < N; i++)
+		{
+			valor = vet[i];
+			j = i - h;
+			while(j >= 0 && (valor < vet[j]))
+			{
+				vet[j + h] = vet[j];
+				j -= h;
+			}
+
+			vet[j + h] = valor;
+		}
+	}
+}
+\end{lstlisting}
+\textbf{Vantagens:}
+\begin{itemize}
+ \item É o mais eficiente algoritmo de ordenação entre os de complexidade quadrática.
+ \item É uma ótima opção para arquivos de tamanho moderado.
+ \item Implementação simples.
+\end{itemize}
+\textbf{Desvantagens:}
+\begin{itemize}
+ \item O tempo de execução do algoritmo é sensível à ordem inicial do arquivo.
+ \item Não é um método estável. 
+\end{itemize}
+  
+
+\subsection{\textit{Selection Sort}}
+O selection sort, é um algoritmo de ordenação baseado em se passar o menor elemento para frente da sequência de elemento que está se ordenando, desta forma
+vai montando sua sequência ordenada, desta forma sempre realizando a troca do menor elemento naquela sequência com o que está em sua devida posição. Neste algoritmo 
+pode se observar que é algo bastante custoso sempre encontrar o menor elemento da sequência.Este algoritmo se enquadra na classe de métodos simples.
+\begin{lstlisting}[language=C, caption=Estrutura \textit{Selection}]
+void selectionSort(int *vet, const int N)
+{
+	int i,j,aux,min;
+
+	for(i = 0; i < N-1;i++)
+	{
+		min = i;
+		for(j = i+1; j < N; j++)
+		{
+			if(vet[j] < vet[min])
+				min = j;
+		}
+
+		aux = vet[i];
+		vet[i] = vet[min];
+		vet[min] = aux;
+	}
+}
+\end{lstlisting}
+\textbf{Vantagens:}
+\begin{itemize}
+ \item A principal vantagem do algoritmo é sua fácil implementação e sua boa funcionalidade em listas pequenas.
+\end{itemize}
+\textbf{Desvantagens:}
+\begin{itemize}
+ \item A maior desvantagem é devido a uma grande quantidade de elementos não apresentar bons resultados e de ser influênciado pela ordem inicial dos itens.
+\end{itemize}
+
+\subsection{\textit{Rank Sort}}
+Rank sort, também conhecido como count sort, é um método de ordenação linear. Porém ele não se baseia em comparações, e sim em indexação, por isto recomenda-se
+usar este algoritmo quando o conjunto a ser ordenado, é um conjunto de inteiros, pois eles serão usados como chaves no vetor auxiliar. A priori este algoritmo 
+necessita que se descubra o valor do maior elemento da entrada, que será o tamanho do vetor auxiliar. Após isso percorrerá o vetor desordenada, incrementando um 
+na posição correspondente ao seu valor no vetor auxiliar, após isso é percorrido o vetor auxiliar passando para o vetor de entrada, os valores ordenados. Este 
+algoritmo se enquadra na classe de métodos eficientes.
+\begin{lstlisting}[language=C, caption=Estrutura \textit{Rank}]
+void rankSort(int* vet, const int N)
+{
+	int i, max = 0, *aux,pos = 0;
+
+	for(i = 0; i < N; i++)
+	{
+		if(vet[i] > max)
+			max = vet[i];
+	}
+
+	aux = calloc((size_t)(max + 1),sizeof(int));
+	
+	for(i = 0; i < N; i++)
+	{
+		aux[vet[i]]++; 
+	}
+
+	for( i = 0; i <= max; i++)
+	{
+			while(aux[i] > 0)
+			{	
+				vet[pos] = i;
+				aux[i]--;
+				pos++;
+			}
+	}
+	free(aux);
+}
+\end{lstlisting}
+\textbf{Vantagens:}
+\begin{itemize}
+ \item Uma grande vantagem deste algoritmo é a sua eficiência.
+ \item Recomendado quando a comparação de chaves é um problema.
+\end{itemize}
+\textbf{Desvantagens:}
+\begin{itemize}
+ \item Consumo de memória desnecessário, caso o maior elemento seja muito grande, comparada ao restante do conjunto.
+ \item Necessidade de um vetor auxiliar.
+\end{itemize}
+
+
+\subsection{\textit{Quick Sort}}
+O quick sort, é um algoritmo de ordenação muito rápido e eficiente, no quick sort é usado uma técnica muito comum na resolução de problemas 'Dividir para conquistar',
+esta estratégia proporciona ao quick sort a fama de um dos algoritmos de ordenação mais eficiente, ela funciona da seguinte forma: Escolhendo um elemento da lista
+para ser o pivô, após a escolha do pivô, o vetor é rearranjado de forma que todos os elementos anteriores ao pivô sejam menores que ele, e todos os elementos após ele,
+sejam maiores que ele, no fim deste processo o pivô estará em sua posição final e haverá duas sublistas não ordenadas. Sendo assim ordenamos de forma recursiva essas sublistas,
+pois as sublistas de tamanho um já estão ordenadas. Este algoritmo se enquadra na classe de métodos eficientes.
+\\Obs.: Pode-se escolher qualquer valor para o pivô, dependendo do modo que serão construídas as partições, lembrando que o pior casa do quick sort acontece quando
+o pivô é o maior ou menor elemento do conjunto.
+
+\begin{lstlisting}[language=C, caption=Estrutura \textit{Quick}]
+void quickSort1(int *vet, int ini, int fim)
+{
+	int i, j, pivo, aux;
+
+	i = ini;
+	j = fim;
+	// pivo = **** ESCOLHA DO PIVO VARIANDO DE ACORDO COM O ALGORITMO ****
+
+	while(i <= j)
+	{
+		while(vet[i] < pivo)
+			i++;
+		while(vet[j]>pivo)
+			j--;
+		if(i <= j)
+		{
+			aux = vet[i];
+			vet[i] = vet[j];
+			vet[j] = aux;
+			i++;
+			j--;
+		}
+	}
+	if( j > ini)
+		quickSort1(vet,ini,j);
+	if(i < fim)
+		quickSort1(vet,i,fim);
+}
+\end{lstlisting}
+\textbf{Vantagens:}
+\begin{itemize}
+ \item Uma grande vantagem deste algoritmo é a sua eficiência.
+ \item Ordena vetores ordenados e inversamente ordenados com velocidade praticamente igual.
+ \item Memória auxiliar para a pilha de recursão é pequena.
+\end{itemize}
+\textbf{Desvantagens:}
+\begin{itemize}
+ \item Não é estável. (Não se conhece forma eficiente para tornar o quick sort estável)
+ \item Pior caso é quadrático.
+\end{itemize}
+
+\subsubsection{\textit{Quick Sort Primeiro}}
+Caso o pivô escolhido, seja sempre o primeiro elemento do vetor, é de fácil implementação porém não é o mais recomendado em relação a eficiência.
+\begin{lstlisting}[language=C, caption=Estrutura \textit{Quick}]
+  pivo = vet[ini];
+\end{lstlisting}
+
+\subsubsection{\textit{Quick Sort Central}}
+Outra escolha usada comumente para pivô, é o pivô central, ao qual se encontra sempre a posição central do vetor e é passado como pivô, esta forma seria bastante 
+eficiente caso o pivô estivesse em sua posição exata, outra caso notável é que a escolha do pivô como  central, aumenta o desempenho do quick sort em sequências ordenadas 
+tanto crescente como decrescente.
+\begin{lstlisting}[language=C, caption=Estrutura \textit{Quick}]
+pivo = vet[(ini+fim)/2];
+\end{lstlisting}
+
+\subsubsection{\textit{Quick Sort Mediana 3}}
+Para tentar evitar o pior caso, podemos escolher o pivô como a mediana de três elementos, deixando claro que aumentar a mediana para mais elementos não ajuda muito,
+porém a mediana de três, nos apresenta resultados satisfatórios, uma escolha muito comum é fazer a mediana de três, com os elementos, primeiro, central e final do 
+vetor.
+\begin{lstlisting}[language=C, caption=Estrutura \textit{Quick}]
+pivo = vet[(ini+((ini+fim)/2)+fim)/3];
+\end{lstlisting}
+
+\subsubsection{\textit{Quick Sort Random}}
+Uma prática também comum para tentar evitar o pior caso é a escolha de um pivor aleatório, sendo um número rândomico entre o inicio e o fim do vetor, ao qual a 
+posição irá variar em cada chamada do quick sort.
+\begin{lstlisting}[language=C, caption=Estrutura \textit{Quick}]
+int p = ini + (rand()%(fim-ini));
+	pivo = vet[p];
+\end{lstlisting}
+
+\subsection{\textit{Merge Sort}}
+O merge sort, assim como o quick sort, segue a mesma estratégia de dividir para conquistar. Porém este algoritmo não é recomendado em alguns casos devido ao 
+seu alto consumo de memória, porém ao seu favor, para ele não existe um pior caso, como o quick sort, sendo a ideia do algoritmo a seguinte: Dividir os dados em 
+subsequências pequenas, classificar as partes de forma recursiva e juntar as metades em um único conjunto. Este algoritmo se enquadra na classe de métodos eficientes.
+\begin{lstlisting}[language=C, caption=Estrutura \textit{Merge}]
+void mergeSort(int *vet, int ini, int fim)
+{
+	int i,j,k,media,*vetAux;
+	if(ini == fim) return;
+
+	media = ( ini + fim )/ 2;
+	mergeSort(vet, ini, media);
+	mergeSort(vet,media+1,fim);
+
+	i = ini;
+	j = media+1;
+	k = 0;
+
+	vetAux = calloc((size_t)(fim - ini + 1),sizeof(int));
+
+	while(i < media +1 ||  j < fim + 1)
+	{
+		if(i == media + 1)
+		{
+			vetAux[k] = vet[j];
+			j++;
+			k++;
+		}else
+		{
+			if(j == fim +1)
+			{
+				vetAux[k] = vet[i];
+				i++;
+				k++;
+			}else
+			{
+				if(vet[i] < vet[j])
+				{
+					vetAux[k] = vet[i];
+					i++;
+					k++;
+				}else
+				{
+					vetAux[k] = vet[j];
+					j++;
+					k++;
+				}
+			}
+		}
+	}
+
+	for(i = ini; i <= fim; i++)
+	{
+		vet[i] = vetAux[i - ini];
+	}
+	free(vetAux);
+}
+\end{lstlisting}
+\textbf{Vantagens:}
+\begin{itemize}
+ \item Uma grande vantagem deste algoritmo é a sua eficiência.
+ \item É um algoritmo estável por isso não possui pior caso.
+\end{itemize}
+\textbf{Desvantagens:}
+\begin{itemize}
+ \item Alto gasto de memória, devido o algoritmo criar uma cópia do vetor para cada nível.
+\end{itemize}
+
+\subsection{\textit{Heap Sort}}
+O heap sort pode ser considerado como um algoritmo generalista, e é do tipo seleção. Em geral tem um bom desempenho em conjuntos aleatórios, e seu desempenho 
+é invariante, sendo assim seu pior caso é muito próximo ao seu caso médio, isto  é um grande diferencial comparado com outros algoritmos, que seus piores casos são
+muito ruins, tanto em desempenho como em memória. O heapsort utiliza a estrutura de dados heap, para poder ir ordenando os elementos conforme eles são inseridos, 
+desta forma ao final de todas as inserções os elementos, podem ser sucessivamente removidos da heap de forma ordenada. Este algoritmo se enquadra na classe de métodos eficientes.
+\begin{lstlisting}[language=C, caption=Estrutura \textit{Heap}]
+void heapSort(int *vet, int n)
+{
+	int i = n/2, pai, filho, t;
+	while(1 == 1)
+	{
+		if(i > 0)
+		{
+			i--;
+			t = vet[i];
+		}else
+		{
+			n--;
+			if(n == 0)	return;
+			t = vet[n];
+			vet[n] = vet[0];
+		}
+
+		pai = i;
+		filho = i *2 +1;
+		while(filho < n)
+		{
+			if((filho +1 < n) && (vet[filho +1] > vet[filho]))
+				filho++;
+			if(vet[filho] > t)
+			{
+				vet[pai] = vet[filho];
+				pai = filho;
+				filho = pai * 2 + 1;
+			}else
+				break;
+		}
+		vet[pai] = t;
+	}
+}
+\end{lstlisting}
+\textbf{Vantagens:}
+\begin{itemize}
+ \item Uma grande vantagem deste algoritmo é a sua eficiência.
+ \item É um algoritmo comportado, sendo seu pior caso \begin{math} O(n logn)\end{math}.
+\end{itemize}
+\textbf{Desvantagens:}
+\begin{itemize}
+ \item Não é tão rápido como o quick sort pois o seu refazer heap, realiza mais operações que o particionamento do quick sort.
+\end{itemize}
+
+
+\subsection{\textit{Radix Sort}}
+O radix sort não é um algoritmo tão conhecido como os outros citados, porém não menos eficiente, ele começa do dígito menos significativo até o mais significativo, 
+realizando a ordenação sem comparação de chaves da seguinte forma, usando dez filas, que podem ser consideradas baldes, encontra-se o maior elemento, e inicia a unidade que 
+deseja-se ordena, começamos pela unidade, por isso m é inicializado em um, o vetor de elementos é percorrido e colocado cada elemento correspondente a fila que possui a sua unidade
+correspondente, após todos os elementos inseridos, eles são removidos da fila e colocados no vetor ordenados por unidade, após isso será realizado esse processo sucessivamente
+ para que seja realizado a ordenação por dezenas, centenas e etc... no final quando o m for maior que o maior elemento, o vetor estará ordenado. Este algoritmo se enquadra na classe de métodos eficientes.
+
+\begin{lstlisting}[language=C, caption=Estrutura \textit{Radix}]
+void radixSort(int *vet, const int N)
+{
+	int i,pos = 0;
+	int m = 1, maior = 0;
+	Fila **f = calloc(10,sizeof(Fila*));
+	
+	for( i = 0; i < 10; i++)
+			f[i] = createFila();
+
+	for(i = 0; i < N; i++)
+	{
+		if(vet[i] > maior)
+			maior = vet[i];
+	}
+	
+	while(m < maior)
+	{
+		pos = 0;
+		for(i = 0; i < N; i++)
+			insert(f[(vet[i]/m)%10],vet[i]); 
+	
+		for(i = 0; i < 10; i++)
+		{
+			while(f[i]->primeiro != NULL)
+			{
+				vet[pos] = removeFila(f[i]);
+				pos++;
+			}
+		}
+		m *= 10;
+	}	
+
+	for( i = 0; i < 10; i++)	
+			freeFila(f[i]);
+	
+	free(f);	
+}
+\end{lstlisting}
+\textbf{Vantagens:}
+\begin{itemize}
+ \item Uma grande vantagem deste algoritmo é a sua eficiência.
+ \item Não realiza comparações de chaves.
+\end{itemize}
+\textbf{Desvantagens:}
+\begin{itemize}
+ \item Utilização de dez filas, e manipulação nestas filas.
+\end{itemize}
+
+\subsection{\textit{Radix Sort Bin}}
+O radix sort bin, é exatamente igual ao radix sort, tendo apenas um ponto de diferença, sendo ele, em vez de se usar dez filas para a ordenação é usado apenas
+duas filas, desta forma em vez de se ordenar por unidades, é feito a ordenação por bits relevantes, assim o m irá crescendo sempre com um << left em cada iteração 
+até que m seja maior que o maior elemento e o vetor esteja ordenado. Este algoritmo se enquadra na classe de métodos eficientes.
+\begin{lstlisting}[language=C, caption=Estrutura \textit{RadixBin}]
+void radixSortBin(int *vet, const int N)
+{
+	
+	int i,pos = 0;
+	int m = 1, maior = 0;
+	Fila **f = calloc(10,sizeof(Fila*));
+	//Fila *aux = malloc(sizeof(Fila));
+	for( i = 0; i < 2; i++)
+			f[i] = createFila();
+
+	for(i = 0; i < N; i++)
+	{
+		if(vet[i] > maior)
+			maior = vet[i];
+	}
+	
+	while(m < maior)
+	{
+		pos = 0;
+		for(i = 0; i < N; i++)
+		{
+			insert(f[verificaBound(vet[i],m)],vet[i]); 
+		}
+	void bubbleSort(int *vet,const int N)
+{
+	int i,j,aux,flag = 1;
+	for(i = N-1; (i > 0) && (flag == 1); i--)
+	{
+		flag = 0;
+		for(j = 0; j < i;j++)
+		{
+			if(vet[j] > vet[j+1])
+			{
+				aux = vet[j];
+				vet[j] = vet[j+1];
+				vet[j+1] = aux;
+				flag = 1;
+			}
+		}
+	}
+}	for(i = 0; i < 2; i++)
+		{
+			while(f[i]->primeiro != NULL)
+			{
+				vet[pos] = removeFila(f[i]);
+				pos++;
+			}
+		}
+		m = m << 1;
+	}	
+
+	for( i = 0; i < 2; i++)	
+			freeFila(f[i]);
+	
+	free(f);
+	
+}
+
+int verificaBound(int a, int b)
+{
+	
+	if(a & b)
+		return 1;
+	else
+		return 0;
+}
+\end{lstlisting}
+\textbf{Vantagens:}
+\begin{itemize}
+ \item Uma grande vantagem deste algoritmo é a sua eficiência.
+ \item Utiliza menos filas do que o radix comum.
+\end{itemize}
+\textbf{Desvantagens:}
+\begin{itemize}
+ \item Em conjuntos de elementos muito grande se torna inviável o uso do algoritmo, devido a várias inserções e remoções consecutivas, tornando a fila muito grande.
+\end{itemize}
+
+
+% ----------------------------------------------------------
+% Análise
+% ----------------------------------------------------------
+\section{Análise}
+Como apresentado anteriormente, estamos abordando dois métodos de algoritmos de ordenação, os métodos simples e os métodos eficientes, mesmo que comparando 
+o pior caso dos simples com o pior caso dos eficientes, os métodos eficientes levem vantagem, temos que ser muito cuidadosos em falar qual algoritmo é melhor,
+pois o resultado final depende de nossa entrada, por isso sendo necessário fazer uma análise mais detalhada sobre nossos algoritmos para 
+podermos dizer qual deles é melhor em geral, e qual é o melhor para determinado problema.
+\\Para que fosse realizado a análise de todos os algoritmos citados, foi utilizado um computador com as seguintes configurações:\\
+\indent Linux Ubuntu 15.4 64-bit \\
+\indent Intel Core i5-4200U CPU @ 1.60GHz with Turbo Boost 2.60GHz \\
+\indent 6GB DDR3 L
+
+\subsection{Análise de algoritmos}
+Para realizar a análise dos algoritmos, primeiramente precisamos entender um pouco sobre oque é a análise de algoritmos, no qual tem como função determinar os
+recursos para se executar um algoritmo. Podemos ter como certeza que a maior parte dos algoritmos são elaborados para trabalhar com entradas de tamanho arbitrário. Podemos 
+dizer que a eficiência ou complexidade de um algoritmo é em função do tamanho do problema, de sua complexidade temporal e da sua complexidade espacial ou de memória
+utilizada pelo sistema, para executar o determinado algoritmo. 
+\\Motivação: \\ \textit{ ''Ao verificar que um dado programa está muito lento, uma pessoa prática pede uma máquina mais rápida ao seu chefe. Mas o ganho potencial que uma
+máquina mais rápida pode proporcionar é tipicamente limitado por um fator de 10, por razões técnicas ou econômicas. Para obter um ganho maior, é preciso buscar 
+melhores algoritmos. Um bom algoritmo, mesmo rodando em uma máquina lenta, sempre acaba derrotando (para instâncias grandes do problema) um 
+algoritmo ruim rodando em uma máquina rápida. Sempre''}\\
+\\ \indent Desta forma, como já temos os algoritmos pronto, e temos como algo fixo o tamanho do nosso problema, centralizaremos o nosso foca na complexidade temporal
+ao qual é de estrema importância na escolha de um algoritmo de ordenação.
+
+\subsection{Testes}
+Nesta seção será apresentados tabelas e comentários dos testes realizados para cada algoritmo, sendo todos eles testados com um conjunto crescente, decrescente e aleatório, de tamanhos
+1 000, 10 000, 100 000 e 1 000 000. Os tempos exibidos nas tabelas estão na proporção de minutos e segundos serão medidos pela função time do linux. O cálculo de tempo
+é baseado somente na função de ordenação. \\ Obs.: O simbolo $\infty$ em nossas comparações de tempo, são baseado a tempo indefinido, por não ter respondido em tempo aceitável.
+
+\subsubsection{Bubble Sort}
+\begin{table}[H]
+\centering
+\begin{tabular}{|r|c|c|c|c|}
+\cline{1-5} 
+\textbf{Ordem} & \textbf{1 000} & \textbf{10 000} & \textbf{100 000} & \textbf{1 000 000}\\
+ \hline
+ \textbf{Crescente} & 0m0.001s & 0m0.002s & 0m0.031s & 0m0.130s \\
+ \hline
+ \textbf{Decrescente} & 0m0.005s & 0m0.324s & 0m27.058s & $\infty$ \\
+ \hline
+ \textbf{Aleat{\'o}rio} & 0m0.005s & 0m0.395s & 0m39.696s & $\infty$ \\
+ \hline
+\end{tabular} 
+\caption{Testes bubble sort}
+\end{table}
+\indent \textbf{Comentários:} Como esperado, o algoritmo bubble sort para casos pequenos se saiu bem, porém nos casos maiores seu resultado não foi satisfatório, tirando
+o de ordem crescente, no qual o vetor já está ordenada, o qual com a flag, verifica que não efetuou nenhuma troca e termina o programa, como de se esperar conseguiu ir longe neste caso.
+
+
+\subsubsection{Selection Sort}
+\begin{table}[H]
+\centering
+\begin{tabular}{|r|c|c|c|c|}
+\cline{1-5} 
+ \textbf{Ordem} & \textbf{1 000} & \textbf{10 000} & \textbf{100 000} & \textbf{1 000 000}\\
+ \hline
+ \textbf{Crescente} & 0m0.004s & 0m0.175s & 0m16.296s & $\infty$ \\
+ \hline
+ \textbf{Decrescente} & 0m0.005s & 0m0.186s & 0m15.719s & $\infty$ \\
+ \hline
+ \textbf{Aleat{\'o}rio} & 0m0.006s & 0m0.167s & 0m16.354s & $\infty$ \\
+ \hline
+\end{tabular} 
+\caption{Testes selection sort}
+\end{table}
+\indent \textbf{Comentários:} Como o bubble sort, este algoritmo se saiu bem para casos menores, até mesmo que o bubble sort, porém como era de se esperar em casos maiores
+ele não conseguiu ir longe, por seu desempenho quadrático, podendo ser observado também que diferente do bubble sort, como ele não possui uma restrição de parada caso
+já esteja ordenado, ele no caso crescente, não conseguiu ir longe.
+
+
+\subsubsection{Insertion Sort}
+\begin{table}[H]
+\centering
+\begin{tabular}{|r|c|c|c|c|}
+\cline{1-5} 
+ \textbf{Ordem} & \textbf{1 000} & \textbf{10 000} & \textbf{100 000} & \textbf{1 000 000}\\
+ \hline
+ \textbf{Crescente} & 0m0.002s & 0m0.003s & 0m0.028s & 0m0.124s \\
+ \hline
+ \textbf{Decrescente} & 0m0.007s & 0m0.213s & 0m18.436s & $\infty$ \\
+ \hline
+ \textbf{Aleat{\'o}rio} & 0m0.002s & 0m0.135s & 0m9.263s & $\infty$ \\
+ \hline
+\end{tabular} 
+\caption{Testes insertion sort}
+\end{table}
+\indent \textbf{Comentários:} Como pode ser observado, este algoritmo cumpriu o esperado, não deixando a desejar em casos pequenos porém não conseguindo ir muito longe em
+casos maiores, no entanto pode ser visto que cumpriu o seu papel de inserção ordenada, no qual no modo crescente resultou em um tempo bom, como realmente deveria ser
+devido a sua característica de inserção ordenada.
+
+
+\subsubsection{Shake Sort}
+\begin{table}[H]
+\centering
+\begin{tabular}{|r|c|c|c|c|}
+\cline{1-5} 
+\textbf{Ordem} & \textbf{1 000} & \textbf{10 000} & \textbf{100 000} & \textbf{1 000 000}\\
+ \hline
+ \textbf{Crescente} & 0m0.003s & 0m0.003s & 0m0.030s & 0m0.121s \\
+ \hline
+ \textbf{Decrescente} & 	0m0.007s & 0m0.309s & 0m27.055s & $\infty$ \\
+ \hline
+ \textbf{Aleat{\'o}rio} & 0m0.005s & 0m0.325s & 0m28.319s & $\infty$ \\
+ \hline
+\end{tabular} 
+\caption{Testes shake sort}
+\end{table}
+\indent \textbf{Comentários:} Sendo este algoritmo um bubble sort modificado era de ser esperar que ele consiga resultados semelhantes, não conseguindo ir muito longe em casos
+maiores, e conseguindo resultados bons para casos pequenos.
+
+
+\subsubsection{Shell Sort}
+\begin{table}[H]
+\centering
+\begin{tabular}{|r|c|c|c|c|}
+\cline{1-5} 
+ \textbf{Ordem} & \textbf{1 000} & \textbf{10 000} & \textbf{100 000} & \textbf{1 000 000}\\
+ \hline
+ \textbf{Crescente} & 0m0.003s & 0m0.003s & 0m0.017s & 0m0.200s \\
+ \hline
+ \textbf{Decrescente} & 0m0.002s & 0m0.006s & 0m0.033s & 0m0.211s \\
+ \hline
+ \textbf{Aleat{\'o}rio} & 0m0.003s & 0m0.012s & 0m0.046s & 0m0.570s \\
+ \hline
+\end{tabular} 
+\caption{Testes shell sort}
+\end{table}
+\indent \textbf{Comentários:} Neste algoritmo é esperado que ele consiga os melhores resultados do métodos simples, e como pode ser visto na tabela, exibiu os melhores
+resultados comparado com os anteriores, sendo o primeiro dos algoritmos a conseguir resultar toda a tabela em tempo aceitável, por ele ser uma derivação do insertion sort
+porém em etapas, conseguiu resultados bons nos casos crescente e decrescente.
+
+
+\subsubsection{Rank Sort}
+\begin{table}[H]
+\centering
+\begin{tabular}{|r|c|c|c|c|}
+\cline{1-5} 
+ \textbf{Ordem} & \textbf{1 000} & \textbf{10 000} & \textbf{100 000} & \textbf{1 000 000}\\
+ \hline
+ \textbf{Crescente} & 0m0.003s & 0m0.006s & 0m0.013s & 0m0.143s \\
+ \hline
+ \textbf{Decrescente} & 0m0.001s & 0m0.006s & 0m0.014s & 0m0.161s \\
+ \hline
+ \textbf{Aleat{\'o}rio} & 0m0.001s & 0m0.007s & 0m0.018s & 0m0.232s \\
+ \hline
+\end{tabular} 
+\caption{Testes rank sort}
+\end{table}
+\indent \textbf{Comentários:} Por ser um algoritmo sem comparação de chaves é esperado que este algoritmo obtenha resultados ótimos, e como pode ser visto em sua tabela
+conseguiu resultados totalmente aceitáveis, em relação a tempo podemos notar que este algoritmo terá um dos melhores resultados, porém seu consumo de memória não é
+tão pequeno como outros algoritmos.
+
+
+\subsubsection{Heap Sort}
+\begin{table}[H]
+\centering
+\begin{tabular}{|r|c|c|c|c|}
+\cline{1-5} 
+ \textbf{Ordem} & \textbf{1 000} & \textbf{10 000} & \textbf{100 000} & \textbf{1 000 000}\\
+ \hline
+ \textbf{Crescente} & 0m0.001s & 0m0.010s & 0m0.067s & 0m0.336s \\
+ \hline
+ \textbf{Decrescente} & 0m0.003s & 0m0.009s & 0m0.047s & 0m0.312s \\
+ \hline
+ \textbf{Aleat{\'o}rio} & 0m0.003s & 0m0.012s & 0m0.047s & 0m0.458s \\
+ \hline
+\end{tabular} 
+\caption{Testes heap sort}
+\end{table}
+\indent \textbf{Comentários:} Cumprindo uma de suas maiores características, este algoritmo manteve seu tempo de resolução para todos os casos uma baixa variação, desta forma
+podemos ver nos testes, tanto para os três tipos de entradas se obteve resultados semelhantes.
+
+\subsubsection{Quick Sort Primeiro}
+\begin{table}[H]
+\centering
+\begin{tabular}{|r|c|c|c|c|}
+\cline{1-5} 
+ \textbf{Ordem} & \textbf{1 000} & \textbf{10 000} & \textbf{100 000} & \textbf{1 000 000}\\
+ \hline
+ \textbf{Crescente} & 0m0.005s & 0m0.157s & 0m13.969s & $\infty$ \\
+ \hline
+ \textbf{Decrescente} & 0m0.003s & 0m0.134s & 0m13.116s & $\infty$ \\
+ \hline
+ \textbf{Aleat{\'o}rio} & 0m0.001s & 0m0.004s & 0m0.038s & 0m0.403s \\
+ \hline
+\end{tabular} 
+\caption{Testes quick sort primeiro}
+\end{table}
+\indent \textbf{Comentários:} Algo a ser observado que um dos algoritmos de ordenação mais famosos, não conseguiu cumprir a resolução de um caso crescente grande, como esperado
+o pivo como primeiro elemento não é uma boa escolha, com isso, fazendo com que o quick sort caia em seu pior caso e ficando tão ruim quanto um algoritmo quadrático.
+
+\subsubsection{Quick Sort Central}
+\begin{table}[H]
+\centering
+\begin{tabular}{|r|c|c|c|c|}
+\cline{1-5} 
+ \textbf{Ordem} & \textbf{1 000} & \textbf{10 000} & \textbf{100 000} & \textbf{1 000 000}\\
+ \hline
+ \textbf{Crescente} & 0m0.002s & 0m0.002s & 0m0.026s & 0m0.205s \\
+ \hline
+ \textbf{Decrescente} & 0m0.001s & 0m0.007s & 0m0.018s & 0m0.205s \\
+ \hline
+ \textbf{Aleat{\'o}rio} & 0m0.001s & 0m0.009s & 0m0.037s & 0m0.360s \\
+ \hline
+\end{tabular} 
+\caption{Testes quick sort central}
+\end{table}
+\indent \textbf{Comentários:} Podemos observar que o quick sort central não caiu no pior caso do quick sort, desta forma tendo resultados bons e completamente aceitáveis,
+conseguindo obter a solução parar todos os casos em tempo relativamente baixo.
+
+\subsubsection{Quick Sort Mediana3}
+\begin{table}[H]
+\centering
+\begin{tabular}{|r|c|c|c|c|}
+\cline{1-5} 
+ \textbf{Ordem} & \textbf{1 000} & \textbf{10 000} & \textbf{100 000} & \textbf{1 000 000}\\
+ \hline
+ \textbf{Crescente} & 0m0.001s & 0m0.007s & 0m0.045s & 0m0.170s \\
+ \hline
+ \textbf{Decrescente} & 0m0.001s & 0m0.007s & 0m0.024s & 0m0.176s \\
+ \hline
+ \textbf{Aleat{\'o}rio} & 0m0.001s & 0m0.009s & 0m0.032s & 0m0.332 \\
+ \hline
+\end{tabular} 
+\caption{Testes quick sort mediana de 3}
+\end{table}
+\indent \textbf{Comentários:} Como esperado, e também muito aclamado, o quick sort mediana de 3 teve resultados completamente satisfatório, conseguindo obter resultados
+ainda melhores que o quick sort central, sendo assim uma boa opção de pivô para o quick sort.
+
+
+
+\subsubsection{Quick Sort Random}
+\begin{table}[H]
+\centering
+\begin{tabular}{|r|c|c|c|c|}
+\cline{1-5} 
+ \textbf{Ordem} & \textbf{1 000} & \textbf{10 000} & \textbf{100 000} & \textbf{1 000 000}\\
+ \hline
+ \textbf{Crescente} & 0m0.003s & 0m0.006s & 0m0.023s & 0m0.217s \\
+ \hline
+ \textbf{Decrescente} & 0m0.002s & 0m0.008s & 0m0.042s & 0m0.221s \\
+ \hline
+ \textbf{Aleat{\'o}rio} & 0m0.001s & 0m0.004s & 0m0.034s & 0m0.364 \\
+ \hline
+\end{tabular} 
+\caption{Testes quick sort random}
+\end{table}
+\indent \textbf{Comentários:} Esta escolha de pivô era de se esperar que fosse rápida, devido a baixa chance de cair no pior caso do quick sort, e como pode ser visto
+os resultados foram bons, porém não foram melhores do que o quick sort mediana de 3.
+
+
+\subsubsection{Merge Sort}
+\begin{table}[H]
+\centering
+\begin{tabular}{|r|c|c|c|c|}
+\cline{1-5} 
+ \textbf{Ordem} & \textbf{1 000} & \textbf{10 000} & \textbf{100 000} & \textbf{1 000 000}\\
+ \hline
+ \textbf{Crescente} & 0m0.002s & 0m0.007s & 0m0.065s & 0m0.370s \\
+ \hline
+ \textbf{Decrescente} & 0m0.001s & 0m0.003s & 0m0.034s & 0m0.311s \\
+ \hline
+ \textbf{Aleat{\'o}rio} & 0m0.001s & 0m0.012s & 0m0.073s & 0m0.486 \\
+ \hline
+\end{tabular} 
+\caption{Testes merge sort}
+\end{table}
+\indent \textbf{Comentários:} Uma observação a ser feita, é que devido ao algoritmo ser estável, e não existi a chance de pior caso para ele, foram alcançados resultados bons
+porém algo a ser levado em conta é o custo de memória gasto pelo algoritmo.
+
+
+\subsubsection{Radix Sort}
+\begin{table}[H]
+\centering
+\begin{tabular}{|r|c|c|c|c|}
+\cline{1-5} 
+ \textbf{Ordem} & \textbf{1 000} & \textbf{10 000} & \textbf{100 000} & \textbf{1 000 000}\\
+ \hline
+ \textbf{Crescente} & 0m0.002s & 0m0.015s & 0m0.065s & 0m0.903s \\
+ \hline
+ \textbf{Decrescente} & 0m0.001s & 0m0.009s & 0m0.102s & 0m0.872s \\
+ \hline
+ \textbf{Aleat{\'o}rio} & 0m0.001s & 0m0.016s & 0m0.126s & 0m1.232s \\
+ \hline
+\end{tabular} 
+\caption{Testes radix sort}
+\end{table}
+\indent \textbf{Comentários:} Como esperado, este algoritmo conseguiu alcançar bons resultados, devido a sua não comparação de chave, porém um alto custo a se pagar são
+suas dez filas que são utilizadas para a ordenação.
+
+
+\subsubsection{Radix Sort Bin}
+\begin{table}[H]
+\centering
+\begin{tabular}{|r|c|c|c|c|}
+\cline{1-5} 
+ \textbf{Ordem} & \textbf{1 000} & \textbf{10 000} & \textbf{100 000} & \textbf{1 000 000}\\
+ \hline
+ \textbf{Crescente} & 0m0.003s & 0m0.024s & 0m0.179s & 0m3.167s \\
+ \hline	
+ \textbf{Decrescente} & 0m0.002s & 0m0.011s & 0m0.213s & 0m3.204s \\
+ \hline
+ \textbf{Aleat{\'o}rio} & 0m0.002s & 0m0.011s & 0m0.220s & 0m3.345s \\
+ \hline
+\end{tabular} 
+\caption{Testes radix sort bin}
+\end{table}
+\indent \textbf{Comentários:} Como pode ser observado, este algoritmo obteve resultados bons como esperado por não haver comparação de chaves, porém por usar 
+menos filas do que o radix comum, ele insere mais elementos na fila e remove mais vezes, fazendo este processo de enfileiramento mais vezes, podemos observar um 
+custo maior de movimentações oque implica diretamente com o tempo de resultado. 
+
+
+
+
+\subsection{Comparação entre os algoritmos}
+Para que possa ser feito uma estimativa e comparação dos algoritmos, nesta seção foram feitos gráficos ao qual é possível observar o desempenho de um determinado algoritmo
+em relação aos outros. Cada gráfico corresponde a um tipo de entrada, sendo elas: crescente, decrescente e aleatória, e os gráficos são na proporção de tempo x números de 
+elementos. Em cada tabela, foi verificado o melhor tempo, onde corresponde ao valor 1, todos os outros números em relação ao tempo nas tabelas, são a quantidade de 
+vezes que o tempo foi superior ao melhor tempo, exemplificando, nosso melhor tempo 	para a entrada de 1000 elementos crescente, foi o bubble sort, então seu valor será correspondente a
+1 na tabela, porém o heap sort, gastou 3 vezes mais, então no heap sort terá o valor 3, na posição correspondente na tabela. Podemos deixar bem claro, que houve arredondamentos para essas proporções,
+oque não garante um valor exato, e que a função time do linux também não é um valor tão preciso, no entanto, é possível ter resultados satisfatórios com estes testes.\\
+Segue a baixo os detalhes sobre cada entrada: \\
+\indent \textit{Crescente}: A sequência de entrada crescente, é gerada por números variados e repetidos de 1 a N em ordem crescente.\\
+\indent \textit{Decrescente}: A sequência de entrada decrescente, assim como a crescente, é gerada por números variados e repetidos de 1 a N em ordem decrescente.\\
+\indent \textit{Aleatória}: A sequência de entrada aleatória, se difere das outras, por ser gerado números aleatórios de forma randômica, com variação de 1 a 2N não ordenados.\\
+
+\subsubsection{Crescente}
+\begin{table}[H]
+\centering
+\begin{tabular}{|r|c|c|c|c|}
+\cline{1-5} 
+  \textbf{Algoritmos} & \multicolumn{4}{|c|}{\textbf{Tempo}}  \\
+ \hline
+ \textbf{} & \textbf{1 000} & \textbf{10 000} & \textbf{100 000} & \textbf{1 000 000}\\
+ \hline
+ \textbf{Bubble} & 1 & 1 & 2 & 1 \\
+ \hline
+ \textbf{Selection} & 4 & 88 & 1 & INF \\
+ \hline
+ \textbf{Insertion} & 2 & 2 & 2 & 1 \\
+ \hline
+ \textbf{Shake} & 3 & 2 & 2 & 1 \\
+ \hline
+ \textbf{Shell} & 3 & 2 & 1 & 2 \\
+ \hline
+ \textbf{Rank} & 3 & 3 & 1 & 1 \\
+ \hline
+ \textbf{Heap} & 1 & 5 & 5 & 3 \\
+ \hline
+ \textbf{Quick 1} & 5 & 79 & 1000 & INF \\
+ \hline
+ \textbf{Quick Central} & 2 & 1 & 2 & 2 \\
+ \hline
+ \textbf{Quick Mediana 3} & 1 & 4 & 3 & 1 \\
+ \hline
+ \textbf{Quick Random} & 3 & 3 & 2 & 2 \\
+ \hline
+ \textbf{Merge} & 2 & 4 & 5 & 3 \\
+ \hline
+ \textbf{Radix} & 2 & 8 & 5 & 9 \\
+ \hline
+ \textbf{Radix Bin} & 3 & 12 & 14 & 30 \\
+ \hline
+\end{tabular} 
+\caption{Entradas de dados crescente}
+\end{table}
+
+  Como pode ser visto, alguns algoritmos apresentam resultados muito satisfatórios, porém outros, nem tanto, desta forma, pegaremos cinco algoritmos com 
+um desempenho bom, e faremos um teste diferente, afim de ver o desempate. Neste novo teste, nosso entrada será crescente com números com valores de 1 até 100N, contendo elementos repetidos 
+e com uma entrada de 10 000 000 de elementos. Os algoritmos selecionados para este teste foram: Bubble sorte, Insertion Sort, Shake Sort, Rank Sort e Quick Sort Mediana de 3.\\
+\begin{table}[H]
+\centering
+\begin{tabular}{|r|c|}
+\cline{1-2} 
+  \textbf{Algoritmos} & \textbf{Tempo}  \\
+ \hline
+ \textbf{} & \textbf{10 000 000} \\
+ \hline
+ \textbf{Bubble} & 0m1.313s \\
+ \hline
+ \textbf{Insertion} & 0m1.320s  \\
+ \hline
+ \textbf{Shake} & 0m1.352s \\
+ \hline
+ \textbf{Rank} & 0m3.972s  \\
+ \hline
+ \textbf{Quick Mediana3} & 0m1.960s  \\
+ \hline
+\end{tabular} 
+\caption{Algoritmos com bom desempenho - input crescente}
+\end{table}
+\textit{* Obs.: Uma observação a ser feita é que os algoritmos simples, neste caso, sairam melhor até mesmo que os algoritmos eficientes, e o rank sort com uma entrada
+com números variando de 1 até 100N não obteve resultados tão bons, como os anteriores.}
+
+\subsubsection{Decrescente}
+\begin{table}[H]
+\centering
+\begin{tabular}{|r|c|c|c|c|}
+\cline{1-5} 
+ \textbf{Algoritmos} & \multicolumn{4}{|c|}{\textbf{Tempo}}  \\
+ \hline
+ \textbf{} & \textbf{1 000} & \textbf{10 000} & \textbf{100 000} & \textbf{1 000 000}\\
+ \hline
+ \textbf{Bubble} & 5 & 108 & 1930 & INF \\
+ \hline
+ \textbf{Selection} & 5 & 62 & 1071 & INF \\
+ \hline
+ \textbf{Insertion} & 7 & 71 & 1286 & INF \\
+ \hline
+ \textbf{Shake} & 7 & 103 & 1928 & INF \\
+ \hline
+ \textbf{Shell} & 2 & 2 & 2 & 1 \\
+ \hline
+ \textbf{Rank} & 1 & 2 & 1 & 1 \\
+ \hline
+ \textbf{Heap} & 3 & 3 & 3 & 2 \\
+ \hline
+ \textbf{Quick 1} & 3 & 45 & 930 & INF \\
+ \hline
+ \textbf{Quick Central} & 1 & 2 & 1 & 1 \\
+ \hline
+ \textbf{Quick Mediana 3} & 1 & 2 & 2 & 1 \\
+ \hline
+ \textbf{Quick Random} & 2 & 2 & 4 & 1 \\
+ \hline
+ \textbf{Merge} & 1 & 1 & 2 & 2 \\
+ \hline
+ \textbf{Radix} & 1 & 3 & 7 & 5 \\
+ \hline
+ \textbf{Radix Bin} & 2 & 4 & 15 & 19 \\
+ \hline
+\end{tabular} 
+\caption{Entradas de dados decrescente}
+\end{table}
+Como também pode ser visto, alguns algoritmos apresentaram resultados satisfatórios, porém outros não, desta forma, faremos equivalente ao teste crescente, pegaremos cinco algoritmos com 
+um desempenho bom, e faremos um teste diferente, afim de ver o desempate. Neste novo teste, nosso entrada será decrescente com números com valores de 1 até 100N, contendo elementos repetidos 
+e com uma entrada de 10 000 000 de elementos. Os algoritmos selecionados para este teste foram: Shell sort, Rank Sort, Quick Central, Quick Mediana 3, Quick Random.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|r|c|}
+\cline{1-2} 
+  \textbf{Algoritmos} & \textbf{Tempo}  \\
+ \hline
+ \textbf{} & \textbf{10 000 000} \\
+ \hline
+ \textbf{Shell} & 0m2.312s \\
+ \hline
+ \textbf{Rank} & 0m3.900s  \\
+ \hline
+ \textbf{Quick Central} & 0m1.892s \\
+ \hline
+ \textbf{Quick Mediana3} & 0m1.973s  \\
+ \hline
+ \textbf{Quick Random} & 0m2.360s  \\
+ \hline
+\end{tabular} 
+\caption{Algoritmos com bom desempenho - input decrescente}
+\end{table}
+\textit{* Obs.: Uma observação a ser feita é que o algoritmo shell sort, para este caso se saiu bem, até mesmo melhor que algoritmos eficientes como rank e quick random, e o rank sort com uma entrada
+com números variando de 1 até 100N, não obteve resultados tão bons, como os anteriores.}
+
+\subsubsection{Aleat{\'o}ria}
+\begin{table}[H]
+\centering
+\begin{tabular}{|r|c|c|c|c|}
+\cline{1-5} 
+ \textbf{Algoritmos} & \multicolumn{4}{|c|}{\textbf{Tempo}}  \\
+ \hline
+ \textbf{} & \textbf{1 000} & \textbf{10 000} & \textbf{100 000} & \textbf{1 000 000}\\
+ \hline
+ \textbf{Bubble} & 5 & 99 & 2167 & INF \\
+ \hline
+ \textbf{Selection} & 6 & 42 & 909 & INF \\
+ \hline
+ \textbf{Insertion} & 2 & 34 & 500 & INF \\
+ \hline
+ \textbf{Shake} & 5 & 81 & 1556 & INF \\
+ \hline
+ \textbf{Shell} & 3 & 3 & 3 & 2 \\
+ \hline
+ \textbf{Rank} & 1 & 2 & 1 & 1 \\
+ \hline
+ \textbf{Heap} & 3 & 4 & 3 & 2 \\
+ \hline
+ \textbf{Quick 1} & 1 & 1 & 2 & 2 \\
+ \hline
+ \textbf{Quick Central} & 1 & 2 & 2 & 2 \\
+ \hline
+ \textbf{Quick Mediana 3} & 1 & 2 & 2 & 1 \\
+ \hline
+ \textbf{Quick Random} & 1 & 1 & 2 & 2 \\
+ \hline
+ \textbf{Merge} & 1 & 3 & 4 & 2 \\
+ \hline
+ \textbf{Radix} & 1 & 4 & 7 & 5 \\
+ \hline
+ \textbf{Radix Bin} & 2 & 3 & 12 & 14 \\
+ \hline
+\end{tabular} 
+\caption{Entradas de dados aleat{\'o}ria}
+\end{table}
+Após visualizadas a saídas, podemos ver vários casos de semelhança na saída, desta forma, faremos equivalente ao teste crescente e decrescente, pegaremos cinco algoritmos com 
+um desempenho bom, e faremos um teste diferente, afim de ver o desempate. Neste novo teste, nosso entrada será aleatória com números com valores de 1 até 100N, contendo elementos repetidos 
+e com uma entrada de 10 000 000 de elementos. Os algoritmos selecionados para este teste foram: Shell sort, Rank Sort, Heap Sort, Quick Mediana 3, Quick Random, Quick Merge.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|r|c|}
+\cline{1-2} 
+  \textbf{Algoritmos} & \textbf{Tempo}  \\
+ \hline
+ \textbf{} & \textbf{10 000 000} \\
+ \hline
+ \textbf{Shell} & 0m8.037s \\
+ \hline
+ \textbf{Rank} & 0m4.408s  \\
+ \hline
+ \textbf{Heap} & 0m6.165s \\
+ \hline
+ \textbf{Quick Mediana3} & 0m3.842s  \\
+ \hline
+ \textbf{Quick Random} & 0m4.036s  \\
+ \hline
+\end{tabular} 
+\caption{Algoritmos com bom desempenho - input aleat{\'o}rio}
+\end{table}
+\textit{* Obs.: Algo a ser observado é que realmente em casos aleatórios, quando não sabemos o padrão de entrada que vamos receber, uma boa escolha é o quick mediana de 3, no
+qual obteve o melhor resultado, seguido do quick random e o rank, que não deixaram a desejar em relação ao tempo.}
+
+
+% ----------------------------------------------------------
+% Conclusão
+% ----------------------------------------------------------
+\newpage
+\section{Conclusão}
+Após todo o processo se pode observar que, existem diversos algoritmos de ordenação, no qual na maioria dos casos, o algoritmo a ser escolhido dependerá do seu 
+problema, onde foi visto que métodos simples para certos casos foram tão bons quanto métodos eficientes e de difícil implementação, sendo assim, não podemos afirmar 
+que um algoritmo é bom ou ruim, e sim que a sua escolha de melhor algoritmo de ordenação irá variar de acordo com o conjunto que você está ordenando, um exemplo é a
+ordenação de um conjunto crescente com 1 000 000 de elementos inteiros, o algoritmo insertion sort que é quadrático se saiu melhor até mesmo que o quick sort mediana de 3 que 
+é um algoritmo conhecido como um dos melhores, portanto antes de buscar o melhor algoritmo de ordenação devemos sempre entender o nosso problema para saber qual o melhor
+algoritmo para a sua resolução.\\
+\indent Em diversos casos, foi visto uma diferença mínima em alguns algoritmos e em outros não foi possível alcançar uma solução, no entanto devemos lembrar que nossos computadores possuem recursos limitados e que nosso 
+tempo também é limitado, para aguarda uma solução, desta forma, quanto maior a sequência a ser ordenada, maior será o consumo de tempo e recursos do computador, portanto 
+um algoritmo no qual teve um resultado melhor em milissegundos, em um caso maior, essa diferença poderá passar para horas ou até mesmo dias. Outro caso bem importante, foi
+poder observar que existem algoritmos que não tem piores casos, porém acabam exigindo muita memória do computador, então devemos ter o cuidado e ter a conciência que a memória
+de nossos computadores são limitadas.\\
+\indent Contudo, ao escolhermos qualquer algoritmo de ordenação, tenhamos em mente que complexidade de implementação, tempo de resolução e consumo de memória são fatores 
+importântíssimos que devem sem dúvidas pesar na decisão a ser tomada.
+
+
+% ----------------------------------------------------------
+% Referências bibliográficas
+% ----------------------------------------------------------
+%\bibliography{trab4}{}
+%\bibliographystyle{ieeetr}
+%\addcontentsline{toc}{section}{Referências}
+\bibliography{trab4}{}
+\bibliographystyle{ieeetr}
+\addcontentsline{toc}{section}{Referências}
+
+\end{document}
