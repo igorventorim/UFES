@@ -1,0 +1,236 @@
+//created on: 05/12/2016
+package com.sample
+import com.sample.*;
+
+//list any import classes here.
+
+
+
+//declare any global variables here
+
+
+rule "PEIXE"
+	salience 10
+    when
+		 Animal( (habitat == Habitat.AQUATICO || habitat == Habitat.INDETERMINADO)
+		 && (revestimento == Revestimento.ESCAMAS || revestimento == Revestimento.INDETERMINADO) 
+		 && (locomocao == Locomocao.NADAR || locomocao == Locomocao.INDETERMINADO) 
+		 && (reproducao == Reproducao.OVOLIPARO || reproducao == Reproducao.INDETERMINADO) 
+		 && (alimentacao == Alimentacao.CARNIVORO || alimentacao == Alimentacao.HERBIVORO || alimentacao == Alimentacao.INDETERMINADO) 
+		 && (respiracao == Respiracao.BRANQUIAL || respiracao == Respiracao.INDETERMINADO)) 
+    then
+    	System.out.print("PEIXES ");
+end
+
+rule "Tubarão"
+
+    when
+		 Animal( (habitat == Habitat.AQUATICO) 
+		 && (revestimento == Revestimento.CARTILAGEM) 
+		 && (locomocao == Locomocao.NADAR )
+		 && (reproducao == Reproducao.OVOLIPARO) 
+		 && (alimentacao == Alimentacao.CARNIVORO) 
+		 && (respiracao == Respiracao.BRANQUIAL)) 
+    then
+    	System.out.print("Tubarão ");
+end
+
+rule "Salmão"
+    when
+		 Animal( (habitat == Habitat.AQUATICO) 
+		 && (revestimento == Revestimento.ESCAMAS) 
+		 && (locomocao == Locomocao.NADAR) 
+		 && (reproducao == Reproducao.OVOLIPARO) 
+		 && (alimentacao == Alimentacao.CARNIVORO || alimentacao == Alimentacao.HERBIVORO) 
+		 && (respiracao == Respiracao.BRANQUIAL)) 
+    then
+    	System.out.print("Salmão ");
+end
+
+rule "Anfibio"
+	salience 10
+    when
+		 Animal( (habitat == Habitat.AQUATICO || habitat == Habitat.TERRESTRE || habitat == Habitat.INDETERMINADO) 
+		 && (revestimento == Revestimento.PELE || revestimento == Revestimento.INDETERMINADO) 
+		 && (locomocao == Locomocao.NADAR || locomocao == Locomocao.ANDAR || locomocao == Locomocao.RASTEJAR || locomocao == Locomocao.INDETERMINADO) 
+		 && (reproducao == Reproducao.OVOLIPARO || reproducao == Reproducao.OVIPARO || reproducao == Reproducao.INDETERMINADO) 
+		 && (alimentacao == Alimentacao.CARNIVORO || alimentacao == Alimentacao.INDETERMINADO) 
+		 && (respiracao == Respiracao.BRANQUIAL || respiracao == Respiracao.INDETERMINADO)) 
+    then
+    	System.out.print("ANFIBIOS ");
+end
+
+rule "Sapo"
+    when
+		 Animal( (habitat == Habitat.AQUATICO || habitat == Habitat.TERRESTRE) 
+		 && (revestimento == Revestimento.PELE) 
+		 && (locomocao == Locomocao.NADAR || locomocao == Locomocao.ANDAR || locomocao == Locomocao.RASTEJAR) 
+		 && (reproducao == Reproducao.OVOLIPARO) 
+		 && (alimentacao == Alimentacao.CARNIVORO) 
+		 && (respiracao == Respiracao.BRANQUIAL)) 
+    then
+    	System.out.print("Anfibio ");
+end
+
+rule "Salamandra"
+    when
+		 Animal( (habitat == Habitat.AQUATICO || habitat == Habitat.TERRESTRE) 
+		 && (revestimento == Revestimento.PELE) 
+		 && (locomocao == Locomocao.NADAR || locomocao == Locomocao.ANDAR || locomocao == Locomocao.RASTEJAR) 
+		 && (reproducao == Reproducao.OVIPARO) 
+		 && (alimentacao == Alimentacao.CARNIVORO) 
+		 && (respiracao == Respiracao.BRANQUIAL)) 
+    then
+    	System.out.print("Salamandra ");
+end
+
+rule "Repteis"
+	salience 10
+    when
+		 Animal( (habitat == Habitat.AQUATICO || habitat == Habitat.TERRESTRE || habitat == Habitat.INDETERMINADO)
+		 && (revestimento == Revestimento.ESCAMAS || revestimento == Revestimento.CARAPACA || revestimento == Revestimento.INDETERMINADO) 
+		 && (locomocao == Locomocao.NADAR || locomocao == Locomocao.ANDAR || locomocao == Locomocao.RASTEJAR || locomocao == Locomocao.INDETERMINADO) 
+		 && (reproducao == Reproducao.OVIPARO || reproducao == Reproducao.INDETERMINADO) 
+		 && (alimentacao == Alimentacao.CARNIVORO || alimentacao == Alimentacao.HERBIVORO || alimentacao == Alimentacao.INDETERMINADO) 
+		 && (respiracao == Respiracao.PULMONAR || respiracao == Respiracao.INDETERMINADO) ) 
+    then
+    	System.out.print("REPTEIS ");
+end
+
+rule "Jacaré"
+    when
+		 Animal( (habitat == Habitat.AQUATICO || habitat == Habitat.TERRESTRE)
+		 && (revestimento == Revestimento.ESCAMAS) 
+		 && (locomocao == Locomocao.NADAR || locomocao == Locomocao.ANDAR) 
+		 && (reproducao == Reproducao.OVIPARO) 
+		 && (alimentacao == Alimentacao.CARNIVORO) 
+		 && (respiracao == Respiracao.PULMONAR)) 
+    then
+    	System.out.print("Jacaré ");
+end
+
+rule "Cobra"
+    when
+		 Animal( (habitat == Habitat.AQUATICO || habitat == Habitat.TERRESTRE)
+		 && (revestimento == Revestimento.ESCAMAS) 
+		 && (locomocao == Locomocao.NADAR || locomocao == Locomocao.RASTEJAR) 
+		 && (reproducao == Reproducao.OVIPARO) 
+		 && (alimentacao == Alimentacao.CARNIVORO) 
+		 && (respiracao == Respiracao.PULMONAR)) 
+    then
+    	System.out.print("Cobra ");
+end
+
+rule "Tartaruga"
+    when
+		 Animal( (habitat == Habitat.AQUATICO || habitat == Habitat.TERRESTRE)
+		 && (revestimento == Revestimento.ESCAMAS || revestimento == Revestimento.CARAPACA) 
+		 && (locomocao == Locomocao.NADAR || locomocao == Locomocao.ANDAR) 
+		 && (reproducao == Reproducao.OVIPARO) 
+		 && (alimentacao == Alimentacao.HERBIVORO) 
+		 && (respiracao == Respiracao.PULMONAR)) 
+    then
+    	System.out.print("Tartaruga ");
+end
+
+
+rule "Aves"
+	salience 10
+    when
+		 Animal( (habitat == Habitat.AQUATICO || habitat == Habitat.TERRESTRE || habitat == Habitat.AEREO || habitat == Habitat.INDETERMINADO)
+		 && (revestimento == Revestimento.PENA || revestimento == Revestimento.INDETERMINADO) 
+		 && (locomocao == Locomocao.NADAR || locomocao == Locomocao.ANDAR || locomocao == Locomocao.VOAR || locomocao == Locomocao.INDETERMINADO) 
+		 && (reproducao == Reproducao.OVIPARO || reproducao == Reproducao.INDETERMINADO) 
+		 && (alimentacao == Alimentacao.CARNIVORO || alimentacao == Alimentacao.HERBIVORO || alimentacao == Alimentacao.INDETERMINADO)  
+		 && (respiracao == Respiracao.PULMONAR || respiracao == Respiracao.INDETERMINADO)) 
+    then
+    	System.out.print("AVES ");
+end
+
+rule "Pinguim"
+    when
+		 Animal( (habitat == Habitat.AQUATICO || habitat == Habitat.TERRESTRE )
+		 && (revestimento == Revestimento.PENA) 
+		 && (locomocao == Locomocao.NADAR || locomocao == Locomocao.ANDAR ) 
+		 && (reproducao == Reproducao.OVIPARO) 
+		 && (alimentacao == Alimentacao.CARNIVORO)  
+		 && (respiracao == Respiracao.PULMONAR)) 
+    then
+    	System.out.print("Pinguim ");
+end
+
+rule "Pato"
+	salience 10
+    when
+		 Animal( (habitat == Habitat.AQUATICO || habitat == Habitat.TERRESTRE || habitat == Habitat.AEREO)
+		 && (revestimento == Revestimento.PENA ) 
+		 && (locomocao == Locomocao.NADAR || locomocao == Locomocao.ANDAR || locomocao == Locomocao.VOAR ) 
+		 && (reproducao == Reproducao.OVIPARO ) 
+		 && (alimentacao == Alimentacao.HERBIVORO)  
+		 && (respiracao == Respiracao.PULMONAR)) 
+    then
+    	System.out.print("Pato ");
+end
+
+rule "Galinha"
+    when
+		 Animal( (habitat == Habitat.TERRESTRE)
+		 && (revestimento == Revestimento.PENA) 
+		 && ( locomocao == Locomocao.ANDAR || locomocao == Locomocao.VOAR ) 
+		 && (reproducao == Reproducao.OVIPARO) 
+		 && ( alimentacao == Alimentacao.HERBIVORO)  
+		 && (respiracao == Respiracao.PULMONAR)) 
+    then
+    	System.out.print("Galinha ");
+end
+
+rule "Mamiferos"
+	salience 10
+    when
+		 Animal( (habitat == Habitat.AQUATICO || habitat == Habitat.TERRESTRE || habitat == Habitat.AEREO || habitat == Habitat.INDETERMINADO)
+		 && (revestimento == Revestimento.PELO || revestimento == Revestimento.PELE || revestimento == Revestimento.INDETERMINADO) 
+		 && (locomocao == Locomocao.NADAR || locomocao == Locomocao.ANDAR || locomocao == Locomocao.VOAR || locomocao == Locomocao.INDETERMINADO ) 
+		 && (reproducao == Reproducao.VIVIPARO || reproducao == Reproducao.INDETERMINADO) 
+		 && (alimentacao == Alimentacao.CARNIVORO || alimentacao == Alimentacao.HERBIVORO || alimentacao == Alimentacao.INDETERMINADO)  
+		 && (respiracao == Respiracao.PULMONAR || respiracao == Respiracao.INDETERMINADO)) 
+    then
+    	System.out.print("MAMIFEROS ");
+end
+
+rule "Macaco"
+    when
+		 Animal( (habitat == Habitat.TERRESTRE)
+		 && (revestimento == Revestimento.PELO) 
+		 && (locomocao == Locomocao.ANDAR ) 
+		 && (reproducao == Reproducao.VIVIPARO) 
+		 && (alimentacao == Alimentacao.CARNIVORO || alimentacao == Alimentacao.HERBIVORO)  
+		 && (respiracao == Respiracao.PULMONAR)) 
+    then
+    	System.out.print("Macaco ");
+end
+
+rule "Baleia"
+    when
+		 Animal( (habitat == Habitat.AQUATICO)
+		 && ( revestimento == Revestimento.PELE) 
+		 && (locomocao == Locomocao.NADAR ) 
+		 && (reproducao == Reproducao.VIVIPARO) 
+		 && (alimentacao == Alimentacao.CARNIVORO || alimentacao == Alimentacao.HERBIVORO)  
+		 && (respiracao == Respiracao.PULMONAR))  
+    then
+    	System.out.print("Baleia ");
+end
+
+rule "Morcego"
+    when
+	  	 Animal( (habitat == Habitat.AEREO)
+		 && (revestimento == Revestimento.PELO) 
+		 && (locomocao == Locomocao.VOAR ) 
+		 && (reproducao == Reproducao.VIVIPARO) 
+		 && (alimentacao == Alimentacao.CARNIVORO || alimentacao == Alimentacao.HERBIVORO)  
+		 && (respiracao == Respiracao.PULMONAR)) 
+    then
+    	System.out.print("Morcego ");
+end
+
+
