@@ -1,0 +1,1606 @@
+Gramática
+
+    0 $accept: program $end
+
+    1 program: func_decl_list
+
+    2 func_decl_list: func_decl_list func_decl
+    3               | func_decl
+
+    4 func_decl: func_header func_body
+
+    5 $@1: %empty
+
+    6 func_header: ret_type ID $@1 LPAREN params RPAREN
+
+    7 func_body: LBRACE opt_var_decl opt_stmt_list RBRACE
+
+    8 opt_var_decl: %empty
+    9             | var_decl_list
+
+   10 opt_stmt_list: %empty
+   11              | stmt_list
+
+   12 ret_type: INT
+   13         | VOID
+
+   14 params: VOID
+   15       | param_list
+
+   16 param_list: param_list COMMA param
+   17           | param
+
+   18 param: INT ID
+
+   19 $@2: %empty
+
+   20 param: INT ID $@2 LBRACK RBRACK
+
+   21 var_decl_list: var_decl_list var_decl
+   22              | var_decl
+
+   23 $@3: %empty
+
+   24 var_decl: INT ID $@3 SEMI
+
+   25 $@4: %empty
+
+   26 var_decl: INT ID $@4 LBRACK NUM RBRACK SEMI
+
+   27 stmt_list: stmt_list stmt
+   28          | stmt
+
+   29 stmt: assign_stmt
+   30     | if_stmt
+   31     | while_stmt
+   32     | return_stmt
+   33     | func_call SEMI
+
+   34 assign_stmt: lval ASSIGN arith_expr SEMI
+
+   35 lval: ID
+
+   36 $@5: %empty
+
+   37 lval: ID LBRACK $@5 NUM RBRACK
+
+   38 $@6: %empty
+
+   39 $@7: %empty
+
+   40 lval: ID LBRACK $@6 ID $@7 RBRACK
+
+   41 if_stmt: IF LPAREN bool_expr RPAREN block
+   42        | IF LPAREN bool_expr RPAREN block ELSE block
+
+   43 block: LBRACE opt_stmt_list RBRACE
+
+   44 while_stmt: WHILE LPAREN bool_expr RPAREN block
+
+   45 return_stmt: RETURN SEMI
+   46            | RETURN arith_expr SEMI
+
+   47 func_call: output_call
+   48          | write_call
+   49          | user_func_call
+
+   50 input_call: INPUT LPAREN RPAREN
+
+   51 output_call: OUTPUT LPAREN arith_expr RPAREN
+
+   52 write_call: WRITE LPAREN STRING RPAREN
+
+   53 $@8: %empty
+
+   54 user_func_call: ID $@8 LPAREN opt_arg_list RPAREN
+
+   55 opt_arg_list: %empty
+   56             | arg_list
+
+   57 arg_list: arg_list COMMA arith_expr
+   58         | arith_expr
+
+   59 bool_expr: arith_expr EQ arith_expr
+   60          | arith_expr NEQ arith_expr
+   61          | arith_expr GE arith_expr
+   62          | arith_expr GT arith_expr
+   63          | arith_expr LE arith_expr
+   64          | arith_expr LT arith_expr
+
+   65 arith_expr: NUM
+   66           | user_func_call
+   67           | input_call
+   68           | lval
+   69           | LPAREN arith_expr RPAREN
+   70           | arith_expr PLUS arith_expr
+   71           | arith_expr MINUS arith_expr
+   72           | arith_expr TIMES arith_expr
+   73           | arith_expr OVER arith_expr
+
+
+Terminais, com as regras onde eles aparecem
+
+$end (0) 0
+error (256)
+ELSE (258) 42
+IF (259) 41 42
+INPUT (260) 50
+INT (261) 12 18 20 24 26
+OUTPUT (262) 51
+RETURN (263) 45 46
+VOID (264) 13 14
+WHILE (265) 44
+WRITE (266) 52
+ASSIGN (267) 34
+SEMI (268) 24 26 33 34 45 46
+COMMA (269) 16 57
+LPAREN (270) 6 41 42 44 50 51 52 54 69
+RPAREN (271) 6 41 42 44 50 51 52 54 69
+LBRACK (272) 20 26 37 40
+RBRACK (273) 20 26 37 40
+LBRACE (274) 7 43
+RBRACE (275) 7 43
+NUM (276) 26 37 65
+ID (277) 6 18 20 24 26 35 37 40 54
+STRING (278) 52
+LT (279) 64
+EQ (280) 59
+LE (281) 63
+NEQ (282) 60
+GT (283) 62
+GE (284) 61
+PLUS (285) 70
+MINUS (286) 71
+TIMES (287) 72
+OVER (288) 73
+
+
+Não terminais com as regras onde eles aparecem
+
+$accept (34)
+    à esquerda: 0
+program (35)
+    à esquerda: 1, à direita: 0
+func_decl_list (36)
+    à esquerda: 2 3, à direita: 1 2
+func_decl (37)
+    à esquerda: 4, à direita: 2 3
+func_header (38)
+    à esquerda: 6, à direita: 4
+$@1 (39)
+    à esquerda: 5, à direita: 6
+func_body (40)
+    à esquerda: 7, à direita: 4
+opt_var_decl (41)
+    à esquerda: 8 9, à direita: 7
+opt_stmt_list (42)
+    à esquerda: 10 11, à direita: 7 43
+ret_type (43)
+    à esquerda: 12 13, à direita: 6
+params (44)
+    à esquerda: 14 15, à direita: 6
+param_list (45)
+    à esquerda: 16 17, à direita: 15 16
+param (46)
+    à esquerda: 18 20, à direita: 16 17
+$@2 (47)
+    à esquerda: 19, à direita: 20
+var_decl_list (48)
+    à esquerda: 21 22, à direita: 9 21
+var_decl (49)
+    à esquerda: 24 26, à direita: 21 22
+$@3 (50)
+    à esquerda: 23, à direita: 24
+$@4 (51)
+    à esquerda: 25, à direita: 26
+stmt_list (52)
+    à esquerda: 27 28, à direita: 11 27
+stmt (53)
+    à esquerda: 29 30 31 32 33, à direita: 27 28
+assign_stmt (54)
+    à esquerda: 34, à direita: 29
+lval (55)
+    à esquerda: 35 37 40, à direita: 34 68
+$@5 (56)
+    à esquerda: 36, à direita: 37
+$@6 (57)
+    à esquerda: 38, à direita: 40
+$@7 (58)
+    à esquerda: 39, à direita: 40
+if_stmt (59)
+    à esquerda: 41 42, à direita: 30
+block (60)
+    à esquerda: 43, à direita: 41 42 44
+while_stmt (61)
+    à esquerda: 44, à direita: 31
+return_stmt (62)
+    à esquerda: 45 46, à direita: 32
+func_call (63)
+    à esquerda: 47 48 49, à direita: 33
+input_call (64)
+    à esquerda: 50, à direita: 67
+output_call (65)
+    à esquerda: 51, à direita: 47
+write_call (66)
+    à esquerda: 52, à direita: 48
+user_func_call (67)
+    à esquerda: 54, à direita: 49 66
+$@8 (68)
+    à esquerda: 53, à direita: 54
+opt_arg_list (69)
+    à esquerda: 55 56, à direita: 54
+arg_list (70)
+    à esquerda: 57 58, à direita: 56 57
+bool_expr (71)
+    à esquerda: 59 60 61 62 63 64, à direita: 41 42 44
+arith_expr (72)
+    à esquerda: 65 66 67 68 69 70 71 72 73, à direita: 34 46 51 57
+    58 59 60 61 62 63 64 69 70 71 72 73
+
+
+Estado 0
+
+    0 $accept: . program $end
+
+    INT   deslocar, e ir ao estado 1
+    VOID  deslocar, e ir ao estado 2
+
+    program         ir ao estado 3
+    func_decl_list  ir ao estado 4
+    func_decl       ir ao estado 5
+    func_header     ir ao estado 6
+    ret_type        ir ao estado 7
+
+
+Estado 1
+
+   12 ret_type: INT .
+
+    $padrão  reduzir usando a regra 12 (ret_type)
+
+
+Estado 2
+
+   13 ret_type: VOID .
+
+    $padrão  reduzir usando a regra 13 (ret_type)
+
+
+Estado 3
+
+    0 $accept: program . $end
+
+    $end  deslocar, e ir ao estado 8
+
+
+Estado 4
+
+    1 program: func_decl_list .
+    2 func_decl_list: func_decl_list . func_decl
+
+    INT   deslocar, e ir ao estado 1
+    VOID  deslocar, e ir ao estado 2
+
+    $padrão  reduzir usando a regra 1 (program)
+
+    func_decl    ir ao estado 9
+    func_header  ir ao estado 6
+    ret_type     ir ao estado 7
+
+
+Estado 5
+
+    3 func_decl_list: func_decl .
+
+    $padrão  reduzir usando a regra 3 (func_decl_list)
+
+
+Estado 6
+
+    4 func_decl: func_header . func_body
+
+    LBRACE  deslocar, e ir ao estado 10
+
+    func_body  ir ao estado 11
+
+
+Estado 7
+
+    6 func_header: ret_type . ID $@1 LPAREN params RPAREN
+
+    ID  deslocar, e ir ao estado 12
+
+
+Estado 8
+
+    0 $accept: program $end .
+
+    $padrão  aceitar
+
+
+Estado 9
+
+    2 func_decl_list: func_decl_list func_decl .
+
+    $padrão  reduzir usando a regra 2 (func_decl_list)
+
+
+Estado 10
+
+    7 func_body: LBRACE . opt_var_decl opt_stmt_list RBRACE
+
+    INT  deslocar, e ir ao estado 13
+
+    $padrão  reduzir usando a regra 8 (opt_var_decl)
+
+    opt_var_decl   ir ao estado 14
+    var_decl_list  ir ao estado 15
+    var_decl       ir ao estado 16
+
+
+Estado 11
+
+    4 func_decl: func_header func_body .
+
+    $padrão  reduzir usando a regra 4 (func_decl)
+
+
+Estado 12
+
+    6 func_header: ret_type ID . $@1 LPAREN params RPAREN
+
+    $padrão  reduzir usando a regra 5 ($@1)
+
+    $@1  ir ao estado 17
+
+
+Estado 13
+
+   24 var_decl: INT . ID $@3 SEMI
+   26         | INT . ID $@4 LBRACK NUM RBRACK SEMI
+
+    ID  deslocar, e ir ao estado 18
+
+
+Estado 14
+
+    7 func_body: LBRACE opt_var_decl . opt_stmt_list RBRACE
+
+    IF      deslocar, e ir ao estado 19
+    OUTPUT  deslocar, e ir ao estado 20
+    RETURN  deslocar, e ir ao estado 21
+    WHILE   deslocar, e ir ao estado 22
+    WRITE   deslocar, e ir ao estado 23
+    ID      deslocar, e ir ao estado 24
+
+    $padrão  reduzir usando a regra 10 (opt_stmt_list)
+
+    opt_stmt_list   ir ao estado 25
+    stmt_list       ir ao estado 26
+    stmt            ir ao estado 27
+    assign_stmt     ir ao estado 28
+    lval            ir ao estado 29
+    if_stmt         ir ao estado 30
+    while_stmt      ir ao estado 31
+    return_stmt     ir ao estado 32
+    func_call       ir ao estado 33
+    output_call     ir ao estado 34
+    write_call      ir ao estado 35
+    user_func_call  ir ao estado 36
+
+
+Estado 15
+
+    9 opt_var_decl: var_decl_list .
+   21 var_decl_list: var_decl_list . var_decl
+
+    INT  deslocar, e ir ao estado 13
+
+    $padrão  reduzir usando a regra 9 (opt_var_decl)
+
+    var_decl  ir ao estado 37
+
+
+Estado 16
+
+   22 var_decl_list: var_decl .
+
+    $padrão  reduzir usando a regra 22 (var_decl_list)
+
+
+Estado 17
+
+    6 func_header: ret_type ID $@1 . LPAREN params RPAREN
+
+    LPAREN  deslocar, e ir ao estado 38
+
+
+Estado 18
+
+   24 var_decl: INT ID . $@3 SEMI
+   26         | INT ID . $@4 LBRACK NUM RBRACK SEMI
+
+    LBRACK    reduzir usando a regra 25 ($@4)
+    $padrão  reduzir usando a regra 23 ($@3)
+
+    $@3  ir ao estado 39
+    $@4  ir ao estado 40
+
+
+Estado 19
+
+   41 if_stmt: IF . LPAREN bool_expr RPAREN block
+   42        | IF . LPAREN bool_expr RPAREN block ELSE block
+
+    LPAREN  deslocar, e ir ao estado 41
+
+
+Estado 20
+
+   51 output_call: OUTPUT . LPAREN arith_expr RPAREN
+
+    LPAREN  deslocar, e ir ao estado 42
+
+
+Estado 21
+
+   45 return_stmt: RETURN . SEMI
+   46            | RETURN . arith_expr SEMI
+
+    INPUT   deslocar, e ir ao estado 43
+    SEMI    deslocar, e ir ao estado 44
+    LPAREN  deslocar, e ir ao estado 45
+    NUM     deslocar, e ir ao estado 46
+    ID      deslocar, e ir ao estado 24
+
+    lval            ir ao estado 47
+    input_call      ir ao estado 48
+    user_func_call  ir ao estado 49
+    arith_expr      ir ao estado 50
+
+
+Estado 22
+
+   44 while_stmt: WHILE . LPAREN bool_expr RPAREN block
+
+    LPAREN  deslocar, e ir ao estado 51
+
+
+Estado 23
+
+   52 write_call: WRITE . LPAREN STRING RPAREN
+
+    LPAREN  deslocar, e ir ao estado 52
+
+
+Estado 24
+
+   35 lval: ID .
+   37     | ID . LBRACK $@5 NUM RBRACK
+   40     | ID . LBRACK $@6 ID $@7 RBRACK
+   54 user_func_call: ID . $@8 LPAREN opt_arg_list RPAREN
+
+    LBRACK  deslocar, e ir ao estado 53
+
+    LPAREN    reduzir usando a regra 53 ($@8)
+    $padrão  reduzir usando a regra 35 (lval)
+
+    $@8  ir ao estado 54
+
+
+Estado 25
+
+    7 func_body: LBRACE opt_var_decl opt_stmt_list . RBRACE
+
+    RBRACE  deslocar, e ir ao estado 55
+
+
+Estado 26
+
+   11 opt_stmt_list: stmt_list .
+   27 stmt_list: stmt_list . stmt
+
+    IF      deslocar, e ir ao estado 19
+    OUTPUT  deslocar, e ir ao estado 20
+    RETURN  deslocar, e ir ao estado 21
+    WHILE   deslocar, e ir ao estado 22
+    WRITE   deslocar, e ir ao estado 23
+    ID      deslocar, e ir ao estado 24
+
+    $padrão  reduzir usando a regra 11 (opt_stmt_list)
+
+    stmt            ir ao estado 56
+    assign_stmt     ir ao estado 28
+    lval            ir ao estado 29
+    if_stmt         ir ao estado 30
+    while_stmt      ir ao estado 31
+    return_stmt     ir ao estado 32
+    func_call       ir ao estado 33
+    output_call     ir ao estado 34
+    write_call      ir ao estado 35
+    user_func_call  ir ao estado 36
+
+
+Estado 27
+
+   28 stmt_list: stmt .
+
+    $padrão  reduzir usando a regra 28 (stmt_list)
+
+
+Estado 28
+
+   29 stmt: assign_stmt .
+
+    $padrão  reduzir usando a regra 29 (stmt)
+
+
+Estado 29
+
+   34 assign_stmt: lval . ASSIGN arith_expr SEMI
+
+    ASSIGN  deslocar, e ir ao estado 57
+
+
+Estado 30
+
+   30 stmt: if_stmt .
+
+    $padrão  reduzir usando a regra 30 (stmt)
+
+
+Estado 31
+
+   31 stmt: while_stmt .
+
+    $padrão  reduzir usando a regra 31 (stmt)
+
+
+Estado 32
+
+   32 stmt: return_stmt .
+
+    $padrão  reduzir usando a regra 32 (stmt)
+
+
+Estado 33
+
+   33 stmt: func_call . SEMI
+
+    SEMI  deslocar, e ir ao estado 58
+
+
+Estado 34
+
+   47 func_call: output_call .
+
+    $padrão  reduzir usando a regra 47 (func_call)
+
+
+Estado 35
+
+   48 func_call: write_call .
+
+    $padrão  reduzir usando a regra 48 (func_call)
+
+
+Estado 36
+
+   49 func_call: user_func_call .
+
+    $padrão  reduzir usando a regra 49 (func_call)
+
+
+Estado 37
+
+   21 var_decl_list: var_decl_list var_decl .
+
+    $padrão  reduzir usando a regra 21 (var_decl_list)
+
+
+Estado 38
+
+    6 func_header: ret_type ID $@1 LPAREN . params RPAREN
+
+    INT   deslocar, e ir ao estado 59
+    VOID  deslocar, e ir ao estado 60
+
+    params      ir ao estado 61
+    param_list  ir ao estado 62
+    param       ir ao estado 63
+
+
+Estado 39
+
+   24 var_decl: INT ID $@3 . SEMI
+
+    SEMI  deslocar, e ir ao estado 64
+
+
+Estado 40
+
+   26 var_decl: INT ID $@4 . LBRACK NUM RBRACK SEMI
+
+    LBRACK  deslocar, e ir ao estado 65
+
+
+Estado 41
+
+   41 if_stmt: IF LPAREN . bool_expr RPAREN block
+   42        | IF LPAREN . bool_expr RPAREN block ELSE block
+
+    INPUT   deslocar, e ir ao estado 43
+    LPAREN  deslocar, e ir ao estado 45
+    NUM     deslocar, e ir ao estado 46
+    ID      deslocar, e ir ao estado 24
+
+    lval            ir ao estado 47
+    input_call      ir ao estado 48
+    user_func_call  ir ao estado 49
+    bool_expr       ir ao estado 66
+    arith_expr      ir ao estado 67
+
+
+Estado 42
+
+   51 output_call: OUTPUT LPAREN . arith_expr RPAREN
+
+    INPUT   deslocar, e ir ao estado 43
+    LPAREN  deslocar, e ir ao estado 45
+    NUM     deslocar, e ir ao estado 46
+    ID      deslocar, e ir ao estado 24
+
+    lval            ir ao estado 47
+    input_call      ir ao estado 48
+    user_func_call  ir ao estado 49
+    arith_expr      ir ao estado 68
+
+
+Estado 43
+
+   50 input_call: INPUT . LPAREN RPAREN
+
+    LPAREN  deslocar, e ir ao estado 69
+
+
+Estado 44
+
+   45 return_stmt: RETURN SEMI .
+
+    $padrão  reduzir usando a regra 45 (return_stmt)
+
+
+Estado 45
+
+   69 arith_expr: LPAREN . arith_expr RPAREN
+
+    INPUT   deslocar, e ir ao estado 43
+    LPAREN  deslocar, e ir ao estado 45
+    NUM     deslocar, e ir ao estado 46
+    ID      deslocar, e ir ao estado 24
+
+    lval            ir ao estado 47
+    input_call      ir ao estado 48
+    user_func_call  ir ao estado 49
+    arith_expr      ir ao estado 70
+
+
+Estado 46
+
+   65 arith_expr: NUM .
+
+    $padrão  reduzir usando a regra 65 (arith_expr)
+
+
+Estado 47
+
+   68 arith_expr: lval .
+
+    $padrão  reduzir usando a regra 68 (arith_expr)
+
+
+Estado 48
+
+   67 arith_expr: input_call .
+
+    $padrão  reduzir usando a regra 67 (arith_expr)
+
+
+Estado 49
+
+   66 arith_expr: user_func_call .
+
+    $padrão  reduzir usando a regra 66 (arith_expr)
+
+
+Estado 50
+
+   46 return_stmt: RETURN arith_expr . SEMI
+   70 arith_expr: arith_expr . PLUS arith_expr
+   71           | arith_expr . MINUS arith_expr
+   72           | arith_expr . TIMES arith_expr
+   73           | arith_expr . OVER arith_expr
+
+    SEMI   deslocar, e ir ao estado 71
+    PLUS   deslocar, e ir ao estado 72
+    MINUS  deslocar, e ir ao estado 73
+    TIMES  deslocar, e ir ao estado 74
+    OVER   deslocar, e ir ao estado 75
+
+
+Estado 51
+
+   44 while_stmt: WHILE LPAREN . bool_expr RPAREN block
+
+    INPUT   deslocar, e ir ao estado 43
+    LPAREN  deslocar, e ir ao estado 45
+    NUM     deslocar, e ir ao estado 46
+    ID      deslocar, e ir ao estado 24
+
+    lval            ir ao estado 47
+    input_call      ir ao estado 48
+    user_func_call  ir ao estado 49
+    bool_expr       ir ao estado 76
+    arith_expr      ir ao estado 67
+
+
+Estado 52
+
+   52 write_call: WRITE LPAREN . STRING RPAREN
+
+    STRING  deslocar, e ir ao estado 77
+
+
+Estado 53
+
+   37 lval: ID LBRACK . $@5 NUM RBRACK
+   40     | ID LBRACK . $@6 ID $@7 RBRACK
+
+    ID        reduzir usando a regra 38 ($@6)
+    $padrão  reduzir usando a regra 36 ($@5)
+
+    $@5  ir ao estado 78
+    $@6  ir ao estado 79
+
+
+Estado 54
+
+   54 user_func_call: ID $@8 . LPAREN opt_arg_list RPAREN
+
+    LPAREN  deslocar, e ir ao estado 80
+
+
+Estado 55
+
+    7 func_body: LBRACE opt_var_decl opt_stmt_list RBRACE .
+
+    $padrão  reduzir usando a regra 7 (func_body)
+
+
+Estado 56
+
+   27 stmt_list: stmt_list stmt .
+
+    $padrão  reduzir usando a regra 27 (stmt_list)
+
+
+Estado 57
+
+   34 assign_stmt: lval ASSIGN . arith_expr SEMI
+
+    INPUT   deslocar, e ir ao estado 43
+    LPAREN  deslocar, e ir ao estado 45
+    NUM     deslocar, e ir ao estado 46
+    ID      deslocar, e ir ao estado 24
+
+    lval            ir ao estado 47
+    input_call      ir ao estado 48
+    user_func_call  ir ao estado 49
+    arith_expr      ir ao estado 81
+
+
+Estado 58
+
+   33 stmt: func_call SEMI .
+
+    $padrão  reduzir usando a regra 33 (stmt)
+
+
+Estado 59
+
+   18 param: INT . ID
+   20      | INT . ID $@2 LBRACK RBRACK
+
+    ID  deslocar, e ir ao estado 82
+
+
+Estado 60
+
+   14 params: VOID .
+
+    $padrão  reduzir usando a regra 14 (params)
+
+
+Estado 61
+
+    6 func_header: ret_type ID $@1 LPAREN params . RPAREN
+
+    RPAREN  deslocar, e ir ao estado 83
+
+
+Estado 62
+
+   15 params: param_list .
+   16 param_list: param_list . COMMA param
+
+    COMMA  deslocar, e ir ao estado 84
+
+    $padrão  reduzir usando a regra 15 (params)
+
+
+Estado 63
+
+   17 param_list: param .
+
+    $padrão  reduzir usando a regra 17 (param_list)
+
+
+Estado 64
+
+   24 var_decl: INT ID $@3 SEMI .
+
+    $padrão  reduzir usando a regra 24 (var_decl)
+
+
+Estado 65
+
+   26 var_decl: INT ID $@4 LBRACK . NUM RBRACK SEMI
+
+    NUM  deslocar, e ir ao estado 85
+
+
+Estado 66
+
+   41 if_stmt: IF LPAREN bool_expr . RPAREN block
+   42        | IF LPAREN bool_expr . RPAREN block ELSE block
+
+    RPAREN  deslocar, e ir ao estado 86
+
+
+Estado 67
+
+   59 bool_expr: arith_expr . EQ arith_expr
+   60          | arith_expr . NEQ arith_expr
+   61          | arith_expr . GE arith_expr
+   62          | arith_expr . GT arith_expr
+   63          | arith_expr . LE arith_expr
+   64          | arith_expr . LT arith_expr
+   70 arith_expr: arith_expr . PLUS arith_expr
+   71           | arith_expr . MINUS arith_expr
+   72           | arith_expr . TIMES arith_expr
+   73           | arith_expr . OVER arith_expr
+
+    LT     deslocar, e ir ao estado 87
+    EQ     deslocar, e ir ao estado 88
+    LE     deslocar, e ir ao estado 89
+    NEQ    deslocar, e ir ao estado 90
+    GT     deslocar, e ir ao estado 91
+    GE     deslocar, e ir ao estado 92
+    PLUS   deslocar, e ir ao estado 72
+    MINUS  deslocar, e ir ao estado 73
+    TIMES  deslocar, e ir ao estado 74
+    OVER   deslocar, e ir ao estado 75
+
+
+Estado 68
+
+   51 output_call: OUTPUT LPAREN arith_expr . RPAREN
+   70 arith_expr: arith_expr . PLUS arith_expr
+   71           | arith_expr . MINUS arith_expr
+   72           | arith_expr . TIMES arith_expr
+   73           | arith_expr . OVER arith_expr
+
+    RPAREN  deslocar, e ir ao estado 93
+    PLUS    deslocar, e ir ao estado 72
+    MINUS   deslocar, e ir ao estado 73
+    TIMES   deslocar, e ir ao estado 74
+    OVER    deslocar, e ir ao estado 75
+
+
+Estado 69
+
+   50 input_call: INPUT LPAREN . RPAREN
+
+    RPAREN  deslocar, e ir ao estado 94
+
+
+Estado 70
+
+   69 arith_expr: LPAREN arith_expr . RPAREN
+   70           | arith_expr . PLUS arith_expr
+   71           | arith_expr . MINUS arith_expr
+   72           | arith_expr . TIMES arith_expr
+   73           | arith_expr . OVER arith_expr
+
+    RPAREN  deslocar, e ir ao estado 95
+    PLUS    deslocar, e ir ao estado 72
+    MINUS   deslocar, e ir ao estado 73
+    TIMES   deslocar, e ir ao estado 74
+    OVER    deslocar, e ir ao estado 75
+
+
+Estado 71
+
+   46 return_stmt: RETURN arith_expr SEMI .
+
+    $padrão  reduzir usando a regra 46 (return_stmt)
+
+
+Estado 72
+
+   70 arith_expr: arith_expr PLUS . arith_expr
+
+    INPUT   deslocar, e ir ao estado 43
+    LPAREN  deslocar, e ir ao estado 45
+    NUM     deslocar, e ir ao estado 46
+    ID      deslocar, e ir ao estado 24
+
+    lval            ir ao estado 47
+    input_call      ir ao estado 48
+    user_func_call  ir ao estado 49
+    arith_expr      ir ao estado 96
+
+
+Estado 73
+
+   71 arith_expr: arith_expr MINUS . arith_expr
+
+    INPUT   deslocar, e ir ao estado 43
+    LPAREN  deslocar, e ir ao estado 45
+    NUM     deslocar, e ir ao estado 46
+    ID      deslocar, e ir ao estado 24
+
+    lval            ir ao estado 47
+    input_call      ir ao estado 48
+    user_func_call  ir ao estado 49
+    arith_expr      ir ao estado 97
+
+
+Estado 74
+
+   72 arith_expr: arith_expr TIMES . arith_expr
+
+    INPUT   deslocar, e ir ao estado 43
+    LPAREN  deslocar, e ir ao estado 45
+    NUM     deslocar, e ir ao estado 46
+    ID      deslocar, e ir ao estado 24
+
+    lval            ir ao estado 47
+    input_call      ir ao estado 48
+    user_func_call  ir ao estado 49
+    arith_expr      ir ao estado 98
+
+
+Estado 75
+
+   73 arith_expr: arith_expr OVER . arith_expr
+
+    INPUT   deslocar, e ir ao estado 43
+    LPAREN  deslocar, e ir ao estado 45
+    NUM     deslocar, e ir ao estado 46
+    ID      deslocar, e ir ao estado 24
+
+    lval            ir ao estado 47
+    input_call      ir ao estado 48
+    user_func_call  ir ao estado 49
+    arith_expr      ir ao estado 99
+
+
+Estado 76
+
+   44 while_stmt: WHILE LPAREN bool_expr . RPAREN block
+
+    RPAREN  deslocar, e ir ao estado 100
+
+
+Estado 77
+
+   52 write_call: WRITE LPAREN STRING . RPAREN
+
+    RPAREN  deslocar, e ir ao estado 101
+
+
+Estado 78
+
+   37 lval: ID LBRACK $@5 . NUM RBRACK
+
+    NUM  deslocar, e ir ao estado 102
+
+
+Estado 79
+
+   40 lval: ID LBRACK $@6 . ID $@7 RBRACK
+
+    ID  deslocar, e ir ao estado 103
+
+
+Estado 80
+
+   54 user_func_call: ID $@8 LPAREN . opt_arg_list RPAREN
+
+    INPUT   deslocar, e ir ao estado 43
+    LPAREN  deslocar, e ir ao estado 45
+    NUM     deslocar, e ir ao estado 46
+    ID      deslocar, e ir ao estado 24
+
+    $padrão  reduzir usando a regra 55 (opt_arg_list)
+
+    lval            ir ao estado 47
+    input_call      ir ao estado 48
+    user_func_call  ir ao estado 49
+    opt_arg_list    ir ao estado 104
+    arg_list        ir ao estado 105
+    arith_expr      ir ao estado 106
+
+
+Estado 81
+
+   34 assign_stmt: lval ASSIGN arith_expr . SEMI
+   70 arith_expr: arith_expr . PLUS arith_expr
+   71           | arith_expr . MINUS arith_expr
+   72           | arith_expr . TIMES arith_expr
+   73           | arith_expr . OVER arith_expr
+
+    SEMI   deslocar, e ir ao estado 107
+    PLUS   deslocar, e ir ao estado 72
+    MINUS  deslocar, e ir ao estado 73
+    TIMES  deslocar, e ir ao estado 74
+    OVER   deslocar, e ir ao estado 75
+
+
+Estado 82
+
+   18 param: INT ID .
+   20      | INT ID . $@2 LBRACK RBRACK
+
+    LBRACK    reduzir usando a regra 19 ($@2)
+    $padrão  reduzir usando a regra 18 (param)
+
+    $@2  ir ao estado 108
+
+
+Estado 83
+
+    6 func_header: ret_type ID $@1 LPAREN params RPAREN .
+
+    $padrão  reduzir usando a regra 6 (func_header)
+
+
+Estado 84
+
+   16 param_list: param_list COMMA . param
+
+    INT  deslocar, e ir ao estado 59
+
+    param  ir ao estado 109
+
+
+Estado 85
+
+   26 var_decl: INT ID $@4 LBRACK NUM . RBRACK SEMI
+
+    RBRACK  deslocar, e ir ao estado 110
+
+
+Estado 86
+
+   41 if_stmt: IF LPAREN bool_expr RPAREN . block
+   42        | IF LPAREN bool_expr RPAREN . block ELSE block
+
+    LBRACE  deslocar, e ir ao estado 111
+
+    block  ir ao estado 112
+
+
+Estado 87
+
+   64 bool_expr: arith_expr LT . arith_expr
+
+    INPUT   deslocar, e ir ao estado 43
+    LPAREN  deslocar, e ir ao estado 45
+    NUM     deslocar, e ir ao estado 46
+    ID      deslocar, e ir ao estado 24
+
+    lval            ir ao estado 47
+    input_call      ir ao estado 48
+    user_func_call  ir ao estado 49
+    arith_expr      ir ao estado 113
+
+
+Estado 88
+
+   59 bool_expr: arith_expr EQ . arith_expr
+
+    INPUT   deslocar, e ir ao estado 43
+    LPAREN  deslocar, e ir ao estado 45
+    NUM     deslocar, e ir ao estado 46
+    ID      deslocar, e ir ao estado 24
+
+    lval            ir ao estado 47
+    input_call      ir ao estado 48
+    user_func_call  ir ao estado 49
+    arith_expr      ir ao estado 114
+
+
+Estado 89
+
+   63 bool_expr: arith_expr LE . arith_expr
+
+    INPUT   deslocar, e ir ao estado 43
+    LPAREN  deslocar, e ir ao estado 45
+    NUM     deslocar, e ir ao estado 46
+    ID      deslocar, e ir ao estado 24
+
+    lval            ir ao estado 47
+    input_call      ir ao estado 48
+    user_func_call  ir ao estado 49
+    arith_expr      ir ao estado 115
+
+
+Estado 90
+
+   60 bool_expr: arith_expr NEQ . arith_expr
+
+    INPUT   deslocar, e ir ao estado 43
+    LPAREN  deslocar, e ir ao estado 45
+    NUM     deslocar, e ir ao estado 46
+    ID      deslocar, e ir ao estado 24
+
+    lval            ir ao estado 47
+    input_call      ir ao estado 48
+    user_func_call  ir ao estado 49
+    arith_expr      ir ao estado 116
+
+
+Estado 91
+
+   62 bool_expr: arith_expr GT . arith_expr
+
+    INPUT   deslocar, e ir ao estado 43
+    LPAREN  deslocar, e ir ao estado 45
+    NUM     deslocar, e ir ao estado 46
+    ID      deslocar, e ir ao estado 24
+
+    lval            ir ao estado 47
+    input_call      ir ao estado 48
+    user_func_call  ir ao estado 49
+    arith_expr      ir ao estado 117
+
+
+Estado 92
+
+   61 bool_expr: arith_expr GE . arith_expr
+
+    INPUT   deslocar, e ir ao estado 43
+    LPAREN  deslocar, e ir ao estado 45
+    NUM     deslocar, e ir ao estado 46
+    ID      deslocar, e ir ao estado 24
+
+    lval            ir ao estado 47
+    input_call      ir ao estado 48
+    user_func_call  ir ao estado 49
+    arith_expr      ir ao estado 118
+
+
+Estado 93
+
+   51 output_call: OUTPUT LPAREN arith_expr RPAREN .
+
+    $padrão  reduzir usando a regra 51 (output_call)
+
+
+Estado 94
+
+   50 input_call: INPUT LPAREN RPAREN .
+
+    $padrão  reduzir usando a regra 50 (input_call)
+
+
+Estado 95
+
+   69 arith_expr: LPAREN arith_expr RPAREN .
+
+    $padrão  reduzir usando a regra 69 (arith_expr)
+
+
+Estado 96
+
+   70 arith_expr: arith_expr . PLUS arith_expr
+   70           | arith_expr PLUS arith_expr .
+   71           | arith_expr . MINUS arith_expr
+   72           | arith_expr . TIMES arith_expr
+   73           | arith_expr . OVER arith_expr
+
+    TIMES  deslocar, e ir ao estado 74
+    OVER   deslocar, e ir ao estado 75
+
+    $padrão  reduzir usando a regra 70 (arith_expr)
+
+
+Estado 97
+
+   70 arith_expr: arith_expr . PLUS arith_expr
+   71           | arith_expr . MINUS arith_expr
+   71           | arith_expr MINUS arith_expr .
+   72           | arith_expr . TIMES arith_expr
+   73           | arith_expr . OVER arith_expr
+
+    TIMES  deslocar, e ir ao estado 74
+    OVER   deslocar, e ir ao estado 75
+
+    $padrão  reduzir usando a regra 71 (arith_expr)
+
+
+Estado 98
+
+   70 arith_expr: arith_expr . PLUS arith_expr
+   71           | arith_expr . MINUS arith_expr
+   72           | arith_expr . TIMES arith_expr
+   72           | arith_expr TIMES arith_expr .
+   73           | arith_expr . OVER arith_expr
+
+    $padrão  reduzir usando a regra 72 (arith_expr)
+
+
+Estado 99
+
+   70 arith_expr: arith_expr . PLUS arith_expr
+   71           | arith_expr . MINUS arith_expr
+   72           | arith_expr . TIMES arith_expr
+   73           | arith_expr . OVER arith_expr
+   73           | arith_expr OVER arith_expr .
+
+    $padrão  reduzir usando a regra 73 (arith_expr)
+
+
+Estado 100
+
+   44 while_stmt: WHILE LPAREN bool_expr RPAREN . block
+
+    LBRACE  deslocar, e ir ao estado 111
+
+    block  ir ao estado 119
+
+
+Estado 101
+
+   52 write_call: WRITE LPAREN STRING RPAREN .
+
+    $padrão  reduzir usando a regra 52 (write_call)
+
+
+Estado 102
+
+   37 lval: ID LBRACK $@5 NUM . RBRACK
+
+    RBRACK  deslocar, e ir ao estado 120
+
+
+Estado 103
+
+   40 lval: ID LBRACK $@6 ID . $@7 RBRACK
+
+    $padrão  reduzir usando a regra 39 ($@7)
+
+    $@7  ir ao estado 121
+
+
+Estado 104
+
+   54 user_func_call: ID $@8 LPAREN opt_arg_list . RPAREN
+
+    RPAREN  deslocar, e ir ao estado 122
+
+
+Estado 105
+
+   56 opt_arg_list: arg_list .
+   57 arg_list: arg_list . COMMA arith_expr
+
+    COMMA  deslocar, e ir ao estado 123
+
+    $padrão  reduzir usando a regra 56 (opt_arg_list)
+
+
+Estado 106
+
+   58 arg_list: arith_expr .
+   70 arith_expr: arith_expr . PLUS arith_expr
+   71           | arith_expr . MINUS arith_expr
+   72           | arith_expr . TIMES arith_expr
+   73           | arith_expr . OVER arith_expr
+
+    PLUS   deslocar, e ir ao estado 72
+    MINUS  deslocar, e ir ao estado 73
+    TIMES  deslocar, e ir ao estado 74
+    OVER   deslocar, e ir ao estado 75
+
+    $padrão  reduzir usando a regra 58 (arg_list)
+
+
+Estado 107
+
+   34 assign_stmt: lval ASSIGN arith_expr SEMI .
+
+    $padrão  reduzir usando a regra 34 (assign_stmt)
+
+
+Estado 108
+
+   20 param: INT ID $@2 . LBRACK RBRACK
+
+    LBRACK  deslocar, e ir ao estado 124
+
+
+Estado 109
+
+   16 param_list: param_list COMMA param .
+
+    $padrão  reduzir usando a regra 16 (param_list)
+
+
+Estado 110
+
+   26 var_decl: INT ID $@4 LBRACK NUM RBRACK . SEMI
+
+    SEMI  deslocar, e ir ao estado 125
+
+
+Estado 111
+
+   43 block: LBRACE . opt_stmt_list RBRACE
+
+    IF      deslocar, e ir ao estado 19
+    OUTPUT  deslocar, e ir ao estado 20
+    RETURN  deslocar, e ir ao estado 21
+    WHILE   deslocar, e ir ao estado 22
+    WRITE   deslocar, e ir ao estado 23
+    ID      deslocar, e ir ao estado 24
+
+    $padrão  reduzir usando a regra 10 (opt_stmt_list)
+
+    opt_stmt_list   ir ao estado 126
+    stmt_list       ir ao estado 26
+    stmt            ir ao estado 27
+    assign_stmt     ir ao estado 28
+    lval            ir ao estado 29
+    if_stmt         ir ao estado 30
+    while_stmt      ir ao estado 31
+    return_stmt     ir ao estado 32
+    func_call       ir ao estado 33
+    output_call     ir ao estado 34
+    write_call      ir ao estado 35
+    user_func_call  ir ao estado 36
+
+
+Estado 112
+
+   41 if_stmt: IF LPAREN bool_expr RPAREN block .
+   42        | IF LPAREN bool_expr RPAREN block . ELSE block
+
+    ELSE  deslocar, e ir ao estado 127
+
+    $padrão  reduzir usando a regra 41 (if_stmt)
+
+
+Estado 113
+
+   64 bool_expr: arith_expr LT arith_expr .
+   70 arith_expr: arith_expr . PLUS arith_expr
+   71           | arith_expr . MINUS arith_expr
+   72           | arith_expr . TIMES arith_expr
+   73           | arith_expr . OVER arith_expr
+
+    PLUS   deslocar, e ir ao estado 72
+    MINUS  deslocar, e ir ao estado 73
+    TIMES  deslocar, e ir ao estado 74
+    OVER   deslocar, e ir ao estado 75
+
+    $padrão  reduzir usando a regra 64 (bool_expr)
+
+
+Estado 114
+
+   59 bool_expr: arith_expr EQ arith_expr .
+   70 arith_expr: arith_expr . PLUS arith_expr
+   71           | arith_expr . MINUS arith_expr
+   72           | arith_expr . TIMES arith_expr
+   73           | arith_expr . OVER arith_expr
+
+    PLUS   deslocar, e ir ao estado 72
+    MINUS  deslocar, e ir ao estado 73
+    TIMES  deslocar, e ir ao estado 74
+    OVER   deslocar, e ir ao estado 75
+
+    $padrão  reduzir usando a regra 59 (bool_expr)
+
+
+Estado 115
+
+   63 bool_expr: arith_expr LE arith_expr .
+   70 arith_expr: arith_expr . PLUS arith_expr
+   71           | arith_expr . MINUS arith_expr
+   72           | arith_expr . TIMES arith_expr
+   73           | arith_expr . OVER arith_expr
+
+    PLUS   deslocar, e ir ao estado 72
+    MINUS  deslocar, e ir ao estado 73
+    TIMES  deslocar, e ir ao estado 74
+    OVER   deslocar, e ir ao estado 75
+
+    $padrão  reduzir usando a regra 63 (bool_expr)
+
+
+Estado 116
+
+   60 bool_expr: arith_expr NEQ arith_expr .
+   70 arith_expr: arith_expr . PLUS arith_expr
+   71           | arith_expr . MINUS arith_expr
+   72           | arith_expr . TIMES arith_expr
+   73           | arith_expr . OVER arith_expr
+
+    PLUS   deslocar, e ir ao estado 72
+    MINUS  deslocar, e ir ao estado 73
+    TIMES  deslocar, e ir ao estado 74
+    OVER   deslocar, e ir ao estado 75
+
+    $padrão  reduzir usando a regra 60 (bool_expr)
+
+
+Estado 117
+
+   62 bool_expr: arith_expr GT arith_expr .
+   70 arith_expr: arith_expr . PLUS arith_expr
+   71           | arith_expr . MINUS arith_expr
+   72           | arith_expr . TIMES arith_expr
+   73           | arith_expr . OVER arith_expr
+
+    PLUS   deslocar, e ir ao estado 72
+    MINUS  deslocar, e ir ao estado 73
+    TIMES  deslocar, e ir ao estado 74
+    OVER   deslocar, e ir ao estado 75
+
+    $padrão  reduzir usando a regra 62 (bool_expr)
+
+
+Estado 118
+
+   61 bool_expr: arith_expr GE arith_expr .
+   70 arith_expr: arith_expr . PLUS arith_expr
+   71           | arith_expr . MINUS arith_expr
+   72           | arith_expr . TIMES arith_expr
+   73           | arith_expr . OVER arith_expr
+
+    PLUS   deslocar, e ir ao estado 72
+    MINUS  deslocar, e ir ao estado 73
+    TIMES  deslocar, e ir ao estado 74
+    OVER   deslocar, e ir ao estado 75
+
+    $padrão  reduzir usando a regra 61 (bool_expr)
+
+
+Estado 119
+
+   44 while_stmt: WHILE LPAREN bool_expr RPAREN block .
+
+    $padrão  reduzir usando a regra 44 (while_stmt)
+
+
+Estado 120
+
+   37 lval: ID LBRACK $@5 NUM RBRACK .
+
+    $padrão  reduzir usando a regra 37 (lval)
+
+
+Estado 121
+
+   40 lval: ID LBRACK $@6 ID $@7 . RBRACK
+
+    RBRACK  deslocar, e ir ao estado 128
+
+
+Estado 122
+
+   54 user_func_call: ID $@8 LPAREN opt_arg_list RPAREN .
+
+    $padrão  reduzir usando a regra 54 (user_func_call)
+
+
+Estado 123
+
+   57 arg_list: arg_list COMMA . arith_expr
+
+    INPUT   deslocar, e ir ao estado 43
+    LPAREN  deslocar, e ir ao estado 45
+    NUM     deslocar, e ir ao estado 46
+    ID      deslocar, e ir ao estado 24
+
+    lval            ir ao estado 47
+    input_call      ir ao estado 48
+    user_func_call  ir ao estado 49
+    arith_expr      ir ao estado 129
+
+
+Estado 124
+
+   20 param: INT ID $@2 LBRACK . RBRACK
+
+    RBRACK  deslocar, e ir ao estado 130
+
+
+Estado 125
+
+   26 var_decl: INT ID $@4 LBRACK NUM RBRACK SEMI .
+
+    $padrão  reduzir usando a regra 26 (var_decl)
+
+
+Estado 126
+
+   43 block: LBRACE opt_stmt_list . RBRACE
+
+    RBRACE  deslocar, e ir ao estado 131
+
+
+Estado 127
+
+   42 if_stmt: IF LPAREN bool_expr RPAREN block ELSE . block
+
+    LBRACE  deslocar, e ir ao estado 111
+
+    block  ir ao estado 132
+
+
+Estado 128
+
+   40 lval: ID LBRACK $@6 ID $@7 RBRACK .
+
+    $padrão  reduzir usando a regra 40 (lval)
+
+
+Estado 129
+
+   57 arg_list: arg_list COMMA arith_expr .
+   70 arith_expr: arith_expr . PLUS arith_expr
+   71           | arith_expr . MINUS arith_expr
+   72           | arith_expr . TIMES arith_expr
+   73           | arith_expr . OVER arith_expr
+
+    PLUS   deslocar, e ir ao estado 72
+    MINUS  deslocar, e ir ao estado 73
+    TIMES  deslocar, e ir ao estado 74
+    OVER   deslocar, e ir ao estado 75
+
+    $padrão  reduzir usando a regra 57 (arg_list)
+
+
+Estado 130
+
+   20 param: INT ID $@2 LBRACK RBRACK .
+
+    $padrão  reduzir usando a regra 20 (param)
+
+
+Estado 131
+
+   43 block: LBRACE opt_stmt_list RBRACE .
+
+    $padrão  reduzir usando a regra 43 (block)
+
+
+Estado 132
+
+   42 if_stmt: IF LPAREN bool_expr RPAREN block ELSE block .
+
+    $padrão  reduzir usando a regra 42 (if_stmt)

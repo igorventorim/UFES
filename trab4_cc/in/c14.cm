@@ -1,0 +1,7 @@
+void main(void) {
+    int xuxa[10];
+    int maximo;
+    maximo = 9;
+    xuxa[maximo] = 14;
+    output(xuxa[maximo]);
+}
