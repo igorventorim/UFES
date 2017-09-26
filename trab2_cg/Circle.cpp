@@ -13,10 +13,20 @@ Circle::Circle(int identificador, string cor, double raio, double dX, double dY)
 {
     id = id;
     color = color;
-    radius = radius;
+    radius = raio;
     coord_x = dX;
     coord_y = dY;
 }
+
+Circle::Circle(int identificador,double raio ,double r,double g,double b)
+{
+    id = id;
+    radius = raio;
+    r_color = r;
+    g_color = g;
+    b_color = b;
+}                
+
 
 void Circle::setRadius(double r)
 {
@@ -62,4 +72,19 @@ double Circle::getCoord_y()
 string Circle::getColor()
 {
     return color;
+}
+
+double Circle::getRColor(void)
+{
+    return r_color;
+}
+
+double Circle::getGColor(void)
+{
+    return g_color;
+}
+
+double Circle::getBColor(void)
+{
+    return b_color;
 }
