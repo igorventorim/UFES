@@ -1,6 +1,13 @@
+#ifndef _SCANNER_H_
+#define _SCANNER_H_
+
 #include "tinyxml2.h"
 #include "Circle.h"
 #include "Window.h"
+#include <string>
+
+using namespace std;
+using namespace tinyxml2;
 
 class Scanner
 {
@@ -12,3 +19,5 @@ class Scanner
         string readTitle(string);
         Window readWindow(string);
 };
+
+#endif

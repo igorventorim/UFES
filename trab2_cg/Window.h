@@ -1,11 +1,15 @@
+#ifndef _WINDOW_H_
+#define _WINDOW_H_
 #include <string>
+
+using namespace std;
 
 class Window
 {
     private:
         int width,height;
         string background_color;
-        double r_color,g_color,b_color;        
+        double r_color,g_color,b_color;
     public:
         Window(int,int,string);
         Window(int,int,double,double,double);
@@ -19,3 +23,4 @@ class Window
         string getBackgroundColor(void);
 
 };
+#endif

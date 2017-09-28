@@ -1,5 +1,7 @@
 #include "Scanner.h"
 #include <iostream>
+#include <string>
+
 
 using namespace std;
 using namespace tinyxml2;
@@ -16,17 +18,17 @@ Circle Scanner::readCircle(string file)
 	{
         XMLElement* circulo = doc.FirstChildElement("aplicacao")->FirstChildElement("circulo");
 		circulo->QueryIntAttribute("raio",&radius);
-		circulo->QueryValueAttribute("corR",&r_color);
-		circulo->QueryValueAttribute("corG",&g_color);
-        circulo->QueryValueAttribute("corB",&b_color);
+		circulo->QueryDoubleAttribute("corR",&r_color);
+		circulo->QueryDoubleAttribute("corG",&g_color);
+        circulo->QueryDoubleAttribute("corB",&b_color);
         // string color = "#"+std::to_string(r_color)+"#"+std::to_string(g_color)+"#"+std::to_string(b_color);
         Circle circle(0,radius,r_color,g_color,b_color);
         return circle;
-    }else
+  }else
 	{
 		cout << "Erro ao abrir o arquivo XML "<< file << "\n";
 	}
-    
+
 }
 
 string Scanner::readTitle(string file)
@@ -56,16 +58,18 @@ Window Scanner::readWindow(string file)
         XMLElement* janela = doc.FirstChildElement("aplicacao")->FirstChildElement("janela");
 		janela->FirstChildElement( "largura" )->QueryIntText( &width );
 		janela->FirstChildElement( "altura" )->QueryIntText( &height );
-		janela->FirstChildElement("fundo")->QueryValueAttribute("corR",&r_color);
-		janela->FirstChildElement("fundo")->QueryValueAttribute("corG",&g_color);
-        janela->FirstChildElement("fundo")->QueryValueAttribute("corB",&b_color);
-        
+		janela->FirstChildElement("fundo")->QueryDoubleAttribute("corR",&r_color);
+		janela->FirstChildElement("fundo")->QueryDoubleAttribute("corG",&g_color);
+        janela->FirstChildElement("fundo")->QueryDoubleAttribute("corB",&b_color);
+
         // string color = "#"+std::to_string(r_color)+"#"+std::to_string(g_color)+"#"+std::to_string(b_color);
         Window window(width,height,r_color,g_color,b_color);
         return window;
-    }else
+  }else
 	{
         cout << "Erro ao abrir o arquivo XML "<< file << "\n";
-        return NULL;
+        exit(1);
 	}
+
+
 }

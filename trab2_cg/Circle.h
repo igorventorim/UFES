@@ -1,5 +1,7 @@
+#ifndef _CIRCLE_H_
+#define _CIRCLE_H_
 #include <string>
-
+using namespace std;
 class Circle
 {
     private:
@@ -11,7 +13,7 @@ class Circle
     public:
         Circle(int,string,double);
         Circle(int,string,double,double,double);
-        Circle(int,double,double,double,double);                
+        Circle(int,double,double,double,double);
         void setRadius(double);
         void setColor(double);
         void setCoord_x(double);
@@ -24,5 +26,6 @@ class Circle
         double getRColor(void);
         double getGColor(void);
         double getBColor(void);
-        
+
 };
+#endif

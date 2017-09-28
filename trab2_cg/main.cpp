@@ -1,17 +1,20 @@
 #include <GL/glut.h>
 #include "Circle.h"
+#include "Window.h"
 #include "Scanner.h"
+#include <string>
+#include <iostream>
 
 using namespace std;
 
-Circle circle;
-Window window;
+Circle *circle;
+Window *window;
 
 void display(void)
 {
     /* Limpar todos os pixels  */
     glClear (GL_COLOR_BUFFER_BIT);
-    
+
     /*Não esperar*/
     glutSwapBuffers();
 }
@@ -23,7 +26,7 @@ void display(void)
 
 void init(void)
 {
-	glClearColor(window.getRColor(),window.getGColor(),window.getBColor(),1.0);
+	  glClearColor(window->getRColor(),window->getGColor(),window->getBColor(),1.0);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glOrtho(0.0,1.0,0.0,1.0,-1.0,0.0);
@@ -47,21 +50,21 @@ void idle(void)
 
 int main(int argc, char **argv)
 {
-    string path;
-    Scanner scanner;
+  string path;
+  Scanner scanner;
 	if(argc == 1)
 	{
 		path = std::string(argv[1])+"config.xml";
-	}else{ 
+	}else{
         cout << "Parâmetros inválidos!!!\n" << "Exemplo: ./trabalhocg /Test1/\n";
-        exit(1);  
+        exit(1);
     }
-    circle = scanner.readCircle(path);
-    string title = scanner.readTitle(path);
-    window = scanner.readWindow(path);
-    glutInit(&argc,argv);
+  circle = scanner.readCircle(path);
+  string title = scanner.readTitle(path);
+  window = scanner.readWindow(path);
+  glutInit(&argc,argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
-	glutInitWindowSize(width,height);
+	glutInitWindowSize(window->getWidth(),window->getHeight());
 	glutInitWindowPosition(0,0);
 	glutCreateWindow(title.data());
 	init();
@@ -72,5 +75,3 @@ int main(int argc, char **argv)
 	glutMainLoop();
 	return 0;
 }
-
-
