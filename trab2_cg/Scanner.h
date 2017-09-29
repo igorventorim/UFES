@@ -15,9 +15,9 @@ class Scanner
         XMLDocument doc;
     public:
         Scanner();
-        Circle readCircle(string);
+        Circle* readCircle(string);
         string readTitle(string);
-        Window readWindow(string);
+        Window* readWindow(string);
 };
 
 #endif

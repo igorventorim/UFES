@@ -7,6 +7,7 @@ Circle::Circle(int identificador, string cor, double raio)
     id = id;
     color = color;
     radius = radius;
+    drawn = false;
 }
 
 Circle::Circle(int identificador, string cor, double raio, double dX, double dY)
@@ -16,6 +17,7 @@ Circle::Circle(int identificador, string cor, double raio, double dX, double dY)
     radius = raio;
     coord_x = dX;
     coord_y = dY;
+    drawn = false;
 }
 
 Circle::Circle(int identificador,double raio ,double r,double g,double b)
@@ -25,8 +27,8 @@ Circle::Circle(int identificador,double raio ,double r,double g,double b)
     r_color = r;
     g_color = g;
     b_color = b;
-}                
-
+    drawn = false;
+}
 
 void Circle::setRadius(double r)
 {
@@ -87,4 +89,14 @@ double Circle::getGColor(void)
 double Circle::getBColor(void)
 {
     return b_color;
+}
+
+bool Circle::isDrawn(void)
+{
+  return drawn;
+}
+
+void Circle::setDrawn(bool draw)
+{
+  drawn = draw;
 }

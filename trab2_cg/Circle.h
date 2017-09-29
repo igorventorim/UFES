@@ -9,6 +9,7 @@ class Circle
         string color;
         double radius,coord_x,coord_y;
         double r_color,g_color,b_color;
+        bool drawn;
 
     public:
         Circle(int,string,double);
@@ -26,6 +27,8 @@ class Circle
         double getRColor(void);
         double getGColor(void);
         double getBColor(void);
+        bool isDrawn(void);
+        void setDrawn(bool);
 
 };
 #endif
