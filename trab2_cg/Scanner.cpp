@@ -13,7 +13,7 @@ Circle* Scanner::readCircle(string file)
     int radius;
     double r_color,g_color,b_color;
     doc.LoadFile(file.data());
-    cout <<  file << "\n";
+    // cout <<  file << "\n";
   	if(!doc.ErrorID())
   	{
           XMLElement* circulo = doc.FirstChildElement("aplicacao")->FirstChildElement("circulo");

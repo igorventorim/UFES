@@ -1,4 +1,7 @@
 #include "Circle.h"
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <cmath>
 
 using namespace std;
 
@@ -99,4 +102,50 @@ bool Circle::isDrawn(void)
 void Circle::setDrawn(bool draw)
 {
   drawn = draw;
+}
+
+void Circle::drawCircle(void)
+{
+  /* Limpar todos os pixels  */
+  glClear (GL_COLOR_BUFFER_BIT);
+
+  float x2,y2;
+  float angle;
+  /*double radius=0.2;*/
+  glColor3f(getRColor(),getGColor(),getBColor());
+
+  glBegin(GL_TRIANGLE_FAN);
+  glVertex2f(getCoord_x(),getCoord_y());
+
+  for (angle=0.0f;angle<360.0f;angle+=0.1)
+  {
+      x2 = getCoord_x()+sin(angle)*getRadius();
+      y2 = getCoord_y()+cos(angle)*getRadius();
+      glVertex2f(x2,y2);
+  }
+  glEnd();
+
+//   /*Não esperar*/
+//   glutSwapBuffers();
+//   setDrawn(true);
+}
+
+double Circle::distance2Center(double x,double y)
+{
+    return sqrt(pow(coord_x-x,2)+pow(coord_y-y,2));
+}
+
+bool Circle::pointInCircle(double x, double y)
+{
+    return distance2Center(x,y) < getRadius();
+}
+
+void Circle::setUpdate(bool status)
+{
+    update = status;
+}
+
+bool Circle::getUpdate(void)
+{
+    return update;
 }

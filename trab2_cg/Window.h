@@ -10,6 +10,7 @@ class Window
         int width,height;
         string background_color;
         double r_color,g_color,b_color;
+        bool btn_right, btn_left;
     public:
         Window(int,int,string);
         Window(int,int,double,double,double);
@@ -21,6 +22,11 @@ class Window
         double getGColor(void);
         double getBColor(void);
         string getBackgroundColor(void);
+        bool getClickedBtnRight(void);
+        bool getClickedBtnLeft(void);
+        bool setClickedBtnRight(bool);
+        bool setClickedBtnLeft(bool);
+        bool isPointInWindow(double, double);
 
 };
 #endif

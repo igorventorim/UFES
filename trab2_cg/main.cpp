@@ -5,9 +5,11 @@
 #include <string>
 #include <iostream>
 #include <cmath>
+#define CIRCLE_MINIMUM_SIZE 10
+#define distance_points(x1,x2,y1,y2) sqrt(pow(x1-x2,2)+pow(y1-y2,2))
 
 using namespace std;
-void drawCircle();
+
 Circle *circle;
 Window *window;
 
@@ -18,36 +20,10 @@ void display(void)
 
     if(circle->isDrawn())
     {
-        drawCircle();
+        circle->drawCircle();
     }
-
     /*Não esperar*/
     glutSwapBuffers();
-}
-
-void drawCircle()
-{
-  /* Limpar todos os pixels  */
-  glClear (GL_COLOR_BUFFER_BIT);
-
-  float x2,y2;
-  float angle;
-  /*double radius=0.2;*/
-  glColor3f(circle->getRColor(),circle->getGColor(),circle->getBColor());
-
-  glBegin(GL_TRIANGLE_FAN);
-  glVertex2f(circle->getCoord_x(),circle->getCoord_y());
-
-  for (angle=0.0f;angle<360.0f;angle+=0.1)
-  {
-      x2 = circle->getCoord_x()+sin(angle)*circle->getRadius();
-      y2 = circle->getCoord_y()+cos(angle)*circle->getRadius();
-      glVertex2f(x2,y2);
-  }
-  glEnd();
-
-  /*Não esperar*/
-  glutSwapBuffers();
 }
 
 void init(void)
@@ -55,15 +31,15 @@ void init(void)
 	  glClearColor(window->getRColor(),window->getGColor(),window->getBColor(),1.0);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(0.0,1.0,0.0,1.0,-1.0,0.0);
+    glOrtho(0.0,window->getWidth(),0.0,window->getHeight(),-1.0,0.0);
 }
 
 void mouse(int button, int state, int x, int y)
 {
 
   y = window->getHeight() - y;
-  float position_x = (float)x/window->getWidth();
-  float position_y = (float)y/window->getHeight();
+  float position_x = (float)x;///window->getWidth();
+  float position_y = (float)y;///windstateow->getHeight();
   if(button == GLUT_LEFT_BUTTON && state )
   {
 
@@ -72,20 +48,35 @@ void mouse(int button, int state, int x, int y)
       circle->setDrawn(true);
       circle->setCenter(position_x,position_y);
     }
-    // button_right = 0;
+    // window->setClickedBtnRight(false);
 
-  }//else
-    // if(button == GLUT_RIGHT_BUTTON)
-    // {
-    //   button_right = !state;
-    //   in = distance_points(position_x,d_x,position_y,d_y) < radius;
-    // }
+  }else
+    if(button == GLUT_RIGHT_BUTTON)
+    {
+      window->setClickedBtnRight(!state);
+      circle->setUpdate(circle->pointInCircle(x,y));
+    }
 
 }
 
 void mouseMotion(int x, int y)
 {
+  y = window->getHeight() - y;
 
+	if(window->getClickedBtnRight() && circle->getUpdate())
+	{
+		if(circle->distance2Center(x,y) > CIRCLE_MINIMUM_SIZE && window->isPointInWindow(x,y))
+		{
+      circle->setRadius(circle->distance2Center(x,y));
+		}
+	}
+	else
+	if(circle->pointInCircle(x,y) && window->getClickedBtnRight() == false && window->isPointInWindow(x,y))
+	{
+        circle->setCenter(x,y);
+	}
+
+	glutPostRedisplay();
 }
 
 void idle(void)
@@ -112,7 +103,7 @@ int main(int argc, char **argv)
   window = scanner.readWindow(path);
   glutInit(&argc,argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
-	glutInitWindowSize(window->getWidth(),window->getHeight());
+  glutInitWindowSize(window->getWidth(),window->getHeight());
 	glutInitWindowPosition(0,0);
 	glutCreateWindow(title.data());
 	init();
