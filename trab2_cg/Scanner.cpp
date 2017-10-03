@@ -96,7 +96,7 @@ list<Circle*> Scanner::readArenaSVG(string file)
             // Circle* circle = new Circle(id,color,radius,cx,cy);
             Circle* circle = new Circle(id,color,radius,cx,cy);
             // Circle *circle = new Circle(0,radius,1.0,1.0,1.0);
-            
+
             list.push_back(circle);
         }
         return list;

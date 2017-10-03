@@ -113,7 +113,7 @@ void Circle::setDrawn(bool draw)
 void Circle::drawCircle(void)
 {
   /* Limpar todos os pixels  */
-  glClear (GL_COLOR_BUFFER_BIT);
+  // glClear (GL_COLOR_BUFFER_BIT);
 
   float x2,y2;
   float angle;
@@ -174,7 +174,7 @@ void Circle::colornameToRGB(string colorname)
         r_color = 0.0;
         g_color = 0.0;
         b_color = 1.0;
-    }else if(colorname == "white") 
+    }else if(colorname == "white")
     {
         r_color = 1.0;
         g_color = 1.0;

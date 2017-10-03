@@ -25,17 +25,20 @@ void display(void)
     // {
     //     circle->drawCircle();
     // }
-
+    if(!flag){
     for (std::list<Circle*>::iterator circle=arena.begin(); circle != arena.end(); ++circle)
     {
         (*circle)->drawCircle();
         // cout<<(*circle)->getCoord_x()<<","<<(*circle)->getCoord_y()<<"\n";
         // cout << (*circle)->getRColor() << (*circle)->getGColor()<<(*circle)->getBColor() <<" - "<< (*circle)->getColor()<<"\n" ;
+
+        // glutSwapBuffers();
     }
-    // flag = 1;
-  
-    /*Não esperar*/
     glutSwapBuffers();
+    flag = 1;
+    }
+    /*Não esperar*/
+
 }
 
 void init(void)
@@ -43,12 +46,15 @@ void init(void)
 	  glClearColor(window->getRColor(),window->getGColor(),window->getBColor(),1.0);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(0.0,window->getWidth(),0.0,window->getHeight(),0.0,1.0);
+    glOrtho(200.00,200.00+window->getWidth(),200.00,200.00+window->getHeight(),0.0,1.0);
 }
 
 void mouse(int button, int state, int x, int y)
 {
-
+  if(button == GLUT_LEFT_BUTTON && state )
+  {
+    cout << x << ":" << y << "\n";
+  }
   // y = window->getHeight() - y;
   // // float position_x = (double)x;///window->getWidth();
   // // float position_y = (double)y;///windstateow->getHeight();
@@ -93,7 +99,7 @@ void mouseMotion(int x, int y)
 
 void idle(void)
 {
-	glutPostRedisplay();
+	//glutPostRedisplay();
 }
 
 
