@@ -25,16 +25,15 @@ void display(void)
     // {
     //     circle->drawCircle();
     // }
-    if(!flag)
-    { 
-      for (std::list<Circle*>::iterator circle=arena.begin(); circle != arena.end(); ++circle)
-      {
-          (*circle)->drawCircle();
-          cout<<(*circle)->getCoord_x()<<","<<(*circle)->getCoord_y()<<"\n";
-          cout << (*circle)->getRColor() << (*circle)->getGColor()<<(*circle)->getBColor() <<" - "<< (*circle)->getColor()<<"\n" ;
-      }
-      flag = 1;
+
+    for (std::list<Circle*>::iterator circle=arena.begin(); circle != arena.end(); ++circle)
+    {
+        (*circle)->drawCircle();
+        // cout<<(*circle)->getCoord_x()<<","<<(*circle)->getCoord_y()<<"\n";
+        // cout << (*circle)->getRColor() << (*circle)->getGColor()<<(*circle)->getBColor() <<" - "<< (*circle)->getColor()<<"\n" ;
     }
+    // flag = 1;
+  
     /*Não esperar*/
     glutSwapBuffers();
 }
@@ -112,9 +111,9 @@ int main(int argc, char **argv)
     }
   string pathSVG = scanner.readConfigXML(path);
   arena = scanner.readArenaSVG(pathSVG);
-  cout << arena.size() <<"\n\n";
+  cout << "Elements in stadium: "<< arena.size() <<"\n\n";
   window = scanner.buildWindowArena(arena);
-  cout << window->getWidth() << "x" << window->getHeight()<<"\n";
+  cout << "Size window: "<<window->getWidth() << "x" << window->getHeight()<<"\n";
   // circle = scanner.readCircle(path);
   // string title = scanner.readTitle(path);
   // window = scanner.readWindow(path);
