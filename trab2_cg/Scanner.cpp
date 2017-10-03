@@ -1,6 +1,7 @@
 #include "Scanner.h"
 #include <iostream>
 #include <string>
+#include <list>
 
 
 using namespace std;
@@ -74,8 +75,9 @@ Window* Scanner::readWindow(string file)
 
 }
 
-void Scanner::readArenaSVG(string file)
+list<Circle*> Scanner::readArenaSVG(string file)
 {
+    std::list<Circle*> list;
     double cx,cy,radius;
     int id;
     string color;
@@ -90,14 +92,20 @@ void Scanner::readArenaSVG(string file)
             circle->QueryDoubleAttribute("cy",&cy);
             circle->QueryIntAttribute("id",&id);
             color = circle->Attribute("fill");
-            cout << "cx:" << cx <<"\ncy:"<< cy<<"\nradius:"<<radius<<"\nid:"<<id<<"\n\n";
+            // cout << "cx:" << cx <<"\ncy:"<< cy<<"\nradius:"<<radius<<"\ncolor:"<< color <<"\nid:"<<id<<"\n\n";
+            // Circle* circle = new Circle(id,color,radius,cx,cy);
+            Circle* circle = new Circle(id,color,radius,cx,cy);
+            // Circle *circle = new Circle(0,radius,1.0,1.0,1.0);
+            
+            list.push_back(circle);
         }
-
+        return list;
   }else
     {
         cout << "Erro ao abrir o arquivo XML "<< file << "\n";
         exit(1);
     }
+
 }
 
 string Scanner::readConfigXML(string file)
@@ -118,4 +126,18 @@ string Scanner::readConfigXML(string file)
         exit(1);
     }
 
+}
+
+Window* Scanner::buildWindowArena(list<Circle*> mylist)
+{
+    Window* window;
+    for (std::list<Circle*>::iterator it=mylist.begin(); it != mylist.end(); ++it)
+    {
+        if((*it)->getId() == 1)
+        {
+            window = new Window("Arena",(*it)->getRadius()*2,(*it)->getRadius()*2,1.0,1.0,1.0);
+        }
+    }
+
+    return window;
 }

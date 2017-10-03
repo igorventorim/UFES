@@ -5,6 +5,7 @@
 #include "Circle.h"
 #include "Window.h"
 #include <string>
+#include <list>
 
 using namespace std;
 using namespace tinyxml2;
@@ -19,7 +20,8 @@ class Scanner
         string readTitle(string);
         Window* readWindow(string);
         string readConfigXML(string);
-        void readArenaSVG(string file);
+        list<Circle*> readArenaSVG(string file);
+        Window* buildWindowArena(list<Circle*>);
 };
 
 #endif

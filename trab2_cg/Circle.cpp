@@ -8,27 +8,29 @@ using namespace std;
 
 Circle::Circle(int identificador, string cor, double raio)
 {
-    id = id;
-    color = color;
+    id = identificador;
+    color = cor;
     radius = radius;
     drawn = false;
     center = Point();
+    colornameToRGB(color);
 }
 
 Circle::Circle(int identificador, string cor, double raio, double dX, double dY)
 {
-    id = id;
-    color = color;
+    id = identificador;
+    color = cor;
     radius = raio;
     // coord_x = dX;
     // coord_y = dY;
     drawn = false;
     center = Point(dX,dY);
+    colornameToRGB(color);
 }
 
 Circle::Circle(int identificador,double raio ,double r,double g,double b)
 {
-    id = id;
+    id = identificador;
     radius = raio;
     r_color = r;
     g_color = g;
@@ -68,15 +70,15 @@ double Circle::getRadius()
     return radius;
 }
 
-// double Circle::getCoord_x()
-// {
-//     return coord_x;
-// }
+double Circle::getCoord_x()
+{
+    return center.getX();
+}
 
-// double Circle::getCoord_y()
-// {
-//     return coord_y;
-// }
+double Circle::getCoord_y()
+{
+    return center.getY();
+}
 
 string Circle::getColor()
 {
@@ -153,4 +155,43 @@ void Circle::setUpdate(bool status)
 bool Circle::getUpdate(void)
 {
     return update;
+}
+
+int Circle::getId(void)
+{
+    return id;
+}
+
+void Circle::colornameToRGB(string colorname)
+{
+   if (colorname == "red")
+   {
+            r_color = 1.0;
+            g_color = 0.0;
+            b_color = 0.0;
+    }else if(colorname == "blue")
+    {
+        r_color = 0.0;
+        g_color = 0.0;
+        b_color = 1.0;
+    }else if(colorname == "white") 
+    {
+        r_color = 1.0;
+        g_color = 1.0;
+        b_color = 1.0;
+    }else if(colorname == "black")
+    {
+        r_color = 0.0;
+        g_color = 0.0;
+        b_color = 0.0;
+    }else if(colorname  == "green")
+    {
+        r_color = 0.0;
+        g_color = 1.0;
+        b_color = 0.0;
+    }else{
+        r_color = 1.0;
+        g_color = 1.0;
+        b_color = 1.0;
+    }
 }

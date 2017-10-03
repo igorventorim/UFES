@@ -21,6 +21,28 @@ Window::Window(int w,int h,double r,double g, double b)
     btn_right = false; 
 }
 
+Window::Window(string t,int w,int h,string c)
+{
+    title = t;
+    width = w;
+    height = h;
+    background_color = c;
+    btn_left = false;
+    btn_right = false;
+}
+
+Window::Window(string t,int w,int h,double r,double g, double b)
+{
+    title = t;
+    width = w;
+    height = h;
+    r_color = r;
+    g_color = g;
+    b_color = b;
+    btn_left = false;
+    btn_right = false; 
+}
+
 
 void Window::setWidth(int w)
 {
@@ -87,3 +109,12 @@ bool Window::isPointInWindow(double x, double y)
     return (x < getWidth() && y < getHeight() && x > 0 && y > 0);
 }
 
+string Window::getTitle(void)
+{
+    return title;
+}
+
+void Window::setTitle(string t)
+{
+    title = t;
+}

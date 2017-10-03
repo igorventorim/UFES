@@ -12,7 +12,7 @@ class Circle
         double r_color,g_color,b_color;
         bool drawn, update;
         Point center;
-
+        void colornameToRGB(string colorname);
     public:
         Circle(int,string,double);
         Circle(int,string,double,double,double);
@@ -23,8 +23,8 @@ class Circle
         // void setCoord_y(double);
         void setCenter(double,double);
         double getRadius(void);
-        // double getCoord_x(void);
-        // double getCoord_y(void);
+        double getCoord_x(void);
+        double getCoord_y(void);
         string getColor(void);
         double getRColor(void);
         double getGColor(void);
@@ -36,6 +36,7 @@ class Circle
         bool pointInCircle(double, double);
         void setUpdate(bool);
         bool getUpdate(void);
+        int getId(void);
         Point getCenter(void);
 
 };
