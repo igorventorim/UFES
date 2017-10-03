@@ -2,6 +2,7 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <cmath>
+#include "Point.h"
 
 using namespace std;
 
@@ -11,6 +12,7 @@ Circle::Circle(int identificador, string cor, double raio)
     color = color;
     radius = radius;
     drawn = false;
+    center = Point();
 }
 
 Circle::Circle(int identificador, string cor, double raio, double dX, double dY)
@@ -18,9 +20,10 @@ Circle::Circle(int identificador, string cor, double raio, double dX, double dY)
     id = id;
     color = color;
     radius = raio;
-    coord_x = dX;
-    coord_y = dY;
+    // coord_x = dX;
+    // coord_y = dY;
     drawn = false;
+    center = Point(dX,dY);
 }
 
 Circle::Circle(int identificador,double raio ,double r,double g,double b)
@@ -43,20 +46,21 @@ void Circle::setColor(double c)
     color = c;
 }
 
-void Circle::setCoord_x(double x)
-{
-    coord_x = x;
-}
+// void Circle::setCoord_x(double x)
+// {
+//     coord_x = x;
+// }
 
-void Circle::setCoord_y(double y)
-{
-    coord_y = y;
-}
+// void Circle::setCoord_y(double y)
+// {
+//     coord_y = y;
+// }
 
 void Circle::setCenter(double x,double y)
 {
-    coord_x = x;
-    coord_y = y;
+    // coord_x = x;
+    // coord_y = y;
+    center.setPoint2D(x,y);
 }
 
 double Circle::getRadius()
@@ -64,15 +68,15 @@ double Circle::getRadius()
     return radius;
 }
 
-double Circle::getCoord_x()
-{
-    return coord_x;
-}
+// double Circle::getCoord_x()
+// {
+//     return coord_x;
+// }
 
-double Circle::getCoord_y()
-{
-    return coord_y;
-}
+// double Circle::getCoord_y()
+// {
+//     return coord_y;
+// }
 
 string Circle::getColor()
 {
@@ -115,12 +119,12 @@ void Circle::drawCircle(void)
   glColor3f(getRColor(),getGColor(),getBColor());
 
   glBegin(GL_TRIANGLE_FAN);
-  glVertex2f(getCoord_x(),getCoord_y());
+  glVertex2f(center.getX(),center.getY());
 
   for (angle=0.0f;angle<360.0f;angle+=0.1)
   {
-      x2 = getCoord_x()+sin(angle)*getRadius();
-      y2 = getCoord_y()+cos(angle)*getRadius();
+      x2 = center.getX()+sin(angle)*getRadius();
+      y2 = center.getY()+cos(angle)*getRadius();
       glVertex2f(x2,y2);
   }
   glEnd();
@@ -132,7 +136,8 @@ void Circle::drawCircle(void)
 
 double Circle::distance2Center(double x,double y)
 {
-    return sqrt(pow(coord_x-x,2)+pow(coord_y-y,2));
+    // return sqrt(pow(coord_x-x,2)+pow(coord_y-y,2));
+    return center.distance2D(x,y);
 }
 
 bool Circle::pointInCircle(double x, double y)

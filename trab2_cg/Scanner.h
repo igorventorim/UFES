@@ -18,6 +18,8 @@ class Scanner
         Circle* readCircle(string);
         string readTitle(string);
         Window* readWindow(string);
+        string readConfigXML(string);
+        void readArenaSVG(string file);
 };
 
 #endif

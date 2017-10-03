@@ -73,3 +73,49 @@ Window* Scanner::readWindow(string file)
 
 
 }
+
+void Scanner::readArenaSVG(string file)
+{
+    double cx,cy,radius;
+    int id;
+    string color;
+    doc.LoadFile(file.data());
+    if(!doc.ErrorID())
+    {
+        XMLElement* circle = doc.FirstChildElement("svg");
+        for( circle = circle->FirstChildElement("circle"); circle != NULL; circle = circle->NextSiblingElement("circle"))
+        {
+            circle->QueryDoubleAttribute("r",&radius);
+            circle->QueryDoubleAttribute("cx",&cx);
+            circle->QueryDoubleAttribute("cy",&cy);
+            circle->QueryIntAttribute("id",&id);
+            color = circle->Attribute("fill");
+            cout << "cx:" << cx <<"\ncy:"<< cy<<"\nradius:"<<radius<<"\nid:"<<id<<"\n\n";
+        }
+
+  }else
+    {
+        cout << "Erro ao abrir o arquivo XML "<< file << "\n";
+        exit(1);
+    }
+}
+
+string Scanner::readConfigXML(string file)
+{
+    string name, type, path;
+    doc.LoadFile(file.data());
+    if(!doc.ErrorID())
+    {
+        XMLElement* arena = doc.FirstChildElement("aplicacao")->FirstChildElement("arquivoDaArena");
+        name = arena->Attribute("nome");
+        type = arena->Attribute("tipo");
+        path = arena->Attribute("caminho");
+
+        return path + name +"."+type;
+  }else
+    {
+        cout << "Erro ao abrir o arquivo XML "<< file << "\n";
+        exit(1);
+    }
+
+}
