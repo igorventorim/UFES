@@ -11,34 +11,36 @@
 
 using namespace std;
 
-Circle *circle;
+Circle *person;
 Window *window;
 list<Circle*> arena;
+int key_status[256];
 int flag=0;
 
 void display(void)
 {
     /* Limpar todos os pixels  */
-    glClear (GL_COLOR_BUFFER_BIT);
+    // glClear (GL_COLOR_BUFFER_BIT);
 
-    // if(circle->isDrawn())
-    // {
-    //     circle->drawCircle();
-    // }
-    if(!flag){
-    for (std::list<Circle*>::iterator circle=arena.begin(); circle != arena.end(); ++circle)
+    if(!flag)
     {
-        (*circle)->drawCircle();
-        // cout<<(*circle)->getCoord_x()<<","<<(*circle)->getCoord_y()<<"\n";
-        // cout << (*circle)->getRColor() << (*circle)->getGColor()<<(*circle)->getBColor() <<" - "<< (*circle)->getColor()<<"\n" ;
+      glClear (GL_COLOR_BUFFER_BIT);
+      for (std::list<Circle*>::iterator circle=arena.begin(); circle != arena.end(); ++circle)
+      {
+          (*circle)->drawCircle();
+          if((*circle)->getColor() == "green")
+          {
+            person = *circle;
+          }
+          // cout<<(*circle)->getCoord_x()<<","<<(*circle)->getCoord_y()<<"\n";
+          // cout << (*circle)->getRColor() << (*circle)->getGColor()<<(*circle)->getBColor() <<" - "<< (*circle)->getColor()<<"\n" ;
 
-        // glutSwapBuffers();
+      }
+      flag = 1;
     }
-    glutSwapBuffers();
-    flag = 1;
-    }
+    person->drawCircle();
     /*Não esperar*/
-
+    glutSwapBuffers();
 }
 
 void init(void)
@@ -46,63 +48,62 @@ void init(void)
 	  glClearColor(window->getRColor(),window->getGColor(),window->getBColor(),1.0);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(200.00,200.00+window->getWidth(),200.00,200.00+window->getHeight(),0.0,1.0);
+    glOrtho(200.00,200.00+window->getWidth(),-200.00,window->getHeight()-200.00,0.0,1.0);
 }
 
 void mouse(int button, int state, int x, int y)
 {
-  if(button == GLUT_LEFT_BUTTON && state )
-  {
-    cout << x << ":" << y << "\n";
-  }
-  // y = window->getHeight() - y;
-  // // float position_x = (double)x;///window->getWidth();
-  // // float position_y = (double)y;///windstateow->getHeight();
-  // if(button == GLUT_LEFT_BUTTON && state )
-  // {
-
-  //   if(!circle->isDrawn())
-  //   {
-  //     circle->setDrawn(true);
-  //     circle->setCenter((double)x,(double)y);
-  //   }
-  //   // window->setClickedBtnRight(false);
-
-  // }else
-  //   if(button == GLUT_RIGHT_BUTTON)
-  //   {
-  //     window->setClickedBtnRight(!state);
-  //     circle->setUpdate(circle->pointInCircle(x,y));
-  //   }
 
 }
 
 void mouseMotion(int x, int y)
 {
-  // y = window->getHeight() - y;
 
-	// if(window->getClickedBtnRight() && circle->getUpdate())
-	// {
-	// 	if(circle->distance2Center(x,y) > CIRCLE_MINIMUM_SIZE && window->isPointInWindow(x,y))
-	// 	{
-  //     circle->setRadius(circle->distance2Center(x,y));
-	// 	}
-	// }
-	// else
-	// if(circle->pointInCircle(x,y) && window->getClickedBtnRight() == false && window->isPointInWindow(x,y))
-	// {
-  //       circle->setCenter(x,y);
-	// }
+}
 
-	// glutPostRedisplay();
+void keyPress(unsigned char key, int x, int y)
+{
+	key_status[tolower(key)] = 1;
+}
+
+void keyboad_free(unsigned char key,int x, int y)
+{
+	key_status[tolower(key)] = 0;
 }
 
 void idle(void)
 {
-	//glutPostRedisplay();
+	 if (key_status['d'] || key_status['D'])
+	 {
+		//  d_x+=0.01;
+    person->setCoord_x(person->getCoord_x()+1);
+    cout << "d"<<"\n";
+	 }
+
+	 if( key_status['s'] ||  key_status['S'])
+	 {
+		//  d_y-=0.01;
+    person->setCoord_y(person->getCoord_y()-1);
+    cout << "s"<<"\n";
+	 }
+
+	 if( key_status['a'] ||  key_status['A'] )
+	 {
+		//  d_x-=0.01;
+    person->setCoord_x(person->getCoord_x()-1);
+    cout << "A"<<"\n";
+	 }
+
+	 if( key_status['w'] || key_status['W'])
+	 {
+		//  d_y+=0.01;
+    person->setCoord_y(person->getCoord_y()+1);
+      cout << "W"<<"\n";
+	 }
+
+	 glutPostRedisplay();
+
 }
-
-
 int main(int argc, char **argv)
 {
   string path;
@@ -130,6 +131,8 @@ int main(int argc, char **argv)
 	glutCreateWindow(window->getTitle().data());
 	init();
 	glutDisplayFunc(display);
+  glutKeyboardFunc(keyPress);
+	glutKeyboardUpFunc(keyboad_free);
 	glutMouseFunc(mouse);
 	glutIdleFunc(idle);
 	glutMotionFunc(mouseMotion);

@@ -94,7 +94,7 @@ list<Circle*> Scanner::readArenaSVG(string file)
             color = circle->Attribute("fill");
             // cout << "cx:" << cx <<"\ncy:"<< cy<<"\nradius:"<<radius<<"\ncolor:"<< color <<"\nid:"<<id<<"\n\n";
             // Circle* circle = new Circle(id,color,radius,cx,cy);
-            Circle* circle = new Circle(id,color,radius,cx,cy);
+            Circle* circle = new Circle(id,color,radius,cx,600-cy);
             // Circle *circle = new Circle(0,radius,1.0,1.0,1.0);
 
             list.push_back(circle);

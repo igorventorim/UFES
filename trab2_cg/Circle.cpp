@@ -48,15 +48,15 @@ void Circle::setColor(double c)
     color = c;
 }
 
-// void Circle::setCoord_x(double x)
-// {
-//     coord_x = x;
-// }
+void Circle::setCoord_x(double x)
+{
+    center.setX(x);
+}
 
-// void Circle::setCoord_y(double y)
-// {
-//     coord_y = y;
-// }
+void Circle::setCoord_y(double y)
+{
+    center.setY(y);
+}
 
 void Circle::setCenter(double x,double y)
 {
