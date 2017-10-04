@@ -58,12 +58,12 @@ void Circle::setCoord_y(double y)
     center.setY(y);
 }
 
-void Circle::setInc_x(double x)
+void Circle::moveX(double x)
 {
-    center.setX(x+center.getX()); 
+    center.setX(x+center.getX());
 }
-        
-void Circle::setInc_y(double y)
+
+void Circle::moveY(double y)
 {
     center.setY(y+center.getY());
 }
@@ -211,5 +211,5 @@ void Circle::move()
   glPushMatrix();
       glTranslated(center.getX(),center.getY(),0);
       drawCircle();
-  glPopMatrix();  
+  glPopMatrix();
 }

@@ -76,57 +76,43 @@ Window* Scanner::readWindow(string file)
 
 }
 
-// list<Circle*> Scanner::readArenaSVG(string file)
-// {
-//     std::list<Circle*> list;
-//     double cx,cy,radius;
-//     int id;
-//     string color;
-//     doc.LoadFile(file.data());
-//     double height;
-//     if(!doc.ErrorID())
-//     {
-//         XMLElement* circle = doc.FirstChildElement("svg");
-//         for( circle = circle->FirstChildElement("circle"); circle != NULL; circle = circle->NextSiblingElement("circle"))
-//         {
-//             circle->QueryDoubleAttribute("r",&radius);
-//             circle->QueryDoubleAttribute("cx",&cx);
-//             circle->QueryDoubleAttribute("cy",&cy);
-//             circle->QueryIntAttribute("id",&id);
-//             color = circle->Attribute("fill");
-
-//             if(color == "blue")
-//             {
-//               height = radius*2;
-//             }
-
-//             Circle* circle = new Circle(id,color,radius,cx,height-cy);
-
-//             list.push_back(circle);
-//         }
-//         return list;
-//   }else
-//     {
-//         cout << "Erro ao abrir o arquivo XML "<< file << "\n";
-//         exit(1);
-//     }
-
-// }
-
 
 Stadium* Scanner::readArenaSVG(string file)
 {
-    std::list<Circle*> list;
-    Stadium *stadium;
+    // std::list<Circle*> list;
+    std::list<Circle*> lowElements;
+    std::list<Circle*> hightElements;
     Circle* person;
-    double cx,cy,radius;
+    Circle* limiteInterior;
+    Circle* limiteExterior;
+
+    Stadium *stadium;
+    XMLElement* circle;
+    double cx,cy,radius,height;
     int id;
     string color;
     doc.LoadFile(file.data());
-    double height;
+
     if(!doc.ErrorID())
     {
-        XMLElement* circle = doc.FirstChildElement("svg");
+        circle = doc.FirstChildElement("svg");
+        for( circle = circle->FirstChildElement("circle"); circle != NULL; circle = circle->NextSiblingElement("circle"))
+        {
+            circle->QueryDoubleAttribute("r",&radius);
+            circle->QueryDoubleAttribute("cx",&cx);
+            circle->QueryDoubleAttribute("cy",&cy);
+            circle->QueryIntAttribute("id",&id);
+            color = circle->Attribute("fill");
+            if(color == "blue")
+            {
+                height = radius*2;
+                limiteExterior = new Circle(id,color,radius,cx,height-cy);
+                cout << "Azul\n";
+            }
+
+        }
+
+        circle = doc.FirstChildElement("svg");
         for( circle = circle->FirstChildElement("circle"); circle != NULL; circle = circle->NextSiblingElement("circle"))
         {
             circle->QueryDoubleAttribute("r",&radius);
@@ -135,22 +121,24 @@ Stadium* Scanner::readArenaSVG(string file)
             circle->QueryIntAttribute("id",&id);
             color = circle->Attribute("fill");
 
-            if(color == "blue")
+            if(color == "black")
             {
-              height = radius*2;
-            }
-
-            Circle* circle = new Circle(id,color,radius,cx,height-cy);
-
-            if(color == "green")
+              Circle* circle = new Circle(id,color,radius,cx,height-cy);
+              lowElements.push_back(circle);
+            }else if(color == "red")
             {
-              person = circle;
-            }else
+              Circle* circle = new Circle(id,color,radius,cx,height-cy);
+              hightElements.push_back(circle);
+            }else if(color == "white")
             {
-              list.push_back(circle);
+              limiteInterior = new Circle(id,color,radius,cx,height-cy);
+            }else if(color == "green")
+            {
+              person = new Circle(id,color,radius,cx,height-cy);
             }
         }
-        stadium = new Stadium(list,person);
+
+        stadium = new Stadium(limiteExterior,limiteInterior,person,hightElements,lowElements);
         return stadium;
   }else
     {
@@ -180,16 +168,8 @@ string Scanner::readConfigXML(string file)
 
 }
 
-Window* Scanner::buildWindowArena(list<Circle*> mylist)
+Window* Scanner::buildWindowArena(Circle* limiteExterior)
 {
-    Window* window;
-    for (std::list<Circle*>::iterator it=mylist.begin(); it != mylist.end(); ++it)
-    {
-        if((*it)->getId() == 1)
-        {
-            window = new Window("Arena",(*it)->getRadius()*2,(*it)->getRadius()*2,1.0,1.0,1.0);
-        }
-    }
-
+    Window* window = new Window("Arena",limiteExterior->getRadius()*2,limiteExterior->getRadius()*2,1.0,1.0,1.0);
     return window;
 }

@@ -39,7 +39,7 @@ void display(void)
       //     // cout << (*circle)->getRColor() << (*circle)->getGColor()<<(*circle)->getBColor() <<" - "<< (*circle)->getColor()<<"\n" ;
 
       // }
-      
+
     // }
     // person->move();
     // person->drawCircle();
@@ -69,44 +69,44 @@ void mouseMotion(int x, int y)
 void keyPress(unsigned char key, int x, int y)
 {
 	key_status[tolower(key)] = 1;
-  window->setUpdateState(true);
 }
 
 void keyboad_free(unsigned char key,int x, int y)
 {
 	key_status[tolower(key)] = 0;
-
-  window->setUpdateState(false);
 }
 
 void idle(void)
 {
+  Circle *person = arena->getPerson();
 	 if (key_status['d'] || key_status['D'])
 	 {
-		//  d_x+=0.01;
-    // person->setCoord_x(person->getCoord_x()+1);
-    arena->getPerson()->setInc_x(1.0);
+    person->moveX(3.0);
 	 }
 
 	 if( key_status['s'] ||  key_status['S'])
 	 {
-		//  d_y-=0.01;
-    // person->setCoord_y(person->getCoord_y()-1);
-    arena->getPerson()->setInc_y(-1.0);
+    person->moveY(-3.0);
 	 }
 
 	 if( key_status['a'] ||  key_status['A'] )
 	 {
-		//  d_x-=0.01;
-    // person->setCoord_x(person->getCoord_x()-1);
-    arena->getPerson()->setInc_x(-1.0);
+    person->moveX(-3.0);
 	 }
 
 	 if( key_status['w'] || key_status['W'])
 	 {
-		//  d_y+=0.01;
-    // person->setCoord_y(person->getCoord_y()+1);
-    arena->getPerson()->setInc_y(1.0);
+    person->moveY(3.0);
+	 }
+
+   if( key_status['w'] || key_status['W'])
+	 {
+    person->moveY(3.0);
+	 }
+
+   if( key_status['p'] || key_status['P'])
+	 {
+    cout << "Pressionei p\n";
 	 }
 
 	 glutPostRedisplay();
@@ -127,7 +127,7 @@ int main(int argc, char **argv)
   string pathSVG = scanner.readConfigXML(path);
   arena = scanner.readArenaSVG(pathSVG);
   // cout << "Elements in stadium: "<< arena.size() <<"\n\n";
-  window = scanner.buildWindowArena(arena->getObjects());
+  window = scanner.buildWindowArena(arena->getLimiteExterior());
   cout << "Size window: "<<window->getWidth() << "x" << window->getHeight()<<"\n";
   // circle = scanner.readCircle(path);
   // string title = scanner.readTitle(path);
