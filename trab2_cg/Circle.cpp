@@ -58,6 +58,16 @@ void Circle::setCoord_y(double y)
     center.setY(y);
 }
 
+void Circle::setInc_x(double x)
+{
+    center.setX(x+center.getX()); 
+}
+        
+void Circle::setInc_y(double y)
+{
+    center.setY(y+center.getY());
+}
+
 void Circle::setCenter(double x,double y)
 {
     // coord_x = x;

@@ -21,6 +21,8 @@ class Circle
         void setColor(double);
         void setCoord_x(double);
         void setCoord_y(double);
+        void setInc_x(double);
+        void setInc_y(double);
         void setCenter(double,double);
         double getRadius(void);
         double getCoord_x(void);

@@ -25,3 +25,8 @@ list<Circle*> Stadium::getObjects(void)
 {
 	return objects;
 }
+
+Circle* Stadium::getPerson(void)
+{
+	return person;
+}

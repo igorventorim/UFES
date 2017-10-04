@@ -12,6 +12,7 @@ class Stadium
 		Stadium(list<Circle*>,Circle*);
 		void drawStadium(void);
 		list<Circle*> getObjects(void);
+		Circle* getPerson(void);
 
 };
 

@@ -85,24 +85,28 @@ void idle(void)
 	 {
 		//  d_x+=0.01;
     // person->setCoord_x(person->getCoord_x()+1);
+    arena->getPerson()->setInc_x(1.0);
 	 }
 
 	 if( key_status['s'] ||  key_status['S'])
 	 {
 		//  d_y-=0.01;
     // person->setCoord_y(person->getCoord_y()-1);
+    arena->getPerson()->setInc_y(-1.0);
 	 }
 
 	 if( key_status['a'] ||  key_status['A'] )
 	 {
 		//  d_x-=0.01;
     // person->setCoord_x(person->getCoord_x()-1);
+    arena->getPerson()->setInc_x(-1.0);
 	 }
 
 	 if( key_status['w'] || key_status['W'])
 	 {
 		//  d_y+=0.01;
     // person->setCoord_y(person->getCoord_y()+1);
+    arena->getPerson()->setInc_y(1.0);
 	 }
 
 	 glutPostRedisplay();
