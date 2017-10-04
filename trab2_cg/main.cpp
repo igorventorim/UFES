@@ -6,41 +6,46 @@
 #include <iostream>
 #include <cmath>
 #include <list>
+#include "Stadium.h"
 #define CIRCLE_MINIMUM_SIZE 10
 
 
 using namespace std;
 
-Circle *person;
+Stadium *arena;
+// Circle *person;
 Window *window;
-list<Circle*> arena;
+// list<Circle*> arena;
 int key_status[256];
 int flag=0;
 
 void display(void)
 {
     /* Limpar todos os pixels  */
-    // glClear (GL_COLOR_BUFFER_BIT);
+    glClear (GL_COLOR_BUFFER_BIT);
 
-    if(!flag)
-    {
-      glClear (GL_COLOR_BUFFER_BIT);
-      for (std::list<Circle*>::iterator circle=arena.begin(); circle != arena.end(); ++circle)
-      {
-          (*circle)->drawCircle();
-          if((*circle)->getColor() == "green")
-          {
-            person = *circle;
-          }
-          // cout<<(*circle)->getCoord_x()<<","<<(*circle)->getCoord_y()<<"\n";
-          // cout << (*circle)->getRColor() << (*circle)->getGColor()<<(*circle)->getBColor() <<" - "<< (*circle)->getColor()<<"\n" ;
+    // if(window->isUpdateState())
+    // {
+      arena->drawStadium();
+      // glClear (GL_COLOR_BUFFER_BIT);
+      // for (std::list<Circle*>::iterator circle=arena.begin(); circle != arena.end(); ++circle)
+      // {
+      //     (*circle)->drawCircle();
+      //     if((*circle)->getColor() == "green")
+      //     {
+      //       person = *circle;
+      //     }
+      //     // cout<<(*circle)->getCoord_x()<<","<<(*circle)->getCoord_y()<<"\n";
+      //     // cout << (*circle)->getRColor() << (*circle)->getGColor()<<(*circle)->getBColor() <<" - "<< (*circle)->getColor()<<"\n" ;
 
-      }
-      flag = 1;
-    }
-    person->drawCircle();
+      // }
+      
+    // }
+    // person->move();
+    // person->drawCircle();
     /*Não esperar*/
     glutSwapBuffers();
+
 }
 
 void init(void)
@@ -64,11 +69,14 @@ void mouseMotion(int x, int y)
 void keyPress(unsigned char key, int x, int y)
 {
 	key_status[tolower(key)] = 1;
+  window->setUpdateState(true);
 }
 
 void keyboad_free(unsigned char key,int x, int y)
 {
 	key_status[tolower(key)] = 0;
+
+  window->setUpdateState(false);
 }
 
 void idle(void)
@@ -76,29 +84,25 @@ void idle(void)
 	 if (key_status['d'] || key_status['D'])
 	 {
 		//  d_x+=0.01;
-    person->setCoord_x(person->getCoord_x()+1);
-    cout << "d"<<"\n";
+    // person->setCoord_x(person->getCoord_x()+1);
 	 }
 
 	 if( key_status['s'] ||  key_status['S'])
 	 {
 		//  d_y-=0.01;
-    person->setCoord_y(person->getCoord_y()-1);
-    cout << "s"<<"\n";
+    // person->setCoord_y(person->getCoord_y()-1);
 	 }
 
 	 if( key_status['a'] ||  key_status['A'] )
 	 {
 		//  d_x-=0.01;
-    person->setCoord_x(person->getCoord_x()-1);
-    cout << "A"<<"\n";
+    // person->setCoord_x(person->getCoord_x()-1);
 	 }
 
 	 if( key_status['w'] || key_status['W'])
 	 {
 		//  d_y+=0.01;
-    person->setCoord_y(person->getCoord_y()+1);
-      cout << "W"<<"\n";
+    // person->setCoord_y(person->getCoord_y()+1);
 	 }
 
 	 glutPostRedisplay();
@@ -118,8 +122,8 @@ int main(int argc, char **argv)
     }
   string pathSVG = scanner.readConfigXML(path);
   arena = scanner.readArenaSVG(pathSVG);
-  cout << "Elements in stadium: "<< arena.size() <<"\n\n";
-  window = scanner.buildWindowArena(arena);
+  // cout << "Elements in stadium: "<< arena.size() <<"\n\n";
+  window = scanner.buildWindowArena(arena->getObjects());
   cout << "Size window: "<<window->getWidth() << "x" << window->getHeight()<<"\n";
   // circle = scanner.readCircle(path);
   // string title = scanner.readTitle(path);

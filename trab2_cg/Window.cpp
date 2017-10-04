@@ -8,6 +8,7 @@ Window::Window(int w,int h,string c)
     background_color = c;
     btn_left = false;
     btn_right = false;
+    updateState = false;
 }
 
 Window::Window(int w,int h,double r,double g, double b)
@@ -18,7 +19,8 @@ Window::Window(int w,int h,double r,double g, double b)
     g_color = g;
     b_color = b;
     btn_left = false;
-    btn_right = false; 
+    btn_right = false;
+    updateState = false; 
 }
 
 Window::Window(string t,int w,int h,string c)
@@ -29,6 +31,7 @@ Window::Window(string t,int w,int h,string c)
     background_color = c;
     btn_left = false;
     btn_right = false;
+    updateState = false;
 }
 
 Window::Window(string t,int w,int h,double r,double g, double b)
@@ -41,6 +44,7 @@ Window::Window(string t,int w,int h,double r,double g, double b)
     b_color = b;
     btn_left = false;
     btn_right = false; 
+    updateState = false;
 }
 
 
@@ -117,4 +121,14 @@ string Window::getTitle(void)
 void Window::setTitle(string t)
 {
     title = t;
+}
+
+bool Window::isUpdateState()
+{
+    return updateState;
+}
+
+void Window::setUpdateState(bool state)
+{
+    updateState = state;
 }

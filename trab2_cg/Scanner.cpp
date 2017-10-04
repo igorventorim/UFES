@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <list>
+#include "Stadium.h"
 
 
 using namespace std;
@@ -75,13 +76,54 @@ Window* Scanner::readWindow(string file)
 
 }
 
-list<Circle*> Scanner::readArenaSVG(string file)
+// list<Circle*> Scanner::readArenaSVG(string file)
+// {
+//     std::list<Circle*> list;
+//     double cx,cy,radius;
+//     int id;
+//     string color;
+//     doc.LoadFile(file.data());
+//     double height;
+//     if(!doc.ErrorID())
+//     {
+//         XMLElement* circle = doc.FirstChildElement("svg");
+//         for( circle = circle->FirstChildElement("circle"); circle != NULL; circle = circle->NextSiblingElement("circle"))
+//         {
+//             circle->QueryDoubleAttribute("r",&radius);
+//             circle->QueryDoubleAttribute("cx",&cx);
+//             circle->QueryDoubleAttribute("cy",&cy);
+//             circle->QueryIntAttribute("id",&id);
+//             color = circle->Attribute("fill");
+
+//             if(color == "blue")
+//             {
+//               height = radius*2;
+//             }
+
+//             Circle* circle = new Circle(id,color,radius,cx,height-cy);
+
+//             list.push_back(circle);
+//         }
+//         return list;
+//   }else
+//     {
+//         cout << "Erro ao abrir o arquivo XML "<< file << "\n";
+//         exit(1);
+//     }
+
+// }
+
+
+Stadium* Scanner::readArenaSVG(string file)
 {
     std::list<Circle*> list;
+    Stadium *stadium;
+    Circle* person;
     double cx,cy,radius;
     int id;
     string color;
     doc.LoadFile(file.data());
+    double height;
     if(!doc.ErrorID())
     {
         XMLElement* circle = doc.FirstChildElement("svg");
@@ -92,14 +134,24 @@ list<Circle*> Scanner::readArenaSVG(string file)
             circle->QueryDoubleAttribute("cy",&cy);
             circle->QueryIntAttribute("id",&id);
             color = circle->Attribute("fill");
-            // cout << "cx:" << cx <<"\ncy:"<< cy<<"\nradius:"<<radius<<"\ncolor:"<< color <<"\nid:"<<id<<"\n\n";
-            // Circle* circle = new Circle(id,color,radius,cx,cy);
-            Circle* circle = new Circle(id,color,radius,cx,600-cy);
-            // Circle *circle = new Circle(0,radius,1.0,1.0,1.0);
 
-            list.push_back(circle);
+            if(color == "blue")
+            {
+              height = radius*2;
+            }
+
+            Circle* circle = new Circle(id,color,radius,cx,height-cy);
+
+            if(color == "green")
+            {
+              person = circle;
+            }else
+            {
+              list.push_back(circle);
+            }
         }
-        return list;
+        stadium = new Stadium(list,person);
+        return stadium;
   }else
     {
         cout << "Erro ao abrir o arquivo XML "<< file << "\n";

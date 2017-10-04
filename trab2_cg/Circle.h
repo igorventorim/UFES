@@ -38,6 +38,7 @@ class Circle
         bool getUpdate(void);
         int getId(void);
         Point getCenter(void);
+        void move();
 
 };
 #endif

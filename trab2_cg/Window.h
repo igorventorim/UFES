@@ -12,6 +12,7 @@ class Window
         string background_color;
         double r_color,g_color,b_color;
         bool btn_right, btn_left;
+        bool updateState;
     public:
         Window(int,int,string);
         Window(int,int,double,double,double);
@@ -32,6 +33,8 @@ class Window
         bool isPointInWindow(double, double);
         string getTitle(void);
         void setTitle(string);
+        bool isUpdateState();
+        void setUpdateState(bool);
 
 };
 #endif

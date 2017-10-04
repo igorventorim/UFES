@@ -195,3 +195,11 @@ void Circle::colornameToRGB(string colorname)
         b_color = 1.0;
     }
 }
+
+void Circle::move()
+{
+  glPushMatrix();
+      glTranslated(center.getX(),center.getY(),0);
+      drawCircle();
+  glPopMatrix();  
+}

@@ -4,6 +4,7 @@
 #include "tinyxml2.h"
 #include "Circle.h"
 #include "Window.h"
+#include "Stadium.h"
 #include <string>
 #include <list>
 
@@ -20,7 +21,8 @@ class Scanner
         string readTitle(string);
         Window* readWindow(string);
         string readConfigXML(string);
-        list<Circle*> readArenaSVG(string file);
+        // list<Circle*> readArenaSVG(string file);
+        Stadium* readArenaSVG(string file);
         Window* buildWindowArena(list<Circle*>);
 };
 
