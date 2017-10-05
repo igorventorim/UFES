@@ -23,8 +23,8 @@ class Stadium
 		bool isValidMove(double,double);
 		bool getPersonJumping(void);
 		void setPersonJumping(bool);
-		bool inHightElements(double, double);
-		bool inLowtElements(double, double);
+		bool inHightElements(double, double,double);
+		bool inLowElements(double, double,double);
 };
 
 #endif

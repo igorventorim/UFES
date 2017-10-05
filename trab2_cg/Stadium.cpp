@@ -69,27 +69,40 @@ void Stadium::setPersonJumping(bool jump)
 
 bool Stadium::isValidMove(double x,double y)
 {
-	if(limitInterior->circleInCircle(x,y,person->getRadius()))
+
+	double r = person->getRadius();
+	// if(limitInterior->circleInCircle(x,y,r))
+	// {
+	// 	return false;
+	// }else if(!limitExterior->circleInCircle(x,y,-r))
+	// {
+	// 	return false;
+	// }else if(inHightElements(x,y))
+	// {
+	// 	return false;
+	// }else if(inLowElements(x,y) && !personJumping)
+	// {
+	// 	return false;
+	// }
+	if(personJumping)
 	{
-		return false;
-	}else if(!limitExterior->circleInCircle(x,y,-person->getRadius()))
-	{
-		return false;
-	}else if(inHightElements(x,y))
-	{
-		return false;
-	}else if(inLowtElements(x,y) && !personJumping)
+		if(limitInterior->circleInCircle(x,y,r/1.5) || !limitExterior->circleInCircle(x,y,-r/1.5) || inLowElements(x,y,r) || inHightElements(x,y,r/1.5))
+		{	
+			return false;
+		}
+		
+	}else if(limitInterior->circleInCircle(x,y,r) || !limitExterior->circleInCircle(x,y,-r) || inLowElements(x,y,r) || inHightElements(x,y,r))
 	{
 		return false;
 	}
 	return true;
 }
 
-bool Stadium::inHightElements(double x, double y)
+bool Stadium::inHightElements(double x, double y, double r)
 {
 	for (std::list<Circle*>::iterator circle=hightElements.begin(); circle != hightElements.end(); ++circle)
 	{
-	  if((*circle)->circleInCircle(x,y,person->getRadius()))
+	  if((*circle)->circleInCircle(x,y,r))
 	  {
 		  return true;
 	  }
@@ -97,12 +110,12 @@ bool Stadium::inHightElements(double x, double y)
 	return false;
 }
 
-bool Stadium::inLowtElements(double x, double y)
+bool Stadium::inLowElements(double x, double y, double r)
 {
 
 	for (std::list<Circle*>::iterator circle=lowElements.begin(); circle != lowElements.end(); ++circle)
 	{
-		if((*circle)->circleInCircle(x,y,person->getRadius()) && !(*circle)->circleInCircle(person->getCoord_x(),person->getCoord_y(),person->getRadius()) )
+		if((*circle)->circleInCircle(x,y,r) && !(*circle)->circleInCircle(person->getCoord_x(),person->getCoord_y(),r) )
 		{
 			return true;
 		}

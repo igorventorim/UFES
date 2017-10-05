@@ -34,7 +34,7 @@ void init(void)
 	  glClearColor(window->getRColor(),window->getGColor(),window->getBColor(),1.0);
     glMatrixMode(GL_PROJECTION);
 
-
+    /*LEMBRAR DE FAZER ESTE CALCULO DIREITO!!!*/
     glOrtho(200.00,200.00+window->getWidth(),-200.00,window->getHeight()-200.00,0.0,1.0);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -88,10 +88,15 @@ void idle(void)
 
    if( (key_status['p'] || key_status['P']) && !arena->getPersonJumping())
 	 {
-    person->setRadius(person->getRadius()*1.5); 
+    person->setRadius(person->getRadius()*1.5);
     glutTimerFunc(2000,timerFunc,0);
     arena->setPersonJumping(true);
    }
+
+   // if(arena->inLowElements(person->getCoord_x(),person->getCoord_y(),person->getRadius()))
+   // {
+   //    person->setRadius(person->getRadius()*1.5);
+   // }
 
 	 glutPostRedisplay();
 
@@ -106,10 +111,11 @@ int main(int argc, char **argv)
 	{
     cout << argv[0] << "\n";
 		path = std::string(argv[1])+"config.xml";
-	}else{
+	}else
+  {
         cout << "Parâmetros inválidos!!!\n" << "Exemplo: ./trabalhocg /Test1/\n";
         exit(1);
-    }
+  } 
   string pathSVG = scanner.readConfigXML(path);
   arena = scanner.readArenaSVG(pathSVG);
   window = scanner.buildWindowArena(arena->getLimiteExterior());
