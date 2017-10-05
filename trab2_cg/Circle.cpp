@@ -129,7 +129,7 @@ void Circle::drawCircle(void)
   float angle;
   /*double radius=0.2;*/
   glColor3f(getRColor(),getGColor(),getBColor());
-
+  
   glBegin(GL_TRIANGLE_FAN);
   glVertex2f(center.getX(),center.getY());
 
@@ -155,6 +155,11 @@ double Circle::distance2Center(double x,double y)
 bool Circle::pointInCircle(double x, double y)
 {
     return distance2Center(x,y) < getRadius();
+}
+
+bool Circle::circleInCircle(double x, double y, double r)
+{
+    return distance2Center(x,y) < getRadius()+r;
 }
 
 void Circle::setUpdate(bool status)

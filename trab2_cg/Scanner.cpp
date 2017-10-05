@@ -107,7 +107,6 @@ Stadium* Scanner::readArenaSVG(string file)
             {
                 height = radius*2;
                 limiteExterior = new Circle(id,color,radius,cx,height-cy);
-                cout << "Azul\n";
             }
 
         }

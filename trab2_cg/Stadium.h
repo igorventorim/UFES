@@ -12,6 +12,7 @@ class Stadium
 		Circle *person;
 		Circle *limitExterior;
 		Circle *limitInterior;
+		bool personJumping;
 	public:
 		Stadium(list<Circle*>,Circle*);
 		Stadium(Circle*,Circle *, Circle *, list<Circle*>,list<Circle*>);
@@ -19,7 +20,11 @@ class Stadium
 		list<Circle*> getObjects(void);
 		Circle* getPerson(void);
 		Circle* getLimiteExterior(void);
-
+		bool isValidMove(double,double);
+		bool getPersonJumping(void);
+		void setPersonJumping(bool);
+		bool inHightElements(double, double);
+		bool inLowtElements(double, double);
 };
 
 #endif

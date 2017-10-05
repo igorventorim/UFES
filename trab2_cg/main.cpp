@@ -13,9 +13,7 @@
 using namespace std;
 
 Stadium *arena;
-// Circle *person;
 Window *window;
-// list<Circle*> arena;
 int key_status[256];
 int flag=0;
 
@@ -24,25 +22,8 @@ void display(void)
     /* Limpar todos os pixels  */
     glClear (GL_COLOR_BUFFER_BIT);
 
-    // if(window->isUpdateState())
-    // {
-      arena->drawStadium();
-      // glClear (GL_COLOR_BUFFER_BIT);
-      // for (std::list<Circle*>::iterator circle=arena.begin(); circle != arena.end(); ++circle)
-      // {
-      //     (*circle)->drawCircle();
-      //     if((*circle)->getColor() == "green")
-      //     {
-      //       person = *circle;
-      //     }
-      //     // cout<<(*circle)->getCoord_x()<<","<<(*circle)->getCoord_y()<<"\n";
-      //     // cout << (*circle)->getRColor() << (*circle)->getGColor()<<(*circle)->getBColor() <<" - "<< (*circle)->getColor()<<"\n" ;
+    arena->drawStadium();
 
-      // }
-
-    // }
-    // person->move();
-    // person->drawCircle();
     /*Não esperar*/
     glutSwapBuffers();
 
@@ -52,19 +33,16 @@ void init(void)
 {
 	  glClearColor(window->getRColor(),window->getGColor(),window->getBColor(),1.0);
     glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
+
+
     glOrtho(200.00,200.00+window->getWidth(),-200.00,window->getHeight()-200.00,0.0,1.0);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
 }
 
-void mouse(int button, int state, int x, int y)
-{
+void mouse(int button, int state, int x, int y){}
 
-}
-
-void mouseMotion(int x, int y)
-{
-
-}
+void mouseMotion(int x, int y){}
 
 void keyPress(unsigned char key, int x, int y)
 {
@@ -76,42 +54,50 @@ void keyboad_free(unsigned char key,int x, int y)
 	key_status[tolower(key)] = 0;
 }
 
+void timerFunc(int value)
+{
+  Circle *person = arena->getPerson();
+  person->setRadius(person->getRadius()/1.5);
+  arena->setPersonJumping(false);
+  glutPostRedisplay();
+}
+
 void idle(void)
 {
   Circle *person = arena->getPerson();
-	 if (key_status['d'] || key_status['D'])
+	 if ((key_status['d'] || key_status['D']) && arena->isValidMove(person->getCoord_x()+1,person->getCoord_y()))
 	 {
-    person->moveX(3.0);
+    person->moveX(1.0);
 	 }
 
-	 if( key_status['s'] ||  key_status['S'])
+	 if(( key_status['s'] ||  key_status['S']) && arena->isValidMove(person->getCoord_x(),person->getCoord_y()-1) )
 	 {
-    person->moveY(-3.0);
+    person->moveY(-1.0);
 	 }
 
-	 if( key_status['a'] ||  key_status['A'] )
+	 if(( key_status['a'] ||  key_status['A'] ) && arena->isValidMove(person->getCoord_x()-1,person->getCoord_y()))
 	 {
-    person->moveX(-3.0);
+    person->moveX(-1.0);
 	 }
 
-	 if( key_status['w'] || key_status['W'])
+	 if(( key_status['w'] || key_status['W']) && arena->isValidMove(person->getCoord_x(),person->getCoord_y()+1))
 	 {
-    person->moveY(3.0);
+    person->moveY(1.0);
 	 }
 
-   if( key_status['w'] || key_status['W'])
-	 {
-    person->moveY(3.0);
-	 }
 
-   if( key_status['p'] || key_status['P'])
+   if( (key_status['p'] || key_status['P']) && !arena->getPersonJumping())
 	 {
-    cout << "Pressionei p\n";
-	 }
+    person->setRadius(person->getRadius()*1.5); 
+    glutTimerFunc(2000,timerFunc,0);
+    arena->setPersonJumping(true);
+   }
 
 	 glutPostRedisplay();
 
 }
+
+
 int main(int argc, char **argv)
 {
   string path;
@@ -126,12 +112,8 @@ int main(int argc, char **argv)
     }
   string pathSVG = scanner.readConfigXML(path);
   arena = scanner.readArenaSVG(pathSVG);
-  // cout << "Elements in stadium: "<< arena.size() <<"\n\n";
   window = scanner.buildWindowArena(arena->getLimiteExterior());
   cout << "Size window: "<<window->getWidth() << "x" << window->getHeight()<<"\n";
-  // circle = scanner.readCircle(path);
-  // string title = scanner.readTitle(path);
-  // window = scanner.readWindow(path);
   glutInit(&argc,argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
   glutInitWindowSize(window->getWidth(),window->getHeight());
@@ -142,7 +124,7 @@ int main(int argc, char **argv)
   glutKeyboardFunc(keyPress);
 	glutKeyboardUpFunc(keyboad_free);
 	glutMouseFunc(mouse);
-	glutIdleFunc(idle);
+  glutIdleFunc(idle);
 	glutMotionFunc(mouseMotion);
 	glutMainLoop();
 

@@ -40,7 +40,8 @@ class Circle
         bool getUpdate(void);
         int getId(void);
         Point getCenter(void);
-        void move();
+        void move(void);
+        bool circleInCircle(double , double , double );
 
 };
 #endif
