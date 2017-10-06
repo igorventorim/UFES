@@ -28,6 +28,7 @@ class Stadium
 		bool isInLowElements(double, double,double);
 		bool setInLowElements(bool);
 		bool getInLowElements();
+		bool getInLow();
 
 };
 

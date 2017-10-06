@@ -58,53 +58,62 @@ void keyboad_free(unsigned char key,int x, int y)
 void timerFunc(int value)
 {
   Circle *person = arena->getPerson();
-
+ 
+  if(!arena->getInLowElements())
+  {
     person->setRadius(person->getRadius()/1.5);
-  
+    arena->setInLowElements(false);
     arena->setPersonJumping(false);
-    glutPostRedisplay();
+  }else
+  {
+     arena->setInLowElements(true);
+  }
+ 
+  glutPostRedisplay();
 
 }
 
 void idle(void)
 {
   Circle *person = arena->getPerson();
-	 if ((key_status['d'] || key_status['D']) && arena->isValidMove(person->getCoord_x()+1,person->getCoord_y()))
-	 {
+  
+  if ((key_status['d'] || key_status['D']) && arena->isValidMove(person->getCoord_x()+1,person->getCoord_y()))
+  {
     person->moveX(1.0);
-	 }
+  }
 
-	 if(( key_status['s'] ||  key_status['S']) && arena->isValidMove(person->getCoord_x(),person->getCoord_y()-1) )
-	 {
-    person->moveY(-1.0);
-	 }
+  if(( key_status['s'] ||  key_status['S']) && arena->isValidMove(person->getCoord_x(),person->getCoord_y()-1) )
+  {
+   person->moveY(-1.0);
+  }
 
-	 if(( key_status['a'] ||  key_status['A'] ) && arena->isValidMove(person->getCoord_x()-1,person->getCoord_y()))
-	 {
-    person->moveX(-1.0);
-	 }
+  if(( key_status['a'] ||  key_status['A'] ) && arena->isValidMove(person->getCoord_x()-1,person->getCoord_y()))
+  {
+   person->moveX(-1.0);
+  }
 
-	 if(( key_status['w'] || key_status['W']) && arena->isValidMove(person->getCoord_x(),person->getCoord_y()+1))
-	 {
+  if(( key_status['w'] || key_status['W']) && arena->isValidMove(person->getCoord_x(),person->getCoord_y()+1))
+  {
     person->moveY(1.0);
-	 }
+  }
 
+  if(!arena->getInLowElements() && arena->getInLow())
+  {
+    person->setRadius(person->getRadius()/1.5);
+    arena->setInLowElements(false);
+    arena->setPersonJumping(false);
+  }
 
-   if( (key_status['p'] || key_status['P']) && !arena->getPersonJumping() )
-	 {
+  if( (key_status['p'] || key_status['P']) && !arena->getPersonJumping() && !arena->getInLowElements())
+  {
     person->setRadius(person->getRadius()*1.5);
     glutTimerFunc(2000,timerFunc,0);
     arena->setPersonJumping(true);
-   }
+  }
 
 
 
-   // if(arena->inLowElements(person->getCoord_x(),person->getCoord_y(),person->getRadius()))
-   // {
-   //    person->setRadius(person->getRadius()*1.5);
-   // }
-
-	 glutPostRedisplay();
+  glutPostRedisplay();
 
 }
 

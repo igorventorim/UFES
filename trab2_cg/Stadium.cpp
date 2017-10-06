@@ -130,14 +130,31 @@ bool Stadium::isInLowElements(double x, double y, double r)
 
 bool Stadium::setInLowElements(bool in)
 {
-	if(in)
-	{
-		cout << "Entrei\n";
-	}
 	inLowElements = in;
 }
 
 bool Stadium::getInLowElements()
+{
+	// return inLowElements;
+	double r;
+	if(inLowElements)
+	{
+		r = person->getRadius()/1.5;
+	}else
+	{
+		r = person->getRadius();
+	}
+	for (std::list<Circle*>::iterator circle=lowElements.begin(); circle != lowElements.end(); ++circle)
+	{
+		if((*circle)->circleInCircle(person->getCoord_x(),person->getCoord_y(),r))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+bool Stadium::getInLow()
 {
 	return inLowElements;
 }
