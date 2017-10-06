@@ -1,6 +1,7 @@
 #include "Stadium.h"
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include <iostream>
 
 
 Stadium::Stadium(list<Circle*> o,Circle* p)
@@ -8,6 +9,7 @@ Stadium::Stadium(list<Circle*> o,Circle* p)
 	objects = o;
 	person = p;
 	personJumping = false;
+	setInLowElements(false);
 
 }
 
@@ -19,6 +21,7 @@ Stadium::Stadium(Circle* exterior, Circle *inferior, Circle *psn, list<Circle*> 
 	hightElements = hight;
 	lowElements = low;
 	personJumping = false;
+	setInLowElements(false);
 }
 
 void Stadium::drawStadium(void)
@@ -86,15 +89,16 @@ bool Stadium::isValidMove(double x,double y)
 	// }
 	if(personJumping)
 	{
-		if(limitInterior->circleInCircle(x,y,r/1.5) || !limitExterior->circleInCircle(x,y,-r/1.5) || inLowElements(x,y,r) || inHightElements(x,y,r/1.5))
+		if(limitInterior->circleInCircle(x,y,r/1.5) || !limitExterior->circleInCircle(x,y,-r/1.5) || inHightElements(x,y,r/1.5))
 		{	
 			return false;
 		}
 		
-	}else if(limitInterior->circleInCircle(x,y,r) || !limitExterior->circleInCircle(x,y,-r) || inLowElements(x,y,r) || inHightElements(x,y,r))
+	}else if(limitInterior->circleInCircle(x,y,r) || !limitExterior->circleInCircle(x,y,-r) || isInLowElements(x,y,r) || inHightElements(x,y,r))
 	{
 		return false;
 	}
+
 	return true;
 }
 
@@ -110,15 +114,30 @@ bool Stadium::inHightElements(double x, double y, double r)
 	return false;
 }
 
-bool Stadium::inLowElements(double x, double y, double r)
+bool Stadium::isInLowElements(double x, double y, double r)
 {
 
 	for (std::list<Circle*>::iterator circle=lowElements.begin(); circle != lowElements.end(); ++circle)
 	{
-		if((*circle)->circleInCircle(x,y,r) && !(*circle)->circleInCircle(person->getCoord_x(),person->getCoord_y(),r) )
+		if((*circle)->circleInCircle(x,y,r) && !(*circle)->circleInCircle(person->getCoord_x(),person->getCoord_y(),r))
 		{
 			return true;
 		}
 	}
 	return false;
+}
+
+
+bool Stadium::setInLowElements(bool in)
+{
+	if(in)
+	{
+		cout << "Entrei\n";
+	}
+	inLowElements = in;
+}
+
+bool Stadium::getInLowElements()
+{
+	return inLowElements;
 }
