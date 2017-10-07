@@ -61,14 +61,16 @@ void timerFunc(int value)
  
   if(!arena->getInLowElements())
   {
-    person->setRadius(person->getRadius()/1.5);
+    // person->setRadius(person->getRadius()/1.5);
+    
     arena->setInLowElements(false);
     arena->setPersonJumping(false);
+    flag = 2;
   }else
   {
      arena->setInLowElements(true);
   }
- 
+  
   glutPostRedisplay();
 
 }
@@ -99,24 +101,39 @@ void idle(void)
 
   if(!arena->getInLowElements() && arena->getInLow())
   {
-    person->setRadius(person->getRadius()/1.5);
+    // person->setRadius(person->getRadius()/1.5);
     arena->setInLowElements(false);
     arena->setPersonJumping(false);
+    flag = 2;
   }
 
   if( (key_status['p'] || key_status['P']) && !arena->getPersonJumping() && !arena->getInLowElements())
   {
-    person->setRadius(person->getRadius()*1.5);
-    glutTimerFunc(2000,timerFunc,0);
+    // person->setRadius(person->getRadius()*1.5);
+    glutTimerFunc(1000,timerFunc,0);
     arena->setPersonJumping(true);
+    flag = 1;
   }
 
+  if(flag == 1)
+  {
+    if(person->getRadius() < arena->getMaxPersonRadius())
+    {
+      person->setRadius(person->getRadius()+0.2);
+    }
+  }
 
+  if(flag == 2)
+  {
+    if(person->getRadius() > arena->getMinPersonRadius())
+    {
+      person->setRadius(person->getRadius()-0.2);
+    }
+  }
 
   glutPostRedisplay();
 
 }
-
 
 int main(int argc, char **argv)
 {

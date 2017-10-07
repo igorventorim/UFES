@@ -10,6 +10,8 @@ Stadium::Stadium(list<Circle*> o,Circle* p)
 	person = p;
 	personJumping = false;
 	setInLowElements(false);
+	minPersonRadius = p->getRadius();
+	maxPersonRadius = p->getRadius()*1.5;
 
 }
 
@@ -22,6 +24,8 @@ Stadium::Stadium(Circle* exterior, Circle *inferior, Circle *psn, list<Circle*> 
 	lowElements = low;
 	personJumping = false;
 	setInLowElements(false);
+	minPersonRadius = person->getRadius();
+	maxPersonRadius = person->getRadius()*1.5;
 }
 
 void Stadium::drawStadium(void)
@@ -89,12 +93,12 @@ bool Stadium::isValidMove(double x,double y)
 	// }
 	if(personJumping)
 	{
-		if(limitInterior->circleInCircle(x,y,r/1.5) || !limitExterior->circleInCircle(x,y,-r/1.5) || inHightElements(x,y,r/1.5))
+		if(limitInterior->circleInCircle(x,y,maxPersonRadius/1.5) || !limitExterior->circleInCircle(x,y,-maxPersonRadius/1.5) || inHightElements(x,y,maxPersonRadius/1.5))
 		{	
 			return false;
 		}
 		
-	}else if(limitInterior->circleInCircle(x,y,r) || !limitExterior->circleInCircle(x,y,-r) || isInLowElements(x,y,r) || inHightElements(x,y,r))
+	}else if(limitInterior->circleInCircle(x,y,minPersonRadius) || !limitExterior->circleInCircle(x,y,-minPersonRadius) || isInLowElements(x,y,minPersonRadius) || inHightElements(x,y,minPersonRadius))
 	{
 		return false;
 	}
@@ -157,4 +161,13 @@ bool Stadium::getInLowElements()
 bool Stadium::getInLow()
 {
 	return inLowElements;
+}
+
+double Stadium::getMinPersonRadius()
+{
+	return minPersonRadius;
+}
+double Stadium::getMaxPersonRadius()
+{
+	return maxPersonRadius;
 }
