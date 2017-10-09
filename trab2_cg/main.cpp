@@ -150,7 +150,7 @@ int main(int argc, char **argv)
   } 
   string pathSVG = scanner.readConfigXML(path);
   arena = scanner.readArenaSVG(pathSVG);
-  window = scanner.buildWindowArena(arena->getLimiteExterior());
+  window = scanner.buildWindowArena(path,arena->getLimiteExterior());
   cout << "Size window: "<<window->getWidth() << "x" << window->getHeight()<<"\n";
   glutInit(&argc,argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);

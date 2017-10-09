@@ -23,7 +23,7 @@ class Scanner
         string readConfigXML(string);
         // list<Circle*> readArenaSVG(string file);
         Stadium* readArenaSVG(string file);
-        Window* buildWindowArena(Circle*);
+        Window* buildWindowArena(string,Circle*);
 };
 
 #endif

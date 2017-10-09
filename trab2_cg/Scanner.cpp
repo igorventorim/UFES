@@ -167,8 +167,11 @@ string Scanner::readConfigXML(string file)
 
 }
 
-Window* Scanner::buildWindowArena(Circle* limiteExterior)
+Window* Scanner::buildWindowArena(string file,Circle* limiteExterior)
 {
-    Window* window = new Window("Arena",limiteExterior->getRadius()*2,limiteExterior->getRadius()*2,1.0,1.0,1.0);
+    doc.LoadFile(file.data());
+    XMLElement* arena = doc.FirstChildElement("aplicacao")->FirstChildElement("arquivoDaArena");
+    string name = arena->Attribute("nome");
+    Window* window = new Window(name,limiteExterior->getRadius()*2,limiteExterior->getRadius()*2,1.0,1.0,1.0);
     return window;
 }
