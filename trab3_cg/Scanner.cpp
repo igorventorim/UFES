@@ -3,6 +3,7 @@
 #include <string>
 #include <list>
 #include "Stadium.h"
+#include "Player.h"
 
 
 using namespace std;
@@ -82,7 +83,7 @@ Stadium* Scanner::readArenaSVG(string file)
     // std::list<Circle*> list;
     std::list<Circle*> lowElements;
     std::list<Circle*> hightElements;
-    Circle* person;
+    Player* person;
     Circle* limiteInterior;
     Circle* limiteExterior;
 
@@ -133,7 +134,7 @@ Stadium* Scanner::readArenaSVG(string file)
               limiteInterior = new Circle(id,color,radius,cx,height-cy);
             }else if(color == "green")
             {
-              person = new Circle(id,color,radius,cx,height-cy);
+              person = new Player(new Circle(id,color,radius,cx,height-cy));
             }
         }
 

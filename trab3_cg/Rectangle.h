@@ -1,5 +1,6 @@
 #ifndef _RECTANGLE_H_
 #define _RECTANGLE_H_
+
 #include <string>
 #include "Point.h"
 
@@ -12,7 +13,7 @@ class Rectangle
 		bool drawn;
 	public:
 		Rectangle(double,double,double);
-		Rectangle(int,double,double,double,Point*,Point*,Point*,Point*);
+		Rectangle(double,double,double,Point*,Point*,Point*,Point*);
 		void setTopLeft(Point*);
 		void setBottomLeft(Point*);
 		void setBottomRight(Point*);
@@ -21,7 +22,7 @@ class Rectangle
         double getGColor(void);
         double getBColor(void);
         void drawRectangle(void);
-        bool isDrawn();
+		bool isDrawn(void);
 
 };
 #endif

@@ -1,32 +1,58 @@
+
 #include "Stadium.h"
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <iostream>
 
 
-Stadium::Stadium(list<Circle*> o,Circle* p)
+// Stadium::Stadium(list<Circle*> o,Circle* p)
+// {
+// 	objects = o;
+// 	person = p;
+// 	personJumping = false;
+// 	setInLowElements(false);
+// 	minPersonRadius = p->getRadius();
+// 	maxPersonRadius = p->getRadius()*1.5;
+// }
+
+// Stadium::Stadium(Circle* exterior, Circle *inferior, Circle *psn, list<Circle*> hight, list<Circle*>low)
+// {
+// 	limitExterior = exterior;
+// 	limitInterior = inferior;
+// 	person = psn;
+// 	hightElements = hight;
+// 	lowElements = low;
+// 	personJumping = false;
+// 	setInLowElements(false);
+// 	minPersonRadius = person->getRadius();
+// 	maxPersonRadius = person->getRadius()*1.5;
+// }
+
+Stadium::Stadium(list<Circle*> o,Player *p)
 {
 	objects = o;
-	person = p;
-	personJumping = false;
+	player = p;
+	// personJumping = false;
+	p->setJumping(false);
 	setInLowElements(false);
-	minPersonRadius = p->getRadius();
-	maxPersonRadius = p->getRadius()*1.5;
-
+	minPersonRadius = p->getHeadRadius();
+	maxPersonRadius = p->getHeadRadius()*1.5;
 }
 
-Stadium::Stadium(Circle* exterior, Circle *inferior, Circle *psn, list<Circle*> hight, list<Circle*>low)
+Stadium::Stadium(Circle* exterior, Circle *inferior, Player *p, list<Circle*> hight, list<Circle*>low)
 {
 	limitExterior = exterior;
 	limitInterior = inferior;
-	person = psn;
+	player = p;
 	hightElements = hight;
 	lowElements = low;
-	personJumping = false;
+	// personJumping = false;
+	p->setJumping(false);
 	setInLowElements(false);
-	minPersonRadius = person->getRadius();
-	maxPersonRadius = person->getRadius()*1.5;
+	minPersonRadius = p->getHeadRadius();
+	maxPersonRadius = p->getHeadRadius()*1.5;
 }
+
 
 void Stadium::drawStadium(void)
 {
@@ -58,10 +84,12 @@ void Stadium::drawStadium(void)
 			glPopMatrix();
 		}
 
-		glPushMatrix();
-			glTranslatef(person->getCoord_x(), person->getCoord_y(), 0);
-			person->drawCircle();
-		glPopMatrix();
+		// glPushMatrix();
+		// 	glTranslatef(person->getCoord_x(), person->getCoord_y(), 0);
+		// 	person->drawCircle();
+		// glPopMatrix();
+
+		player->draw();
 	glPopMatrix();
 }
 
@@ -82,18 +110,20 @@ Circle* Stadium::getLimiteExterior(void)
 
 bool Stadium::getPersonJumping(void)
 {
-	return personJumping;
+	// return personJumping;
+	return player->isJumping();
 }
 
 void Stadium::setPersonJumping(bool jump)
 {
-	personJumping = jump;
+	// personJumping = jump;
+	player->setJumping(jump);
 }
 
 bool Stadium::isValidMove(double x,double y)
 {
-	double r = person->getRadius();
-	if(personJumping)
+	double r = player->getHeadRadius();
+	if(getPersonJumping())
 	{
 		if(limitInterior->circleInCircle(x,y,maxPersonRadius/1.5) || !limitExterior->circleInCircle(x,y,-maxPersonRadius/1.5) || inHightElements(x,y,maxPersonRadius/1.5))
 		{	
@@ -125,7 +155,7 @@ bool Stadium::isInLowElements(double x, double y, double r)
 
 	for (std::list<Circle*>::iterator circle=lowElements.begin(); circle != lowElements.end(); ++circle)
 	{
-		if((*circle)->circleInCircle(x,y,r) && !(*circle)->circleInCircle(person->getCoord_x(),person->getCoord_y(),r))
+		if((*circle)->circleInCircle(x,y,r) && !(*circle)->circleInCircle(player->getHead()->getCoord_x(),player->getHead()->getCoord_y(),r))
 		{
 			return true;
 		}
@@ -139,19 +169,19 @@ bool Stadium::setInLowElements(bool in)
 	inLowElements = in;
 }
 
-bool Stadium::getInLowElements()
+bool Stadium::getInLowElements(void)
 {
 	double r;
 	if(inLowElements)
 	{
-		r = person->getRadius()/1.5;
+		r = player->getHeadRadius()/1.5;
 	}else
 	{
-		r = person->getRadius();
+		r = player->getHeadRadius();
 	}
 	for (std::list<Circle*>::iterator circle=lowElements.begin(); circle != lowElements.end(); ++circle)
 	{
-		if((*circle)->circleInCircle(person->getCoord_x(),person->getCoord_y(),r))
+		if((*circle)->circleInCircle(player->getHead()->getCoord_x(),player->getHead()->getCoord_y(),r))
 		{
 			return true;
 		}
@@ -159,16 +189,21 @@ bool Stadium::getInLowElements()
 	return false;
 }
 
-bool Stadium::getInLow()
+bool Stadium::getInLow(void)
 {
 	return inLowElements;
 }
 
-double Stadium::getMinPersonRadius()
+double Stadium::getMinPersonRadius(void)
 {
 	return minPersonRadius;
 }
-double Stadium::getMaxPersonRadius()
+double Stadium::getMaxPersonRadius(void)
 {
 	return maxPersonRadius;
+}
+
+Player* Stadium::getPlayer(void)
+{
+	return player;
 }

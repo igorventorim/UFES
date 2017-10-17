@@ -1,6 +1,8 @@
 #ifndef _STADIUM_H_
 #define _STADIUM_H_
+
 #include "Circle.h"
+#include "Player.h"
 #include <list>
 
 class Stadium
@@ -10,6 +12,7 @@ class Stadium
 		list<Circle*> hightElements;
 		list<Circle*> lowElements;
 		Circle *person;
+		Player *player;
 		Circle *limitExterior;
 		Circle *limitInterior;
 		bool personJumping;
@@ -19,6 +22,8 @@ class Stadium
 	public:
 		Stadium(list<Circle*>,Circle*);
 		Stadium(Circle*,Circle *, Circle *, list<Circle*>,list<Circle*>);
+		Stadium(list<Circle*>,Player*);
+		Stadium(Circle*,Circle *, Player *, list<Circle*>,list<Circle*>);
 		void drawStadium(void);
 		list<Circle*> getObjects(void);
 		Circle* getPerson(void);
@@ -29,10 +34,11 @@ class Stadium
 		bool inHightElements(double, double,double);
 		bool isInLowElements(double, double,double);
 		bool setInLowElements(bool);
-		bool getInLowElements();
-		bool getInLow();
-		double getMinPersonRadius();
-		double getMaxPersonRadius();
+		bool getInLowElements(void);
+		bool getInLow(void);
+		double getMinPersonRadius(void);
+		double getMaxPersonRadius(void);
+		Player* getPlayer(void);
 
 };
 

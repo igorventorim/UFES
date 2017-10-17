@@ -10,7 +10,7 @@ class Player
 		bool jumping;
 
 	public:
-		// Player();
+		Player(Circle*);
 		void setHead(Circle*);
 		Circle* getHead(void);
 		bool isJumping(void);
@@ -23,9 +23,17 @@ class Player
 		Rectangle* getLFoot(void);
 		Rectangle* getRHand(void);
 		Rectangle* getRFoot(void);
-
-		// void girar()
-		// void atirar()
+		void draw(void);
+		double getHeadRadius(void);
+		void setHeadRadius(double);
+		void girar(void);
+		void atirar(void);
+		void moveRight(void);
+		void moveLeft(void);
+		void moveUp(void);
+		void moveDown(void);
+		double getCoord_x(void);
+		double getCoord_y(void);
 
 
 };
