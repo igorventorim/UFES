@@ -65,6 +65,7 @@ void timerFunc(int value) {
 		flag = 2;
 	} else {
 		arena->setInLowElements(true);
+
 	}
 
 	glutPostRedisplay();

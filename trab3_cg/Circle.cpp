@@ -118,22 +118,39 @@ void Circle::setDrawn(bool draw)
 
 void Circle::drawCircle(void)
 {
-  float x2,y2;
-  float angle;
+  // float x2,y2;
+  // float angle;
+  //
+  // glColor3f(getRColor(),getGColor(),getBColor());
+  //
+  // glBegin(GL_TRIANGLE_FAN);
+  // glVertex2f(0,0);
+  //
+  // for (angle=0.0f;angle<360.0f;angle+=0.1)
+  // {
+  //     x2 = sin(angle)*getRadius();
+  //     y2 = cos(angle)*getRadius();
+  //     glVertex2f(x2,y2);
+  // }
+  // glEnd();
 
-  glColor3f(getRColor(),getGColor(),getBColor());
-  
-  glBegin(GL_TRIANGLE_FAN);
-  glVertex2f(0,0);
+  int i;
+  int triangleAmount = 700;
+  GLfloat twicePi = 2.0f * M_PI;
 
-  for (angle=0.0f;angle<360.0f;angle+=0.1)
-  {
-      x2 = sin(angle)*getRadius();
-      y2 = cos(angle)*getRadius();
-      glVertex2f(x2,y2);
-  }
+  glEnable(GL_LINE_SMOOTH);
+  glLineWidth(5.0);
+
+  glBegin(GL_LINES);
+      glColor3f(getRColor(),getGColor(),getBColor());
+      for(i = 0; i <= triangleAmount; i++)
+      {
+          glVertex2f(0, 0);
+          glVertex2f((getRadius() * cos(i * twicePi / triangleAmount)), (getRadius() * sin(i * twicePi / triangleAmount)));
+      }
   glEnd();
 }
+
 
 double Circle::distance2Center(double x,double y)
 {
