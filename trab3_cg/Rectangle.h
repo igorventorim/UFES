@@ -22,6 +22,7 @@ class Rectangle
         double getGColor(void);
         double getBColor(void);
         void drawRectangle(void);
+        void drawRectangle(double,double);
 		bool isDrawn(void);
 
 };

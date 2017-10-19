@@ -5,34 +5,10 @@
 #include <iostream>
 
 
-// Stadium::Stadium(list<Circle*> o,Circle* p)
-// {
-// 	objects = o;
-// 	person = p;
-// 	personJumping = false;
-// 	setInLowElements(false);
-// 	minPersonRadius = p->getRadius();
-// 	maxPersonRadius = p->getRadius()*1.5;
-// }
-
-// Stadium::Stadium(Circle* exterior, Circle *inferior, Circle *psn, list<Circle*> hight, list<Circle*>low)
-// {
-// 	limitExterior = exterior;
-// 	limitInterior = inferior;
-// 	person = psn;
-// 	hightElements = hight;
-// 	lowElements = low;
-// 	personJumping = false;
-// 	setInLowElements(false);
-// 	minPersonRadius = person->getRadius();
-// 	maxPersonRadius = person->getRadius()*1.5;
-// }
-
 Stadium::Stadium(list<Circle*> o,Player *p)
 {
 	objects = o;
 	player = p;
-	// personJumping = false;
 	p->setJumping(false);
 	setInLowElements(false);
 	minPersonRadius = p->getHeadRadius();
@@ -46,7 +22,6 @@ Stadium::Stadium(Circle* exterior, Circle *inferior, Player *p, list<Circle*> hi
 	player = p;
 	hightElements = hight;
 	lowElements = low;
-	// personJumping = false;
 	p->setJumping(false);
 	setInLowElements(false);
 	minPersonRadius = p->getHeadRadius();
@@ -84,12 +59,8 @@ void Stadium::drawStadium(void)
 			glPopMatrix();
 		}
 
-		// glPushMatrix();
-		// 	glTranslatef(person->getCoord_x(), person->getCoord_y(), 0);
-		// 	person->drawCircle();
-		// glPopMatrix();
-
 		player->draw();
+
 	glPopMatrix();
 }
 
@@ -110,13 +81,11 @@ Circle* Stadium::getLimiteExterior(void)
 
 bool Stadium::getPersonJumping(void)
 {
-	// return personJumping;
 	return player->isJumping();
 }
 
 void Stadium::setPersonJumping(bool jump)
 {
-	// personJumping = jump;
 	player->setJumping(jump);
 }
 

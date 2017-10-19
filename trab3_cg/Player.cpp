@@ -3,9 +3,11 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 
-Player::Player(Circle* circle)
+Player::Player(Circle* circle, double shot, double move)
 {
     head = circle;
+    moveVelocity = move;
+    shotVelocity = shot;
 }
 void Player::setHead(Circle* circle)
 {
@@ -76,19 +78,19 @@ void Player::atirar(void){}
 
 void Player::moveRight(void)
 {
-    head->moveX(1.0);
+    head->moveX(moveVelocity);
 }
 void Player::moveLeft(void)
 {
-    head->moveX(-1.0);
+    head->moveX(-moveVelocity);
 }
 void Player::moveUp(void)
 {
-    head->moveY(1.0);
+    head->moveY(moveVelocity);
 }
 void Player::moveDown(void)
 {
-    head->moveY(-1.0);
+    head->moveY(-moveVelocity);
 }
 double Player::getCoord_x(void)
 {

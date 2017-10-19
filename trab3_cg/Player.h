@@ -7,10 +7,11 @@ class Player
 	private:
 		Circle *head;
 		Rectangle *lHand,*rHand,*lFoot,*rFoot;
+		double moveVelocity, shotVelocity;
 		bool jumping;
 
 	public:
-		Player(Circle*);
+		Player(Circle*,double,double);
 		void setHead(Circle*);
 		Circle* getHead(void);
 		bool isJumping(void);

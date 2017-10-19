@@ -140,8 +140,7 @@ int main(int argc, char **argv) {
 				<< "Exemplo: ./trabalhocg /Test1/\n";
 		exit(1);
 	}
-	string pathSVG = scanner.readConfigXML(path);
-	arena = scanner.readArenaSVG(pathSVG);
+	arena = scanner.readConfigXML(path);
 	window = scanner.buildWindowArena(path, arena->getLimiteExterior());
 	cout << "Size window: " << window->getWidth() << "x" << window->getHeight()
 			<< "\n";

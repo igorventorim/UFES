@@ -15,14 +15,14 @@ class Scanner
 {
     private:
         XMLDocument doc;
+        Stadium* readArenaSVG(string,double,double);
     public:
         Scanner();
         Circle* readCircle(string);
         string readTitle(string);
         Window* readWindow(string);
-        string readConfigXML(string);
+        Stadium* readConfigXML(string);
         // list<Circle*> readArenaSVG(string file);
-        Stadium* readArenaSVG(string file);
         Window* buildWindowArena(string,Circle*);
 };
 

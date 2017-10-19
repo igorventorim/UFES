@@ -16,7 +16,6 @@ Circle* Scanner::readCircle(string file)
     int radius;
     double r_color,g_color,b_color;
     doc.LoadFile(file.data());
-    // cout <<  file << "\n";
   	if(!doc.ErrorID())
   	{
           XMLElement* circulo = doc.FirstChildElement("aplicacao")->FirstChildElement("circulo");
@@ -24,7 +23,6 @@ Circle* Scanner::readCircle(string file)
   	 	    circulo->QueryDoubleAttribute("corR",&r_color);
   		    circulo->QueryDoubleAttribute("corG",&g_color);
           circulo->QueryDoubleAttribute("corB",&b_color);
-          // string color = "#"+std::to_string(r_color)+"#"+std::to_string(g_color)+"#"+std::to_string(b_color);
           Circle *circle = new Circle(0,radius,r_color,g_color,b_color);
           return circle;
     }else
@@ -64,8 +62,6 @@ Window* Scanner::readWindow(string file)
   		janela->FirstChildElement("fundo")->QueryDoubleAttribute("corR",&r_color);
   		janela->FirstChildElement("fundo")->QueryDoubleAttribute("corG",&g_color);
           janela->FirstChildElement("fundo")->QueryDoubleAttribute("corB",&b_color);
-
-          // string color = "#"+std::to_string(r_color)+"#"+std::to_string(g_color)+"#"+std::to_string(b_color);
           Window* window = new Window(width,height,r_color,g_color,b_color);
           return window;
     }else
@@ -78,9 +74,8 @@ Window* Scanner::readWindow(string file)
 }
 
 
-Stadium* Scanner::readArenaSVG(string file)
+Stadium* Scanner::readArenaSVG(string file,double velTiro, double vel)
 {
-    // std::list<Circle*> list;
     std::list<Circle*> lowElements;
     std::list<Circle*> hightElements;
     Player* person;
@@ -134,7 +129,7 @@ Stadium* Scanner::readArenaSVG(string file)
               limiteInterior = new Circle(id,color,radius,cx,height-cy);
             }else if(color == "green")
             {
-              person = new Player(new Circle(id,color,radius,cx,height-cy));
+              person = new Player(new Circle(id,color,radius,cx,height-cy),velTiro,vel);
             }
         }
 
@@ -148,9 +143,10 @@ Stadium* Scanner::readArenaSVG(string file)
 
 }
 
-string Scanner::readConfigXML(string file)
+Stadium* Scanner::readConfigXML(string file)
 {
     string name, type, path;
+    double shot, move;
     doc.LoadFile(file.data());
     if(!doc.ErrorID())
     {
@@ -158,8 +154,11 @@ string Scanner::readConfigXML(string file)
         name = arena->Attribute("nome");
         type = arena->Attribute("tipo");
         path = arena->Attribute("caminho");
+        XMLElement* player = doc.FirstChildElement("aplicacao")->FirstChildElement("jogador");
+        player->QueryDoubleAttribute("velTiro",&shot);
+        player->QueryDoubleAttribute("vel",&move);
 
-        return path + name +"."+type;
+        return readArenaSVG(path + name +"."+type,shot,move);
   }else
     {
         cout << "Erro ao abrir o arquivo XML "<< file << "\n";
