@@ -8,6 +8,7 @@ class Color
 	private:
 		double r_color,g_color,b_color;
 		string colorName;
+		void colorNameToRGB();
 	public:
 		Color();
 		Color(string);
@@ -19,6 +20,7 @@ class Color
         void setGColor(double);
         void setBColor(double);
         void setColorName(string);
-        string getColorName(void);
+		string getColorName(void);
+		void rGBToColorName(void);
 };
 #endif

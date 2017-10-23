@@ -2,23 +2,24 @@
 #define _CIRCLE_H_
 #include <string>
 #include "Point.h"
+#include "Color.h"
 using namespace std;
 class Circle
 {
     private:
         int id;
-        string color;
+        Color* color;
         double radius;//,coord_x,coord_y;
-        double r_color,g_color,b_color;
+        // double r_color,g_color,b_color;
         bool drawn, update;
         Point center;
         void colornameToRGB(string colorname);
     public:
-        Circle(int,string,double);
-        Circle(int,string,double,double,double);
-        Circle(int,double,double,double,double);
+        Circle(int,Color*,double);
+        Circle(int,Color*,double,double,double);
+        Circle(int,double,Color*);
         void setRadius(double);
-        void setColor(double);
+        void setColor(Color*);
         void setCoord_x(double);
         void setCoord_y(double);
         void moveX(double);
@@ -27,10 +28,10 @@ class Circle
         double getRadius(void);
         double getCoord_x(void);
         double getCoord_y(void);
-        string getColor(void);
-        double getRColor(void);
-        double getGColor(void);
-        double getBColor(void);
+        Color* getColor(void);
+        // double getRColor(void);
+        // double getGColor(void);
+        // double getBColor(void);
         bool isDrawn(void);
         void drawCircle(void);
         void setDrawn(bool);

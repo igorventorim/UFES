@@ -26,7 +26,9 @@ class Rectangle
         double getCoord_x(void);
         double getCoord_y(void);
         void setCoord_x(double);
-        void setCoord_y(double);
+		void setCoord_y(double);
+		double getWidth(void);
+		double getHeight(void);
         // void drawRectangle(double,double);
 		bool isDrawn(void);
 

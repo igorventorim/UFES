@@ -11,26 +11,26 @@ using namespace tinyxml2;
 
 Scanner::Scanner(){}
 
-Circle* Scanner::readCircle(string file)
-{
-    int radius;
-    double r_color,g_color,b_color;
-    doc.LoadFile(file.data());
-  	if(!doc.ErrorID())
-  	{
-          XMLElement* circulo = doc.FirstChildElement("aplicacao")->FirstChildElement("circulo");
-  		    circulo->QueryIntAttribute("raio",&radius);
-  	 	    circulo->QueryDoubleAttribute("corR",&r_color);
-  		    circulo->QueryDoubleAttribute("corG",&g_color);
-          circulo->QueryDoubleAttribute("corB",&b_color);
-          Circle *circle = new Circle(0,radius,r_color,g_color,b_color);
-          return circle;
-    }else
-  	{
-  		cout << "Erro ao abrir o arquivo XML "<< file << "\n";
-  	}
+// Circle* Scanner::readCircle(string file)
+// {
+//     int radius;
+//     double r_color,g_color,b_color;
+//     doc.LoadFile(file.data());
+//   	if(!doc.ErrorID())
+//   	{
+//           XMLElement* circulo = doc.FirstChildElement("aplicacao")->FirstChildElement("circulo");
+//   		    circulo->QueryIntAttribute("raio",&radius);
+//   	 	    circulo->QueryDoubleAttribute("corR",&r_color);
+//   		    circulo->QueryDoubleAttribute("corG",&g_color);
+//           circulo->QueryDoubleAttribute("corB",&b_color);
+//           Circle *circle = new Circle(0,radius,r_color,g_color,b_color);
+//           return circle;
+//     }else
+//   	{
+//   		cout << "Erro ao abrir o arquivo XML "<< file << "\n";
+//   	}
 
-}
+// }
 
 string Scanner::readTitle(string file)
 {
@@ -102,7 +102,8 @@ Stadium* Scanner::readArenaSVG(string file,double velTiro, double vel)
             if(color == "blue")
             {
                 height = radius*2;
-                limiteExterior = new Circle(id,color,radius,cx,height-cy);
+                Color *cor = new Color(color);
+                limiteExterior = new Circle(id,cor,radius,cx,height-cy);
             }
 
         }
@@ -115,21 +116,21 @@ Stadium* Scanner::readArenaSVG(string file,double velTiro, double vel)
             circle->QueryDoubleAttribute("cy",&cy);
             circle->QueryIntAttribute("id",&id);
             color = circle->Attribute("fill");
-
+            Color *cor = new Color(color);
             if(color == "black")
             {
-              Circle* circle = new Circle(id,color,radius,cx,height-cy);
+              Circle* circle = new Circle(id,cor,radius,cx,height-cy);
               lowElements.push_back(circle);
             }else if(color == "red")
             {
-              Circle* circle = new Circle(id,color,radius,cx,height-cy);
+              Circle* circle = new Circle(id,cor,radius,cx,height-cy);
               hightElements.push_back(circle);
             }else if(color == "white")
             {
-              limiteInterior = new Circle(id,color,radius,cx,height-cy);
+              limiteInterior = new Circle(id,cor,radius,cx,height-cy);
             }else if(color == "green")
             {
-              person = new Player(new Circle(id,color,radius,cx,height-cy),velTiro,vel);
+              person = new Player(new Circle(id,cor,radius,cx,height-cy),velTiro,vel);
             }
         }
 

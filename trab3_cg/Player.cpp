@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Circle.h"
+#include <cmath>
 #include <GL/gl.h>
 #include <GL/glu.h>
 #define RADIUS_SHOULDER_A circle->getRadius()*0.8
@@ -11,21 +12,19 @@
 
 Player::Player(Circle* circle, double shot, double move)
 {
-
-    /* TODO: ADD PROPORTION */
-
     center = new Point(circle->getCoord_x(),circle->getCoord_y());
     head = circle;
     moveVelocity = move;
     shotVelocity = shot;
-    Color *personColor = new Color(circle->getRColor(),circle->getGColor(),circle->getBColor());
+    playerAngle = 0;
+    inverseFoots = false;
 
 
     // CREATE SHOULDERS
     Point *lShoulderPoint = new Point(-circle->getRadius(),0);
     Point *rShoulderPoint = new Point(circle->getRadius(),0);
-    lShoulder = new Elipse(RADIUS_SHOULDER_A,RADIUS_SHOULDER_B,lShoulderPoint,personColor);
-    rShoulder = new Elipse(RADIUS_SHOULDER_A,RADIUS_SHOULDER_B,rShoulderPoint,personColor);
+    lShoulder = new Elipse(RADIUS_SHOULDER_A,RADIUS_SHOULDER_B,lShoulderPoint,head->getColor());
+    rShoulder = new Elipse(RADIUS_SHOULDER_A,RADIUS_SHOULDER_B,rShoulderPoint,head->getColor());
 
     // CREATE FOOTS
     Color *footColor = new Color(0.0,0.0,0.0);
@@ -36,7 +35,7 @@ Player::Player(Circle* circle, double shot, double move)
 
     // CREATE HAND
     Point *handPoint = new Point(circle->getRadius()+RADIUS_SHOULDER_A/2,0);
-    hand = new Rectangle(handPoint,WIDTH_HAND,HEIGHT_HAND,personColor);
+    hand = new Rectangle(handPoint,WIDTH_HAND,HEIGHT_HAND,head->getColor());
 
 }
 void Player::setHead(Circle* circle)
@@ -83,7 +82,9 @@ void Player::draw(void)
 {
     glPushMatrix();
 
+    // glTranslatef(center->getX(), center->getY(), 0);
             glTranslatef(head->getCoord_x(), head->getCoord_y(), 0);
+            glRotatef(playerAngle, 0,0,1);
 
             glPushMatrix();
                 glTranslatef(hand->getCoord_x(), hand->getCoord_y(), 0);
@@ -94,12 +95,12 @@ void Player::draw(void)
                 glTranslatef(lShoulder->getCoord_x(), lShoulder->getCoord_y(), 0);
                 lShoulder->drawElipse();
             glPopMatrix();
-
+      
             glPushMatrix();
                 glTranslatef(rShoulder->getCoord_x(), rShoulder->getCoord_y(), 0);
                 rShoulder->drawElipse();
             glPopMatrix();
-
+                             
             glPushMatrix();
                 glTranslatef(lFoot->getCoord_x(), lFoot->getCoord_y(), 0);
                 rFoot->drawRectangle();
@@ -110,6 +111,7 @@ void Player::draw(void)
                 rFoot->drawRectangle();
             glPopMatrix();
 
+            // }else{}
            
             head->drawCircle();
 
@@ -127,29 +129,33 @@ void Player::setHeadRadius(double r)
 void Player::girar(void){}
 void Player::atirar(void){}
 
-void Player::moveRight(void)
+void Player::rotateRight(void)
 {
-    head->moveX(moveVelocity);
+    // head->moveX(moveVelocity);
+    incPlayerAngle(moveVelocity);
 }
-void Player::moveLeft(void)
+void Player::rotateLeft(void)
 {
-    head->moveX(-moveVelocity);
+    // head->moveX(-moveVelocity);
+    incPlayerAngle(-moveVelocity);
 }
 void Player::moveUp(void)
 {
-    head->moveY(moveVelocity);
+    head->moveY(moveVelocity*cos(playerAngle* 4.0 * atan (1.0) / 180.0));
+    head->moveX(moveVelocity*sin(playerAngle* 4.0 * atan (1.0) / 180.0));
 }
 void Player::moveDown(void)
 {
-    head->moveY(-moveVelocity);
+    head->moveY(-moveVelocity*cos(playerAngle* 4.0 * atan (1.0) / 180.0));
+    head->moveX(-moveVelocity*sin(playerAngle* 4.0 * atan (1.0) / 180.0));
 }
 double Player::getCoord_x(void)
 {
-    head->getCoord_x();
+    center->getX();
 }
 double Player::getCoord_y(void)
 {
-    head->getCoord_y();
+    center->getY();
 }
 void Player::setLShoulder(Elipse* e)
 {
@@ -163,4 +169,29 @@ Elipse* Player::getLShoulder(void){
 }
 Elipse* Player::getRShoulder(void){
     return rShoulder;
+}
+
+void Player::setPlayerAngle(double a){
+    playerAngle = a;
+}
+double Player::getPlayerAngle(void){
+    return playerAngle;
+}
+void Player::incPlayerAngle(double a){
+    playerAngle += a;
+}
+
+void Player::changeInverseFoots(void)
+{
+    inverseFoots = !inverseFoots;
+    if(inverseFoots)
+    {
+        lFoot->setCoord_y(-lFoot->getHeight());
+        rFoot->setCoord_y(0);
+    }else
+    {
+        lFoot->setCoord_y(0);
+        rFoot->setCoord_y(-rFoot->getHeight());
+    }
+
 }

@@ -6,33 +6,29 @@
 
 using namespace std;
 
-Circle::Circle(int identificador, string cor, double raio)
+Circle::Circle(int identificador, Color* cor, double raio)
 {
     id = identificador;
     color = cor;
     radius = radius;
     drawn = false;
     center = Point();
-    colornameToRGB(color);
 }
 
-Circle::Circle(int identificador, string cor, double raio, double dX, double dY)
+Circle::Circle(int identificador, Color* cor, double raio, double dX, double dY)
 {
     id = identificador;
     color = cor;
     radius = raio;
     drawn = false;
     center = Point(dX,dY);
-    colornameToRGB(color);
 }
 
-Circle::Circle(int identificador,double raio ,double r,double g,double b)
+Circle::Circle(int identificador,double raio ,Color *c)
 {
     id = identificador;
     radius = raio;
-    r_color = r;
-    g_color = g;
-    b_color = b;
+    color = c;
     drawn = false;
 }
 
@@ -41,7 +37,7 @@ void Circle::setRadius(double r)
     radius = r;
 }
 
-void Circle::setColor(double c)
+void Circle::setColor(Color* c)
 {
     color = c;
 }
@@ -86,25 +82,25 @@ double Circle::getCoord_y()
     return center.getY();
 }
 
-string Circle::getColor()
+Color* Circle::getColor()
 {
     return color;
 }
 
-double Circle::getRColor(void)
-{
-    return r_color;
-}
+// double Circle::getRColor(void)
+// {
+//     return r_color;
+// }
 
-double Circle::getGColor(void)
-{
-    return g_color;
-}
+// double Circle::getGColor(void)
+// {
+//     return g_color;
+// }
 
-double Circle::getBColor(void)
-{
-    return b_color;
-}
+// double Circle::getBColor(void)
+// {
+//     return b_color;
+// }
 
 bool Circle::isDrawn(void)
 {
@@ -142,7 +138,7 @@ void Circle::drawCircle(void)
   glLineWidth(5.0);
 
   glBegin(GL_LINES);
-      glColor3f(getRColor(),getGColor(),getBColor());
+      glColor3f(color->getRColor(),color->getGColor(),color->getBColor());
       for(i = 0; i <= triangleAmount; i++)
       {
           glVertex2f(0, 0);
@@ -181,40 +177,6 @@ bool Circle::getUpdate(void)
 int Circle::getId(void)
 {
     return id;
-}
-
-void Circle::colornameToRGB(string colorname)
-{
-   if (colorname == "red")
-   {
-            r_color = 1.0;
-            g_color = 0.0;
-            b_color = 0.0;
-    }else if(colorname == "blue")
-    {
-        r_color = 0.0;
-        g_color = 0.0;
-        b_color = 1.0;
-    }else if(colorname == "white")
-    {
-        r_color = 1.0;
-        g_color = 1.0;
-        b_color = 1.0;
-    }else if(colorname == "black")
-    {
-        r_color = 0.0;
-        g_color = 0.0;
-        b_color = 0.0;
-    }else if(colorname  == "green")
-    {
-        r_color = 0.0;
-        g_color = 1.0;
-        b_color = 0.0;
-    }else{
-        r_color = 1.0;
-        g_color = 1.0;
-        b_color = 1.0;
-    }
 }
 
 void Circle::move()

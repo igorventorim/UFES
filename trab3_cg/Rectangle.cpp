@@ -81,3 +81,12 @@ void Rectangle::drawRectangle(){
 bool Rectangle::isDrawn(void){
     return drawn;
 }
+
+double Rectangle::getWidth(void)
+{
+    return width;
+}
+double Rectangle::getHeight(void)
+{
+    return height;
+}

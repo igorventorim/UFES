@@ -78,25 +78,30 @@ void idle(void) {
 	if ((key_status['d'] || key_status['D'])
 			&& arena->isValidMove(person->getCoord_x() + 1,
 					person->getCoord_y())) {
-		person->moveRight();
+		// person->moveRight();
+		person->rotateRight();
+		
 	}
 
 	if ((key_status['s'] || key_status['S'])
 			&& arena->isValidMove(person->getCoord_x(),
 					person->getCoord_y() - 1)) {
 		person->moveDown();
+		person->changeInverseFoots();
 	}
 
 	if ((key_status['a'] || key_status['A'])
 			&& arena->isValidMove(person->getCoord_x() - 1,
 					person->getCoord_y())) {
-		person->moveLeft();
+		// person->moveLeft();
+		person->rotateLeft();
 	}
 
 	if ((key_status['w'] || key_status['W'])
 			&& arena->isValidMove(person->getCoord_x(),
 					person->getCoord_y() + 1)) {
 		person->moveUp();
+		person->changeInverseFoots();
 	}
 
 	if (!arena->getInLowElements() && arena->getInLow()) {
