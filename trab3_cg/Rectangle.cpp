@@ -3,24 +3,30 @@
 #include <GL/glu.h>
 
 
-Rectangle::Rectangle(double r,double g,double b,double w,double h){
-    r_color = r;
-    g_color = g;
-    b_color = b;
+Rectangle::Rectangle(Color *c,double w,double h){
+    color = c;
     width = w;
     height = h;
     drawn = false;
 }
-Rectangle::Rectangle(double r,double g,double b,Point* tl,Point* bl,Point* tr,Point* br){
-    r_color = r;
-    g_color = g;
-    b_color = b;
+Rectangle::Rectangle(Color *c,Point* tl,Point* bl,Point* tr,Point* br){
+    color = c;
     topLeft = tl;
     bottomLeft = bl;
     topRight = tr;
     bottomRight = br;
     drawn = false;
 }
+
+Rectangle::Rectangle(Point* o,double w,double h,Color*c)
+{
+  origin = o;
+  width = w;
+  height = h;
+  color = c;
+  drawn = false;
+}
+
 void Rectangle::setTopLeft(Point* p){
     topLeft = p;
 }
@@ -33,15 +39,24 @@ void Rectangle::setBottomRight(Point* p){
 void Rectangle::setTopRight(Point* p){
     topRight = p;
 }
-double Rectangle::getRColor(void){
-    return r_color;
+
+double Rectangle::getCoord_x(void)
+{
+  return origin->getX();
 }
-double Rectangle::getGColor(void){
-    return g_color;
+double Rectangle::getCoord_y(void)
+{
+  return origin->getY();
 }
-double Rectangle::getBColor(void){
-    return b_color;
+void Rectangle::setCoord_x(double x)
+{
+  origin->setX(x);
 }
+void Rectangle::setCoord_y(double y)
+{
+  origin->setY(y);
+}
+
 // void Rectangle::drawRectangle(void){
 //     glColor3f(r_color,g_color,b_color);
  
@@ -53,8 +68,8 @@ double Rectangle::getBColor(void){
 //      glEnd();
 // }
 void Rectangle::drawRectangle(){
-    glColor3f(r_color,g_color,b_color);
- 
+    
+    glColor3f(color->getRColor(),color->getGColor(),color->getBColor());
      glBegin(GL_QUADS);
           glVertex2f( -width/2.0, 0.0);                // Top Left
           glVertex2f( -width/2.0, height);             // Bottom Left

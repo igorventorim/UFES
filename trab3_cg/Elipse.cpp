@@ -46,22 +46,43 @@ Point* Elipse::getCenter(void){
 bool Elipse::isDrawn(void){
     return drawn;
 }
+
+double Elipse::getCoord_x(void)
+{
+    return center->getX();
+}
+
+double Elipse::getCoord_y(void)
+{
+    return center->getY();
+}
+
+void Elipse::setCoord_x(double x)
+{
+    center->setX(x);
+}
+
+void Elipse::setCoord_y(double y)
+{
+    center->setY(y);
+}
+
 void Elipse::drawElipse(void){
-    cout << "Entreiii" << "\n";
-    glPushMatrix();
-        glTranslatef(center->getX(), center->getY(), 0);
-        glColor3f(r_color,g_color,b_color);
-        int i;
-        glBegin(GL_LINE_LOOP);
-        
-        for(i=0;i<360;i++)
-        {
-            float rad = i*DEG2RAD;
-            glVertex2f(cos(rad)*radiusA, sin(rad)*radiusB);
+
+
+    glColor3f(r_color,g_color,b_color);
+    int i;
+    int triangleAmount = 20; //# of triangles used to draw circle
+    
+    //GLfloat radius = 0.8f; //radius
+    GLfloat twicePi = 2.0f * M_PI;
+    
+    glBegin(GL_TRIANGLE_FAN);
+        glVertex2f(0, 0); // center of circle
+        for(i = 0; i <= triangleAmount;i++) { 
+            glVertex2f(radiusA * cos(i *  twicePi / triangleAmount), radiusB * sin(i * twicePi / triangleAmount));
         }
-        
-        glEnd();
-    glPopMatrix();
+    glEnd();
     drawn = true;
 }
 

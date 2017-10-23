@@ -25,5 +25,9 @@ class Elipse{
       Point* getCenter(void);
       bool isDrawn(void);
       void drawElipse(void);
+      double getCoord_x(void);
+      double getCoord_y(void);
+      void setCoord_x(double);
+      void setCoord_y(double);
 };
 #endif
