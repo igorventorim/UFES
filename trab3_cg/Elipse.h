@@ -2,25 +2,29 @@
 #define _ELIPSE_H_
 #include "Point.h"
 #include <string>
+#include "Color.h"
 using namespace std;
 class Elipse{
     private:
       int id;
-      string color;
+      // string color;
       double radiusA;
       double radiusB;
-      double r_color,g_color,b_color;
+      // double r_color,g_color,b_color;
+      Color* color;
       bool drawn;
       Point *center; 
     public:
       Elipse(double,double);
-      Elipse(double,double,Point*,double,double,double);
-      double getRColor(void);
-      double getGColor(void);
-      double getBColor(void);
-      void setRColor(double);
-      void setGColor(double);
-      void setBColor(double);
+      Elipse(double,double,Point*,Color*);
+      // double getRColor(void);
+      // double getGColor(void);
+      // double getBColor(void);
+      // void setRColor(double);
+      // void setGColor(double);
+      // void setBColor(double);
+      void setColor(Color*);
+      Color *getColor(void);
       void setCenter(Point*);
       Point* getCenter(void);
       bool isDrawn(void);

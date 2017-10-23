@@ -2,12 +2,12 @@
 #include "Circle.h"
 #include <GL/gl.h>
 #include <GL/glu.h>
-#define RADIUS_SHOULDER_A 16
-#define RADIUS_SHOULDER_B 8
-#define WIDTH_FOOT 14
-#define HEIGHT_FOOT 38
-#define WIDTH_HAND 10
-#define HEIGHT_HAND 38
+#define RADIUS_SHOULDER_A circle->getRadius()*0.8
+#define RADIUS_SHOULDER_B circle->getRadius()*0.4
+#define WIDTH_FOOT circle->getRadius()*0.7
+#define HEIGHT_FOOT circle->getRadius()*1.9
+#define WIDTH_HAND circle->getRadius()*0.5
+#define HEIGHT_HAND circle->getRadius()*1.9
 
 Player::Player(Circle* circle, double shot, double move)
 {
@@ -18,12 +18,14 @@ Player::Player(Circle* circle, double shot, double move)
     head = circle;
     moveVelocity = move;
     shotVelocity = shot;
+    Color *personColor = new Color(circle->getRColor(),circle->getGColor(),circle->getBColor());
+
 
     // CREATE SHOULDERS
     Point *lShoulderPoint = new Point(-circle->getRadius(),0);
     Point *rShoulderPoint = new Point(circle->getRadius(),0);
-    lShoulder = new Elipse(RADIUS_SHOULDER_A,RADIUS_SHOULDER_B,lShoulderPoint,circle->getRColor(),circle->getGColor(),circle->getBColor());
-    rShoulder = new Elipse(RADIUS_SHOULDER_A,RADIUS_SHOULDER_B,rShoulderPoint,circle->getRColor(),circle->getGColor(),circle->getBColor());
+    lShoulder = new Elipse(RADIUS_SHOULDER_A,RADIUS_SHOULDER_B,lShoulderPoint,personColor);
+    rShoulder = new Elipse(RADIUS_SHOULDER_A,RADIUS_SHOULDER_B,rShoulderPoint,personColor);
 
     // CREATE FOOTS
     Color *footColor = new Color(0.0,0.0,0.0);
@@ -33,7 +35,6 @@ Player::Player(Circle* circle, double shot, double move)
     rFoot = new Rectangle(rFootPoint,WIDTH_FOOT,HEIGHT_FOOT,footColor);
 
     // CREATE HAND
-    Color *personColor = new Color(circle->getRColor(),circle->getGColor(),circle->getBColor());
     Point *handPoint = new Point(circle->getRadius()+RADIUS_SHOULDER_A/2,0);
     hand = new Rectangle(handPoint,WIDTH_HAND,HEIGHT_HAND,personColor);
 

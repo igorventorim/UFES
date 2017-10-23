@@ -10,33 +10,23 @@ Elipse::Elipse(double a,double b){
     radiusB = b;
     drawn = false;
 }
-Elipse::Elipse(double ra,double rb,Point* c,double r,double g,double b){
+Elipse::Elipse(double ra,double rb,Point* p,Color *c){
     radiusA = ra;
     radiusB = rb;
-    center = c;
-    r_color = r;
-    g_color = g;
-    b_color = b;
+    center = p;
+    color = c;
     drawn = false;
 }
-double Elipse::getRColor(void){
-    return r_color;
+
+void Elipse::setColor(Color* c)
+{
+    color = c;
 }
-double Elipse::getGColor(void){
-    return g_color;
+Color* Elipse::getColor(void)
+{
+    return color;
 }
-double Elipse::getBColor(void){
-    return b_color;
-}
-void Elipse::setRColor(double color){
-    r_color = color;
-}
-void Elipse::setGColor(double color){
-    g_color = color;
-}
-void Elipse::setBColor(double color){
-    b_color = color;
-}
+
 void Elipse::setCenter(Point* p){
     center = p;
 }
@@ -70,7 +60,7 @@ void Elipse::setCoord_y(double y)
 void Elipse::drawElipse(void){
 
 
-    glColor3f(r_color,g_color,b_color);
+    glColor3f(color->getRColor(),color->getGColor(),color->getBColor());
     int i;
     int triangleAmount = 20; //# of triangles used to draw circle
     
