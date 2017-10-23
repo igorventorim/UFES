@@ -7,6 +7,7 @@ Point::Point(double x, double y)
 {
     coord_x = x;
     coord_y = y;
+    coord_z = 0;
 }
 
 Point::Point(double x, double y, double z)

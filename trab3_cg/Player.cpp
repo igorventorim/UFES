@@ -2,12 +2,24 @@
 #include "Circle.h"
 #include <GL/gl.h>
 #include <GL/glu.h>
+#define RADIUS_SHOULDER_A 13
+#define RADIUS_SHOULDER_B 3
+#define WIDTH_FOOT 5
+#define HEIGHT_LEFT 20
 
 Player::Player(Circle* circle, double shot, double move)
 {
+    center = new Point(circle->getCoord_x(),circle->getCoord_y());
     head = circle;
     moveVelocity = move;
     shotVelocity = shot;
+
+    // CREATE SHOULDERS
+    Point *lPoint = new Point(-circle->getRadius(),0);
+    Point *rPoint = new Point(circle->getRadius(),0);
+    lShoulder = new Elipse(RADIUS_SHOULDER_A,RADIUS_SHOULDER_B,lPoint,circle->getRColor(),circle->getGColor(),circle->getBColor());
+    rShoulder = new Elipse(RADIUS_SHOULDER_A,RADIUS_SHOULDER_B,rPoint,circle->getRColor(),circle->getGColor(),circle->getBColor());
+
 }
 void Player::setHead(Circle* circle)
 {
@@ -25,14 +37,14 @@ void Player::setJumping(bool jump)
 {
     jumping = jump;
 }
-void Player::setLHand(Rectangle* r)
+void Player::setHand(Rectangle* r)
 {
-    lHand = r;
+    hand = r;
 }
-void Player::setRHand(Rectangle* r)
-{
-    rHand = r;
-}
+// void Player::setRHand(Rectangle* r)
+// {
+//     rHand = r;
+// }
 void Player::setRFoot(Rectangle* r)
 {
     rFoot = r;
@@ -41,18 +53,18 @@ void Player::setLFoot(Rectangle* r)
 {
     lFoot = r;
 }
-Rectangle* Player::getLHand(void)
+Rectangle* Player::getHand(void)
 {
-    return lHand;
+    return hand;
 }
 Rectangle* Player::getLFoot(void)
 {
     return lFoot;
 }
-Rectangle* Player::getRHand(void)
-{
-    return rHand;
-}
+// Rectangle* Player::getRHand(void)
+// {
+//     return rHand;
+// }
 Rectangle* Player::getRFoot(void)
 {
     return rFoot;
@@ -61,7 +73,10 @@ void Player::draw(void)
 {
     glPushMatrix();
 			glTranslatef(head->getCoord_x(), head->getCoord_y(), 0);
-			head->drawCircle();
+            head->drawCircle();
+            lShoulder->drawElipse();
+            rShoulder->drawElipse();
+
     glPopMatrix();
 }
 double Player::getHeadRadius(void)
@@ -99,4 +114,17 @@ double Player::getCoord_x(void)
 double Player::getCoord_y(void)
 {
     head->getCoord_y();
+}
+void Player::setLShoulder(Elipse* e)
+{
+    lShoulder = e;
+}
+void Player::setRShoulder(Elipse* e){
+    rShoulder = e;
+}
+Elipse* Player::getLShoulder(void){
+    return lShoulder;
+}
+Elipse* Player::getRShoulder(void){
+    return rShoulder;
 }

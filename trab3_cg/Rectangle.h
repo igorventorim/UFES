@@ -10,9 +10,10 @@ class Rectangle
 		int id;
 		double r_color,g_color,b_color;
 		Point *topLeft,*bottomLeft,*bottomRight,*topRight;
+		double width,height;
 		bool drawn;
 	public:
-		Rectangle(double,double,double);
+		Rectangle(double,double,double,double,double);
 		Rectangle(double,double,double,Point*,Point*,Point*,Point*);
 		void setTopLeft(Point*);
 		void setBottomLeft(Point*);
@@ -21,8 +22,8 @@ class Rectangle
         double getRColor(void);
         double getGColor(void);
         double getBColor(void);
-        void drawRectangle(void);
-        void drawRectangle(double,double);
+        void drawRectangle();
+        // void drawRectangle(double,double);
 		bool isDrawn(void);
 
 };

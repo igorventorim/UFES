@@ -2,11 +2,16 @@
 #define _PLAYER_H_
 #include "Circle.h"
 #include "Rectangle.h"
+#include "Elipse.h"
+#include "Point.h"
 class Player
 {
 	private:
+		Point *center;
+		double radius;
 		Circle *head;
-		Rectangle *lHand,*rHand,*lFoot,*rFoot;
+		Rectangle *hand,*lFoot,*rFoot;
+		Elipse *lShoulder,*rShoulder;
 		double moveVelocity, shotVelocity;
 		bool jumping;
 
@@ -16,13 +21,18 @@ class Player
 		Circle* getHead(void);
 		bool isJumping(void);
 		void setJumping(bool);
-		void setLHand(Rectangle*);
-		void setRHand(Rectangle*);
+		// void setLHand(Rectangle*);
+		// void setRHand(Rectangle*);
+		void setHand(Rectangle*);
 		void setRFoot(Rectangle*);
 		void setLFoot(Rectangle*);
-		Rectangle* getLHand(void);
+		void setLShoulder(Elipse*);
+		void setRShoulder(Elipse*);
+		Elipse* getLShoulder(void);
+		Elipse* getRShoulder(void);
+		Rectangle* getHand(void);
 		Rectangle* getLFoot(void);
-		Rectangle* getRHand(void);
+		// Rectangle* getRHand(void);
 		Rectangle* getRFoot(void);
 		void draw(void);
 		double getHeadRadius(void);

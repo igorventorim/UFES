@@ -2,10 +2,13 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 
-Rectangle::Rectangle(double r,double g,double b){
+
+Rectangle::Rectangle(double r,double g,double b,double w,double h){
     r_color = r;
     g_color = g;
     b_color = b;
+    width = w;
+    height = h;
     drawn = false;
 }
 Rectangle::Rectangle(double r,double g,double b,Point* tl,Point* bl,Point* tr,Point* br){
@@ -39,25 +42,26 @@ double Rectangle::getGColor(void){
 double Rectangle::getBColor(void){
     return b_color;
 }
-void Rectangle::drawRectangle(void){
+// void Rectangle::drawRectangle(void){
+//     glColor3f(r_color,g_color,b_color);
+ 
+//      glBegin(GL_QUADS);
+//           glVertex2f( topLeft->getX(), topLeft->getY());                        // Top Left
+//           glVertex2f( bottomLeft->getX(), bottomLeft->getY());               // Bottom Left
+//           glVertex2f( bottomRight->getX(), bottomRight->getY());               // Bottom Right
+//           glVertex2f( topRight->getX(), topRight->getY());                // Top Right
+//      glEnd();
+// }
+void Rectangle::drawRectangle(){
     glColor3f(r_color,g_color,b_color);
  
      glBegin(GL_QUADS);
-          glVertex2f( topLeft->getX(), topLeft->getY());                        // Top Left
-          glVertex2f( bottomLeft->getX(), bottomLeft->getY());               // Bottom Left
-          glVertex2f( bottomRight->getX(), bottomRight->getY());               // Bottom Right
-          glVertex2f( topRight->getX(), topRight->getY());                // Top Right
+          glVertex2f( -width/2.0, 0.0);                // Top Left
+          glVertex2f( -width/2.0, height);             // Bottom Left
+          glVertex2f( width/2.0, height);              // Bottom Right
+          glVertex2f( width/2.0, 0.0);                 // Top Right
      glEnd();
-}
-void Rectangle::drawRectangle(double width,double height){
-    glColor3f(r_color,g_color,b_color);
- 
-     glBegin(GL_QUADS);
-          glVertex2f( -width/2.0, 0.0);                        // Top Left
-          glVertex2f( -width/2.0, height);               // Bottom Left
-          glVertex2f( width/2.0, height);               // Bottom Right
-          glVertex2f( width/2.0, 0.0);                // Top Right
-     glEnd();
+     drawn = true;
 }
 bool Rectangle::isDrawn(void){
     return drawn;
