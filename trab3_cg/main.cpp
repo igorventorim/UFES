@@ -47,6 +47,15 @@ void mouse(int button, int state, int x, int y) {
 }
 
 void mouseMotion(int x, int y) {
+
+	// cout << "x:" << x <<" - y:"<< y << "\n";
+	// arena->getPlayer()->moveHand(x,y);
+}
+
+void mousePassiveMotion(int x, int y)
+{
+	arena->getPlayer()->moveHand(x,y - window->getHeight());
+	// cout << "x:" << x <<" - y:"<< y << "\n";	
 }
 
 void keyPress(unsigned char key, int x, int y) {
@@ -76,16 +85,15 @@ void idle(void) {
 	Player *person = arena->getPlayer();
 
 	if ((key_status['d'] || key_status['D'])
-			&& arena->isValidMove(person->getCoord_x() + 1,
+			&& arena->isValidMove(person->getCoord_x(),
 					person->getCoord_y())) {
-		// person->moveRight();
 		person->rotateRight();
 		
 	}
 
 	if ((key_status['s'] || key_status['S'])
-			&& arena->isValidMove(person->getCoord_x(),
-					person->getCoord_y() - 1)) {
+			/*&& arena->isValidMove(person->getCoord_x(),
+					person->getCoord_y())*/) {
 		person->moveDown();
 		person->changeInverseFoots();
 	}
@@ -93,13 +101,12 @@ void idle(void) {
 	if ((key_status['a'] || key_status['A'])
 			&& arena->isValidMove(person->getCoord_x() - 1,
 					person->getCoord_y())) {
-		// person->moveLeft();
 		person->rotateLeft();
 	}
 
 	if ((key_status['w'] || key_status['W'])
-			&& arena->isValidMove(person->getCoord_x(),
-					person->getCoord_y() + 1)) {
+			/*&& arena->isValidMove(person->getCoord_x(),
+					person->getCoord_y())*/) {
 		person->moveUp();
 		person->changeInverseFoots();
 	}
@@ -162,6 +169,7 @@ int main(int argc, char **argv) {
 	glutMouseFunc(mouse);
 	glutIdleFunc(idle);
 	glutMotionFunc(mouseMotion);
+	glutPassiveMotionFunc(mousePassiveMotion);
 	glutMainLoop();
 
 	return 0;

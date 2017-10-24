@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Circle.h"
+#include <iostream>
 #include <cmath>
 #include <GL/gl.h>
 #include <GL/glu.h>
@@ -16,6 +17,7 @@ Player::Player(Circle* circle, double shot, double move)
     head = circle;
     moveVelocity = move;
     shotVelocity = shot;
+    bufferInverse = 0;
     playerAngle = 0;
     inverseFoots = false;
 
@@ -88,6 +90,7 @@ void Player::draw(void)
 
             glPushMatrix();
                 glTranslatef(hand->getCoord_x(), hand->getCoord_y(), 0);
+                glRotatef(angleHand,0,0,1);                
                 hand->drawRectangle();
             glPopMatrix();
 
@@ -141,13 +144,17 @@ void Player::rotateLeft(void)
 }
 void Player::moveUp(void)
 {
-    head->moveY(moveVelocity*cos(playerAngle* 4.0 * atan (1.0) / 180.0));
-    head->moveX(moveVelocity*sin(playerAngle* 4.0 * atan (1.0) / 180.0));
+    head->moveY(moveVelocity*cos(playerAngle));
+    head->moveX(moveVelocity*sin(playerAngle));
+    // cout << playerAngle <<":ANGLE\n";
 }
 void Player::moveDown(void)
 {
-    head->moveY(-moveVelocity*cos(playerAngle* 4.0 * atan (1.0) / 180.0));
-    head->moveX(-moveVelocity*sin(playerAngle* 4.0 * atan (1.0) / 180.0));
+    head->moveY(-moveVelocity*cos(playerAngle));
+    head->moveX(-moveVelocity*sin(playerAngle));
+    // cout << head->getCoord_x() << " x : y " << head->getCoord_y() << " - trás\n";
+    
+
 }
 double Player::getCoord_x(void)
 {
@@ -181,9 +188,34 @@ void Player::incPlayerAngle(double a){
     playerAngle += a;
 }
 
+void Player::moveHand(double x,double y)
+{
+    double newX =  head->getCoord_x() - x ;
+    double newY =  head->getCoord_y() - y;
+    angleHand = atan2(newX - hand->getCoord_y(),newY - hand->getCoord_x()) *180/M_PI; 
+    if(angleHand > 45)
+    {
+        angleHand = 45;
+    }else if(angleHand < -45)
+    {
+        angleHand = -45;
+    }
+
+    cout << angleHand <<":ANGLE\n";
+    
+    // double newX = hand->getCoord_x()+ hand->getCoord_x()*sin();
+    // double newY = hand->getCoord_y()+ hand->getCoord_y()*cos();
+    // hand->setCoord_x(newX);
+    // hand->setCoord_y(newY);
+}
+
+
 void Player::changeInverseFoots(void)
 {
     inverseFoots = !inverseFoots;
+    bufferInverse++;
+    if(bufferInverse < 5 ){ return;}
+    bufferInverse = 0;
     if(inverseFoots)
     {
         lFoot->setCoord_y(-lFoot->getHeight());

@@ -15,6 +15,8 @@ class Player
 		double moveVelocity, shotVelocity;
 		bool jumping,inverseFoots;
 		double playerAngle;
+		double angleHand;
+		int bufferInverse;
 
 	public:
 		Player(Circle*,double,double);
@@ -49,7 +51,8 @@ class Player
 		void setPlayerAngle(double);
 		double getPlayerAngle(void);
 		void incPlayerAngle(double);
-		void changeInverseFoots();
+		void changeInverseFoots(void);
+		void moveHand(double,double);
 
 
 };

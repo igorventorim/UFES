@@ -13,7 +13,6 @@ class Circle
         // double r_color,g_color,b_color;
         bool drawn, update;
         Point center;
-        void colornameToRGB(string colorname);
     public:
         Circle(int,Color*,double);
         Circle(int,Color*,double,double,double);
