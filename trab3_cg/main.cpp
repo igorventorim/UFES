@@ -43,14 +43,9 @@ void init(void) {
 	glLoadIdentity();
 }
 
-void mouse(int button, int state, int x, int y) {
-}
+void mouse(int button, int state, int x, int y) {}
 
-void mouseMotion(int x, int y) {
-
-	// cout << "x:" << x <<" - y:"<< y << "\n";
-	// arena->getPlayer()->moveHand(x,y);
-}
+void mouseMotion(int x, int y) {}
 
 void mousePassiveMotion(int x, int y)
 {
@@ -76,37 +71,33 @@ void timerFunc(int value) {
 		arena->setInLowElements(true);
 
 	}
-
-	glutPostRedisplay();
-
+	// glutPostRedisplay();
 }
 
 void idle(void) {
 	Player *person = arena->getPlayer();
 
 	if ((key_status['d'] || key_status['D'])
-			&& arena->isValidMove(person->getCoord_x(),
-					person->getCoord_y())) {
+			/*&& arena->isValidMove(person->getCoord_x(),
+					person->getCoord_y())*/) {
 		person->rotateRight();
 		
 	}
 
 	if ((key_status['s'] || key_status['S'])
-			/*&& arena->isValidMove(person->getCoord_x(),
-					person->getCoord_y())*/) {
+			&& arena->isValidMove(-1)) {
 		person->moveDown();
 		person->changeInverseFoots();
 	}
 
 	if ((key_status['a'] || key_status['A'])
-			&& arena->isValidMove(person->getCoord_x() - 1,
-					person->getCoord_y())) {
+			/*&& arena->isValidMove(person->getCoord_x() - 1,
+					person->getCoord_y())*/) {
 		person->rotateLeft();
 	}
 
 	if ((key_status['w'] || key_status['W'])
-			/*&& arena->isValidMove(person->getCoord_x(),
-					person->getCoord_y())*/) {
+			&& arena->isValidMove(1)) {
 		person->moveUp();
 		person->changeInverseFoots();
 	}
@@ -126,17 +117,17 @@ void idle(void) {
 		flag = 1;
 	}
 
-	if (flag == 1) {
-		if (person->getHeadRadius() < arena->getMaxPersonRadius()) {
-			person->setHeadRadius(person->getHeadRadius() + 0.2);
-		}
-	}
+	// if (flag == 1) {
+	// 	if (person->getHeadRadius() < arena->getMaxPersonRadius()) {
+	// 		person->setHeadRadius(person->getHeadRadius() + 0.2);
+	// 	}
+	// }
 
-	if (flag == 2) {
-		if (person->getHeadRadius() > arena->getMinPersonRadius()) {
-			person->setHeadRadius(person->getHeadRadius() - 0.2);
-		}
-	}
+	// if (flag == 2) {
+	// 	if (person->getHeadRadius() > arena->getMinPersonRadius()) {
+	// 		person->setHeadRadius(person->getHeadRadius() - 0.2);
+	// 	}
+	// }
 
 	glutPostRedisplay();
 

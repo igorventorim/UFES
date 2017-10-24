@@ -53,6 +53,9 @@ class Player
 		void incPlayerAngle(double);
 		void changeInverseFoots(void);
 		void moveHand(double,double);
+		double getRadius(void);
+		double getAfterX(int);
+		double getAfterY(int);
 
 
 };

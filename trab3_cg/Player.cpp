@@ -20,6 +20,7 @@ Player::Player(Circle* circle, double shot, double move)
     bufferInverse = 0;
     playerAngle = 0;
     inverseFoots = false;
+    radius = HEIGHT_FOOT;
 
 
     // CREATE SHOULDERS
@@ -84,10 +85,9 @@ void Player::draw(void)
 {
     glPushMatrix();
 
-    // glTranslatef(center->getX(), center->getY(), 0);
-            glTranslatef(head->getCoord_x(), head->getCoord_y(), 0);
+            glTranslatef(center->getX(), center->getY(), 0);
             glRotatef(playerAngle, 0,0,1);
-
+            
             glPushMatrix();
                 glTranslatef(lShoulder->getCoord_x(), lShoulder->getCoord_y(), 0);
                 lShoulder->drawElipse();
@@ -127,33 +127,57 @@ void Player::setHeadRadius(double r)
 {
     return head->setRadius(r);
 }
+
+double Player::getRadius()
+{
+    return radius;
+}
+
 void Player::girar(void){}
 void Player::atirar(void){}
 
 void Player::rotateRight(void)
 {
     // head->moveX(moveVelocity);
-    incPlayerAngle(moveVelocity);
+    incPlayerAngle(-moveVelocity);
 }
 void Player::rotateLeft(void)
 {
     // head->moveX(-moveVelocity);
-    incPlayerAngle(-moveVelocity);
+    incPlayerAngle(moveVelocity);
 }
 void Player::moveUp(void)
 {
-    head->moveY(moveVelocity*cos(playerAngle));
-    head->moveX(moveVelocity*sin(playerAngle));
-    // cout << playerAngle <<":ANGLE\n";
+    center->moveX(moveVelocity*cos((playerAngle+90)*M_PI/180));
+    center->moveY(moveVelocity*sin((playerAngle+90)*M_PI/180));
 }
 void Player::moveDown(void)
 {
-    head->moveY(-moveVelocity*cos(playerAngle));
-    head->moveX(-moveVelocity*sin(playerAngle));
-    // cout << head->getCoord_x() << " x : y " << head->getCoord_y() << " - trás\n";
-    
-
+    center->moveX(-moveVelocity*cos((playerAngle+90)*M_PI/180));
+    center->moveY(-moveVelocity*sin((playerAngle+90)*M_PI/180));
 }
+
+double Player::getAfterX(int v)
+{
+    if(v > 0)
+    {
+        return moveVelocity*cos((playerAngle+90)*M_PI/180) + center->getX();
+    }else
+    {
+        return -moveVelocity*cos((playerAngle+90)*M_PI/180) + center->getX();   
+    }
+}
+double Player::getAfterY(int v)
+{
+    if(v > 0)
+    {
+       return moveVelocity*sin((playerAngle+90)*M_PI/180) + center->getY();
+    }else
+    {
+       return -moveVelocity*sin((playerAngle+90)*M_PI/180) + center->getY();
+    }
+}
+
 double Player::getCoord_x(void)
 {
     center->getX();
@@ -188,8 +212,8 @@ void Player::incPlayerAngle(double a){
 
 void Player::moveHand(double x,double y)
 {
-    double newX =  head->getCoord_x() - x ;
-    double newY =  head->getCoord_y() - y;
+    double newX =  center->getX() - x ;
+    double newY =  center->getY() - y;
     angleHand = atan2(newX - hand->getCoord_y(),newY - hand->getCoord_x()) *180/M_PI - 45; 
     if(angleHand > 45)
     {
@@ -198,13 +222,6 @@ void Player::moveHand(double x,double y)
     {
         angleHand = -45;
     }
-
-    cout << angleHand <<":ANGLE\n";
-    
-    // double newX = hand->getCoord_x()+ hand->getCoord_x()*sin();
-    // double newY = hand->getCoord_y()+ hand->getCoord_y()*cos();
-    // hand->setCoord_x(newX);
-    // hand->setCoord_y(newY);
 }
 
 

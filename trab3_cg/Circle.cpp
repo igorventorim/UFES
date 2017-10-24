@@ -59,7 +59,7 @@ void Circle::moveX(double x)
 
 void Circle::moveY(double y)
 {
-    center.setY(y+center.getY());
+    center.setY(center.getY()-y);
 }
 
 void Circle::setCenter(double x,double y)

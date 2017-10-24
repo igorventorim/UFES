@@ -28,7 +28,7 @@ class Stadium
 		list<Circle*> getObjects(void);
 		Circle* getPerson(void);
 		Circle* getLimiteExterior(void);
-		bool isValidMove(double,double);
+		bool isValidMove(int);
 		bool getPersonJumping(void);
 		void setPersonJumping(bool);
 		bool inHightElements(double, double,double);

@@ -18,5 +18,7 @@ class Point
         double setPoint3D(double,double,double);
         double distance2D(double,double);
         double distance3D(double,double,double);
+        void moveX(double x);
+        void moveY(double y);
 };
 #endif

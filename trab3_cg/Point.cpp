@@ -68,3 +68,13 @@ double Point::distance3D(double x,double y,double z)
 {
     return sqrt(pow(getX()-x,2)+pow(getY()-y,2)+pow(getZ()-z,2));
 }
+
+void Point::moveX(double x)
+{
+    coord_x += x;
+}
+
+void Point::moveY(double y)
+{
+    coord_y += y;
+}
