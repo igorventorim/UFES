@@ -89,12 +89,6 @@ void Player::draw(void)
             glRotatef(playerAngle, 0,0,1);
 
             glPushMatrix();
-                glTranslatef(hand->getCoord_x(), hand->getCoord_y(), 0);
-                glRotatef(angleHand,0,0,1);                
-                hand->drawRectangle();
-            glPopMatrix();
-
-            glPushMatrix();
                 glTranslatef(lShoulder->getCoord_x(), lShoulder->getCoord_y(), 0);
                 lShoulder->drawElipse();
             glPopMatrix();
@@ -114,7 +108,11 @@ void Player::draw(void)
                 rFoot->drawRectangle();
             glPopMatrix();
 
-            // }else{}
+            glPushMatrix();
+                glTranslatef(hand->getCoord_x(), hand->getCoord_y(), 0);
+                glRotatef(angleHand,0,0,1);                
+                hand->drawRectangle();
+            glPopMatrix();
            
             head->drawCircle();
 
@@ -192,7 +190,7 @@ void Player::moveHand(double x,double y)
 {
     double newX =  head->getCoord_x() - x ;
     double newY =  head->getCoord_y() - y;
-    angleHand = atan2(newX - hand->getCoord_y(),newY - hand->getCoord_x()) *180/M_PI; 
+    angleHand = atan2(newX - hand->getCoord_y(),newY - hand->getCoord_x()) *180/M_PI - 45; 
     if(angleHand > 45)
     {
         angleHand = 45;
