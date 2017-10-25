@@ -61,18 +61,18 @@ void keyboad_free(unsigned char key, int x, int y) {
 	key_status[tolower(key)] = 0;
 }
 
-void timerFunc(int value) {
-	if (!arena->getInLowElements())
-	{
-		arena->setInLowElements(false);
-		arena->setPersonJumping(false);
-		flag = 2;
-	} else {
-		arena->setInLowElements(true);
+// void timerFunc(int value) {
+	// if (!arena->getInLowElements())
+	// {
+		// arena->setInLowElements(false);
+		// arena->setPersonJumping(false);
+		// flag = 2;
+	// } else {
+		// arena->setInLowElements(true);
 
-	}
+	// }
 	// glutPostRedisplay();
-}
+// }
 
 void idle(void) {
 	Player *person = arena->getPlayer();
@@ -102,20 +102,27 @@ void idle(void) {
 		person->changeInverseFoots();
 	}
 
-	if (!arena->getInLowElements() && arena->getInLow()) {
+	// if (!arena->getInLowElements() && arena->getInLow()) {
 		// person->setRadius(person->getRadius()/1.5);
-		arena->setInLowElements(false);
-		arena->setPersonJumping(false);
-		flag = 2;
-	}
+		// arena->setInLowElements(false);
+		// arena->setPersonJumping(false);
+		// flag = 2;
+	// }
 
 	if ((key_status['p'] || key_status['P']) && !arena->getPersonJumping()
 			&& !arena->getInLowElements()) {
+		person->jump();
 		// person->setRadius(person->getRadius()*1.5);
-		glutTimerFunc(1000, timerFunc, 0);
-		arena->setPersonJumping(true);
-		flag = 1;
+		// glutTimerFunc(1000, timerFunc, 0);
+		// arena->setPersonJumping(true);
+		// flag = 1;
 	}
+
+	if(person->isJumping())
+	{
+		person->changeSize();
+	}
+
 
 	// if (flag == 1) {
 	// 	if (person->getHeadRadius() < arena->getMaxPersonRadius()) {

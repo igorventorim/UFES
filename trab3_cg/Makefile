@@ -1,5 +1,15 @@
 all:
-	 g++ Color.h Color.cpp Elipse.h Elipse.cpp Rectangle.h Rectangle.cpp Player.h Player.cpp Stadium.h Stadium.cpp Point.h Point.cpp Circle.h Circle.cpp Scanner.h Scanner.cpp Window.h Window.cpp tinyxml2.cpp tinyxml2.h main.cpp -o trabalhocg -lGL -lGLU -lglut
+	 g++ -std=c++11 -c Color.cpp  -o Color.o
+	 g++ -std=c++11 -c Elipse.cpp  -o Elipse.o
+	 g++ -std=c++11 -c Rectangle.cpp  -o Rectangle.o
+	 g++ -std=c++11 -c Player.cpp  -o Player.o
+	 g++ -std=c++11 -c Stadium.cpp  -o Stadium.o
+	 g++ -std=c++11 -c Point.cpp  -o Point.o
+	 g++ -std=c++11 -c Circle.cpp  -o Circle.o
+	 g++ -std=c++11 -c Scanner.cpp -o Scanner.o
+	 g++ -std=c++11 -c Window.cpp -o Window.o
+	 g++ -std=c++11 -c tinyxml2.cpp -o Tiny.o
+	 g++ -std=c++11 *.o main.cpp -o trabalhocg -lGL -lGLU -lglut 
 
 clean:
 		rm -rf *.o trabalhocg

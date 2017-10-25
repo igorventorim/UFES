@@ -4,6 +4,10 @@
 #include "Rectangle.h"
 #include "Elipse.h"
 #include "Point.h"
+#include <chrono>
+#include <ctime>
+
+
 class Player
 {
 	private:
@@ -17,6 +21,9 @@ class Player
 		double playerAngle;
 		double angleHand;
 		int bufferInverse;
+	    std::chrono::time_point<std::chrono::system_clock> startJump;
+	    double scale;
+
 
 	public:
 		Player(Circle*,double,double);
@@ -56,6 +63,8 @@ class Player
 		double getRadius(void);
 		double getAfterX(int);
 		double getAfterY(int);
+		void jump(void);
+		void changeSize(void);
 
 
 };

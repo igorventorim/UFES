@@ -21,6 +21,7 @@ Player::Player(Circle* circle, double shot, double move)
     playerAngle = 0;
     inverseFoots = false;
     radius = HEIGHT_FOOT;
+    scale = 1;
 
 
     // CREATE SHOULDERS
@@ -87,6 +88,7 @@ void Player::draw(void)
 
             glTranslatef(center->getX(), center->getY(), 0);
             glRotatef(playerAngle, 0,0,1);
+            glScalef(scale,scale,0);
             
             glPushMatrix();
                 glTranslatef(lShoulder->getCoord_x(), lShoulder->getCoord_y(), 0);
@@ -239,6 +241,33 @@ void Player::changeInverseFoots(void)
     {
         lFoot->setCoord_y(0);
         rFoot->setCoord_y(-rFoot->getHeight());
+    }
+
+}
+
+void Player::jump(void)
+{
+    jumping = true;
+    startJump = std::chrono::system_clock::now();
+}
+
+void Player::changeSize(void)
+{
+    /* TODO: COLOCAR PARA CRESCER 1,5 E NÃO 2 */
+    double elapsed = std::chrono::duration_cast<std::chrono::milliseconds> ( std::chrono::system_clock::now() - startJump).count()/1000.00;
+    if(elapsed < 1)
+    {
+        // cout << "Subindo ... - Elapsed :"<< elapsed << "\n";
+        scale = (1.0 + elapsed);
+    }else{
+        scale = 1.0 + 1 - (elapsed -1);
+        // cout << "Descendo ...- Elapsed :"<< elapsed << "\n";
+        if(elapsed >= 2)
+        {
+            jumping = false;
+            scale = 1.0;
+            // cout << "\nDesci!" << "\n";
+        }
     }
 
 }
