@@ -64,6 +64,7 @@ class Player
 		void changeSize(void);
 		void setOnElement(bool);
 		bool isOnElement(void);
+		float angleBetween(double, double, double, double);
 
 };
 #endif

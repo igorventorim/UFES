@@ -234,9 +234,10 @@ bool Player::isOnElement(void)
 
 void Player::moveHand(double x,double y)
 {
-    double newX =  center->getX() - x ;
+    double newX =  center->getX() - x;
     double newY =  center->getY() - y;
-    angleHand = atan2(newX - hand->getCoord_y(),newY - hand->getCoord_x()) *180/M_PI - 45; 
+    angleHand = atan2(newX - hand->getCoord_x(),newY - hand->getCoord_y() + HEIGHT_HAND) *180/M_PI - 45; 
+    // angleHand = angleBetween(newX,newY,hand->getCoord_x(),hand->getCoord_y()) *180/M_PI - 45;
     if(angleHand > 45)
     {
         angleHand = 45;
@@ -244,6 +245,23 @@ void Player::moveHand(double x,double y)
     {
         angleHand = -45;
     }
+}
+
+float Player::angleBetween(double x1, double y1, double x2, double y2)
+{
+    float len1 = sqrt(x1 * x1 + y1 * y1);
+    float len2 = sqrt(x2 * x2 + y2 * y2);
+
+    float dot = x1 * x2 + y1 * y2;
+
+    float a = dot / (len1 * len2);
+
+    if (a >= 1.0)
+        return 0.0;
+    else if (a <= -1.0)
+        return M_PI;
+    else
+        return acos(a); // 0..PI
 }
 
 
