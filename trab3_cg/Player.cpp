@@ -140,9 +140,10 @@ double Player::getRadius()
 }
 
 Shot* Player::atirar(void){
+    double x = center->getX()+head->getRadius()+RADIUS_SHOULDER_A ;//* cos(playerAngle*M_PI/180) + center->getY()+HEIGHT_HAND * sin(playerAngle*M_PI/180);
+    double y = /*-center->getX()+head->getRadius()+RADIUS_SHOULDER_A * sin(playerAngle*M_PI/180) + */center->getY()+HEIGHT_HAND;// * cos(playerAngle*M_PI/180);;
     Color* color = new Color(1.0,1.0,0);
-    Circle* circle = new Circle(0,color,RADIUS_SHOT,center->getX()+head->getRadius()+RADIUS_SHOULDER_A,center->getY()+HEIGHT_HAND);
-    // cout << circle->getRadius()<<"\n";
+    Circle* circle = new Circle(0,color,RADIUS_SHOT,x,y);
     Shot* shot = new Shot(circle,shotVelocity,angleHand);
     return shot;
     // return NULL;
