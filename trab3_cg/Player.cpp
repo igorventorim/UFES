@@ -1,15 +1,17 @@
 #include "Player.h"
 #include "Circle.h"
+#include "Stadium.h"
 #include <iostream>
 #include <cmath>
 #include <GL/gl.h>
 #include <GL/glu.h>
-#define RADIUS_SHOULDER_A circle->getRadius()*0.8
-#define RADIUS_SHOULDER_B circle->getRadius()*0.4
-#define WIDTH_FOOT circle->getRadius()*0.7
-#define HEIGHT_FOOT circle->getRadius()*1.9
-#define WIDTH_HAND circle->getRadius()*0.5
-#define HEIGHT_HAND circle->getRadius()*1.9
+#define RADIUS_SHOULDER_A head->getRadius()*0.8
+#define RADIUS_SHOULDER_B head->getRadius()*0.4
+#define WIDTH_FOOT head->getRadius()*0.7
+#define HEIGHT_FOOT head->getRadius()*1.9
+#define WIDTH_HAND head->getRadius()*0.5
+#define HEIGHT_HAND head->getRadius()*1.9
+#define RADIUS_SHOT head->getRadius()*0.1
 
 Player::Player(Circle* circle, double shot, double move)
 {
@@ -19,7 +21,9 @@ Player::Player(Circle* circle, double shot, double move)
     shotVelocity = shot;
     bufferInverse = 0;
     playerAngle = 0;
+    angleHand = 0;
     inverseFoots = false;
+    onElement = false;
     radius = HEIGHT_FOOT;
     scale = 1;
 
@@ -135,8 +139,14 @@ double Player::getRadius()
     return radius;
 }
 
-void Player::girar(void){}
-void Player::atirar(void){}
+Shot* Player::atirar(void){
+    Color* color = new Color(1.0,1.0,0);
+    Circle* circle = new Circle(0,color,RADIUS_SHOT,center->getX()+head->getRadius()+RADIUS_SHOULDER_A,center->getY()+HEIGHT_HAND);
+    // cout << circle->getRadius()<<"\n";
+    Shot* shot = new Shot(circle,shotVelocity,angleHand);
+    return shot;
+    // return NULL;
+}
 
 void Player::rotateRight(void)
 {
@@ -212,6 +222,15 @@ void Player::incPlayerAngle(double a){
     playerAngle += a;
 }
 
+void Player::setOnElement(bool value)
+{
+    onElement = value;
+}
+bool Player::isOnElement(void)
+{
+    return onElement;
+}
+
 void Player::moveHand(double x,double y)
 {
     double newX =  center->getX() - x ;
@@ -249,24 +268,32 @@ void Player::jump(void)
 {
     jumping = true;
     startJump = std::chrono::system_clock::now();
+    inverseFoots = !inverseFoots;
+    if(inverseFoots)
+    {
+        lFoot->setCoord_y(-lFoot->getHeight());
+        rFoot->setCoord_y(0);
+    }else
+    {
+        lFoot->setCoord_y(0);
+        rFoot->setCoord_y(-rFoot->getHeight());
+    }
+
 }
 
 void Player::changeSize(void)
 {
-    /* TODO: COLOCAR PARA CRESCER 1,5 E NÃO 2 */
     double elapsed = std::chrono::duration_cast<std::chrono::milliseconds> ( std::chrono::system_clock::now() - startJump).count()/1000.00;
     if(elapsed < 1)
     {
-        // cout << "Subindo ... - Elapsed :"<< elapsed << "\n";
-        scale = (1.0 + elapsed);
+        scale = (1.0 + elapsed*0.5);
     }else{
-        scale = 1.0 + 1 - (elapsed -1);
-        // cout << "Descendo ...- Elapsed :"<< elapsed << "\n";
+        if(onElement){ return;}
+        scale = 1.0 + 0.5 - (elapsed*0.5 -0.5);
         if(elapsed >= 2)
         {
             jumping = false;
             scale = 1.0;
-            // cout << "\nDesci!" << "\n";
         }
     }
 

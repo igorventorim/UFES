@@ -1,4 +1,5 @@
 all:
+	 g++ -std=c++11 -c Shot.cpp -o Shot.o
 	 g++ -std=c++11 -c Color.cpp  -o Color.o
 	 g++ -std=c++11 -c Elipse.cpp  -o Elipse.o
 	 g++ -std=c++11 -c Rectangle.cpp  -o Rectangle.o

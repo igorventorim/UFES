@@ -4,6 +4,7 @@
 #include "Rectangle.h"
 #include "Elipse.h"
 #include "Point.h"
+#include "Shot.h"
 #include <chrono>
 #include <ctime>
 
@@ -22,8 +23,8 @@ class Player
 		double angleHand;
 		int bufferInverse;
 	    std::chrono::time_point<std::chrono::system_clock> startJump;
-	    double scale;
-
+		double scale;
+		bool onElement;
 
 	public:
 		Player(Circle*,double,double);
@@ -31,8 +32,6 @@ class Player
 		Circle* getHead(void);
 		bool isJumping(void);
 		void setJumping(bool);
-		// void setLHand(Rectangle*);
-		// void setRHand(Rectangle*);
 		void setHand(Rectangle*);
 		void setRFoot(Rectangle*);
 		void setLFoot(Rectangle*);
@@ -42,13 +41,11 @@ class Player
 		Elipse* getRShoulder(void);
 		Rectangle* getHand(void);
 		Rectangle* getLFoot(void);
-		// Rectangle* getRHand(void);
 		Rectangle* getRFoot(void);
 		void draw(void);
 		double getHeadRadius(void);
 		void setHeadRadius(double);
-		void girar(void);
-		void atirar(void);
+		Shot* atirar(void);
 		void rotateRight(void);
 		void rotateLeft(void);
 		void moveUp(void);
@@ -65,7 +62,8 @@ class Player
 		double getAfterY(int);
 		void jump(void);
 		void changeSize(void);
-
+		void setOnElement(bool);
+		bool isOnElement(void);
 
 };
 #endif

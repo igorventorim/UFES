@@ -6,7 +6,10 @@
 #include <iostream>
 #include <cmath>
 #include <list>
+#include <chrono>
+#include <ctime>
 #include "Stadium.h"
+#include "Shot.h"
 #define CIRCLE_MINIMUM_SIZE 10
 
 using namespace std;
@@ -14,7 +17,7 @@ using namespace std;
 Stadium *arena;
 Window *window;
 int key_status[256];
-int flag = 0;
+std::chrono::time_point<std::chrono::system_clock> frameTime;
 
 void display(void) {
 	/* Limpar todos os pixels  */
@@ -38,12 +41,20 @@ void init(void) {
 
 	glOrtho(dx, dx + window->getWidth(), dy, dy + window->getHeight(), 0.0,
 			1.0);
-	// glOrtho(-(window->getWidth()/2),window->getWidth()/2,-(window->getHeight()/2),window->getHeight()/2,0.0,1.0);
 	glMatrixMode (GL_MODELVIEW);
 	glLoadIdentity();
+	frameTime = std::chrono::system_clock::now();
 }
 
-void mouse(int button, int state, int x, int y) {}
+void mouse(int button, int state, int x, int y) 
+{
+	Player *p = arena->getPlayer();
+	if(GLUT_LEFT_BUTTON == button && state && !arena->getPersonJumping() && !p->isOnElement() )
+	{	
+		Shot *s = p->atirar();
+		arena->addShot(s);
+	}
+}
 
 void mouseMotion(int x, int y) {}
 
@@ -61,38 +72,20 @@ void keyboad_free(unsigned char key, int x, int y) {
 	key_status[tolower(key)] = 0;
 }
 
-// void timerFunc(int value) {
-	// if (!arena->getInLowElements())
-	// {
-		// arena->setInLowElements(false);
-		// arena->setPersonJumping(false);
-		// flag = 2;
-	// } else {
-		// arena->setInLowElements(true);
-
-	// }
-	// glutPostRedisplay();
-// }
-
 void idle(void) {
 	Player *person = arena->getPlayer();
 
-	if ((key_status['d'] || key_status['D'])
-			/*&& arena->isValidMove(person->getCoord_x(),
-					person->getCoord_y())*/) {
+	if ((key_status['d'] || key_status['D'])) {
 		person->rotateRight();
 		
 	}
-
 	if ((key_status['s'] || key_status['S'])
 			&& arena->isValidMove(-1)) {
 		person->moveDown();
 		person->changeInverseFoots();
 	}
 
-	if ((key_status['a'] || key_status['A'])
-			/*&& arena->isValidMove(person->getCoord_x() - 1,
-					person->getCoord_y())*/) {
+	if ((key_status['a'] || key_status['A'])) {
 		person->rotateLeft();
 	}
 
@@ -102,20 +95,9 @@ void idle(void) {
 		person->changeInverseFoots();
 	}
 
-	// if (!arena->getInLowElements() && arena->getInLow()) {
-		// person->setRadius(person->getRadius()/1.5);
-		// arena->setInLowElements(false);
-		// arena->setPersonJumping(false);
-		// flag = 2;
-	// }
-
-	if ((key_status['p'] || key_status['P']) && !arena->getPersonJumping()
-			&& !arena->getInLowElements()) {
+	if ((key_status['p'] || key_status['P']) && !person->isJumping()
+			&& !person->isOnElement()) {
 		person->jump();
-		// person->setRadius(person->getRadius()*1.5);
-		// glutTimerFunc(1000, timerFunc, 0);
-		// arena->setPersonJumping(true);
-		// flag = 1;
 	}
 
 	if(person->isJumping())
@@ -123,21 +105,10 @@ void idle(void) {
 		person->changeSize();
 	}
 
-
-	// if (flag == 1) {
-	// 	if (person->getHeadRadius() < arena->getMaxPersonRadius()) {
-	// 		person->setHeadRadius(person->getHeadRadius() + 0.2);
-	// 	}
-	// }
-
-	// if (flag == 2) {
-	// 	if (person->getHeadRadius() > arena->getMinPersonRadius()) {
-	// 		person->setHeadRadius(person->getHeadRadius() - 0.2);
-	// 	}
-	// }
-
+	double elapsed = std::chrono::duration_cast<std::chrono::milliseconds> ( std::chrono::system_clock::now() - frameTime).count();	
+	Stadium::MILLISECONDS_BY_FRAME = elapsed;
 	glutPostRedisplay();
-
+	frameTime = std::chrono::system_clock::now();
 }
 
 int main(int argc, char **argv) {
