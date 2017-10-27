@@ -12,6 +12,8 @@
 #define WIDTH_HAND head->getRadius()*0.5
 #define HEIGHT_HAND head->getRadius()*1.9
 #define RADIUS_SHOT head->getRadius()*0.1
+#define UPDATE_VELOCITY_PLAYER moveVelocity*Stadium::MILLISECONDS_BY_FRAME
+#define UPDATE_VELOCITY_SHOT shotVelocity*Stadium::MILLISECONDS_BY_FRAME
 
 Player::Player(Circle* circle, double shot, double move)
 {
@@ -93,17 +95,17 @@ void Player::draw(void)
             glTranslatef(center->getX(), center->getY(), 0);
             glRotatef(playerAngle, 0,0,1);
             glScalef(scale,scale,0);
-            
+
             glPushMatrix();
                 glTranslatef(lShoulder->getCoord_x(), lShoulder->getCoord_y(), 0);
                 lShoulder->drawElipse();
             glPopMatrix();
-      
+
             glPushMatrix();
                 glTranslatef(rShoulder->getCoord_x(), rShoulder->getCoord_y(), 0);
                 rShoulder->drawElipse();
             glPopMatrix();
-                             
+
             glPushMatrix();
                 glTranslatef(lFoot->getCoord_x(), lFoot->getCoord_y(), 0);
                 rFoot->drawRectangle();
@@ -116,10 +118,10 @@ void Player::draw(void)
 
             glPushMatrix();
                 glTranslatef(hand->getCoord_x(), hand->getCoord_y(), 0);
-                glRotatef(angleHand,0,0,1);                
+                glRotatef(angleHand,0,0,1);
                 hand->drawRectangle();
             glPopMatrix();
-           
+
             head->drawCircle();
 
     glPopMatrix();
@@ -140,11 +142,11 @@ double Player::getRadius()
 }
 
 Shot* Player::atirar(void){
-    double x = center->getX()+head->getRadius()+RADIUS_SHOULDER_A ;//* cos(playerAngle*M_PI/180) + center->getY()+HEIGHT_HAND * sin(playerAngle*M_PI/180);
-    double y = /*-center->getX()+head->getRadius()+RADIUS_SHOULDER_A * sin(playerAngle*M_PI/180) + */center->getY()+HEIGHT_HAND;// * cos(playerAngle*M_PI/180);;
+    double x = center->getX()+head->getRadius()+RADIUS_SHOULDER_A;
+    double y = center->getY()+HEIGHT_HAND;
     Color* color = new Color(1.0,1.0,0);
     Circle* circle = new Circle(0,color,RADIUS_SHOT,x,y);
-    Shot* shot = new Shot(circle,shotVelocity,angleHand);
+    Shot* shot = new Shot(circle,UPDATE_VELOCITY_SHOT,playerAngle+angleHand+90);
     return shot;
     // return NULL;
 }
@@ -152,42 +154,42 @@ Shot* Player::atirar(void){
 void Player::rotateRight(void)
 {
     // head->moveX(moveVelocity);
-    incPlayerAngle(-moveVelocity);
+    incPlayerAngle(-UPDATE_VELOCITY_PLAYER);
 }
 void Player::rotateLeft(void)
 {
     // head->moveX(-moveVelocity);
-    incPlayerAngle(moveVelocity);
+    incPlayerAngle(UPDATE_VELOCITY_PLAYER);
 }
 void Player::moveUp(void)
 {
-    center->moveX(moveVelocity*cos((playerAngle+90)*M_PI/180));
-    center->moveY(moveVelocity*sin((playerAngle+90)*M_PI/180));
+    center->moveX(UPDATE_VELOCITY_PLAYER*cos((playerAngle+90)*M_PI/180));
+    center->moveY(UPDATE_VELOCITY_PLAYER*sin((playerAngle+90)*M_PI/180));
 }
 void Player::moveDown(void)
 {
-    center->moveX(-moveVelocity*cos((playerAngle+90)*M_PI/180));
-    center->moveY(-moveVelocity*sin((playerAngle+90)*M_PI/180));
+    center->moveX(-UPDATE_VELOCITY_PLAYER*cos((playerAngle+90)*M_PI/180));
+    center->moveY(-UPDATE_VELOCITY_PLAYER*sin((playerAngle+90)*M_PI/180));
 }
 
 double Player::getAfterX(int v)
 {
     if(v > 0)
     {
-        return moveVelocity*cos((playerAngle+90)*M_PI/180) + center->getX();
+        return UPDATE_VELOCITY_PLAYER*cos((playerAngle+90)*M_PI/180) + center->getX();
     }else
     {
-        return -moveVelocity*cos((playerAngle+90)*M_PI/180) + center->getX();   
+        return -UPDATE_VELOCITY_PLAYER*cos((playerAngle+90)*M_PI/180) + center->getX();
     }
 }
 double Player::getAfterY(int v)
 {
     if(v > 0)
     {
-       return moveVelocity*sin((playerAngle+90)*M_PI/180) + center->getY();
+       return UPDATE_VELOCITY_PLAYER*sin((playerAngle+90)*M_PI/180) + center->getY();
     }else
     {
-       return -moveVelocity*sin((playerAngle+90)*M_PI/180) + center->getY();
+       return -UPDATE_VELOCITY_PLAYER*sin((playerAngle+90)*M_PI/180) + center->getY();
     }
 }
 
@@ -236,7 +238,7 @@ void Player::moveHand(double x,double y)
 {
     double newX =  center->getX() - x;
     double newY =  center->getY() - y;
-    angleHand = atan2(newX - hand->getCoord_x(),newY - hand->getCoord_y() + HEIGHT_HAND) *180/M_PI - 45; 
+    angleHand = atan2(newX - hand->getCoord_x(),newY - hand->getCoord_y() + HEIGHT_HAND) *180/M_PI - 45;
     // angleHand = angleBetween(newX,newY,hand->getCoord_x(),hand->getCoord_y()) *180/M_PI - 45;
     if(angleHand > 45)
     {
