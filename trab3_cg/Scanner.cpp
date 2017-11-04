@@ -130,7 +130,7 @@ Stadium* Scanner::readArenaSVG(string file,double velTiro, double vel)
               limiteInterior = new Circle(id,cor,radius,cx,height-cy);
             }else if(color == "green")
             {
-              person = new Player(new Circle(id,cor,radius,cx,height-cy),velTiro,vel);
+              person = new Player(new Circle(id,cor,radius/1.8,cx,height-cy),velTiro,vel);
             }
         }
 

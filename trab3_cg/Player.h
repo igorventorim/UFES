@@ -25,6 +25,7 @@ class Player
 	    std::chrono::time_point<std::chrono::system_clock> startJump;
 		double scale;
 		bool onElement;
+		bool down;
 
 	public:
 		Player(Circle*,double,double);
@@ -65,6 +66,7 @@ class Player
 		void setOnElement(bool);
 		bool isOnElement(void);
 		float angleBetween(double, double, double, double);
+		void setDown(bool value);
 
 };
 #endif

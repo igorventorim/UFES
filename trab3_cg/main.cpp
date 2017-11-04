@@ -75,18 +75,19 @@ void keyboad_free(unsigned char key, int x, int y) {
 void idle(void) {
 	Player *person = arena->getPlayer();
 
-	if ((key_status['d'] || key_status['D'])) {
-		person->rotateRight();
-		
-	}
 	if ((key_status['s'] || key_status['S'])
 			&& arena->isValidMove(-1)) {
+		person->setDown(true);
 		person->moveDown();
 		person->changeInverseFoots();
 	}
 
 	if ((key_status['a'] || key_status['A'])) {
 		person->rotateLeft();
+	}
+
+	if ((key_status['d'] || key_status['D'])) {
+		person->rotateRight();	
 	}
 
 	if ((key_status['w'] || key_status['W'])
@@ -109,6 +110,7 @@ void idle(void) {
 	Stadium::MILLISECONDS_BY_FRAME = elapsed;
 	glutPostRedisplay();
 	frameTime = std::chrono::system_clock::now();
+	person->setDown(false);
 }
 
 int main(int argc, char **argv) {

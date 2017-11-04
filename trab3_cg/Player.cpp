@@ -154,12 +154,23 @@ Shot* Player::atirar(void){
 void Player::rotateRight(void)
 {
     // head->moveX(moveVelocity);
-    incPlayerAngle(-UPDATE_VELOCITY_PLAYER);
+    if(down){
+        incPlayerAngle(UPDATE_VELOCITY_PLAYER);
+    }else{
+        incPlayerAngle(-UPDATE_VELOCITY_PLAYER);
+    }
+    
 }
 void Player::rotateLeft(void)
 {
     // head->moveX(-moveVelocity);
-    incPlayerAngle(UPDATE_VELOCITY_PLAYER);
+    // incPlayerAngle(UPDATE_VELOCITY_PLAYER);
+
+    if(down){
+        incPlayerAngle(-UPDATE_VELOCITY_PLAYER);
+    }else{
+        incPlayerAngle(UPDATE_VELOCITY_PLAYER);
+    }
 }
 void Player::moveUp(void)
 {
@@ -318,4 +329,9 @@ void Player::changeSize(void)
         }
     }
 
+}
+
+void Player::setDown(bool value)
+{
+    down = value;
 }
