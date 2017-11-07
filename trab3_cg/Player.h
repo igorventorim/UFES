@@ -22,10 +22,13 @@ class Player
 		double playerAngle;
 		double angleHand;
 		int bufferInverse;
+		int count = 0;
+		int signal = 1;
 	    std::chrono::time_point<std::chrono::system_clock> startJump;
 		double scale;
 		bool onElement;
 		bool down;
+		bool resize;
 
 	public:
 		Player(Circle*,double,double);
@@ -67,6 +70,7 @@ class Player
 		bool isOnElement(void);
 		float angleBetween(double, double, double, double);
 		void setDown(bool value);
+		bool getResize();
 
 };
 #endif

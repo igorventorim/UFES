@@ -148,12 +148,10 @@ Shot* Player::atirar(void){
     Circle* circle = new Circle(0,color,RADIUS_SHOT,x,y);
     Shot* shot = new Shot(circle,UPDATE_VELOCITY_SHOT,playerAngle+angleHand+90);
     return shot;
-    // return NULL;
 }
 
 void Player::rotateRight(void)
 {
-    // head->moveX(moveVelocity);
     if(down){
         incPlayerAngle(UPDATE_VELOCITY_PLAYER);
     }else{
@@ -163,8 +161,6 @@ void Player::rotateRight(void)
 }
 void Player::rotateLeft(void)
 {
-    // head->moveX(-moveVelocity);
-    // incPlayerAngle(UPDATE_VELOCITY_PLAYER);
 
     if(down){
         incPlayerAngle(-UPDATE_VELOCITY_PLAYER);
@@ -176,11 +172,13 @@ void Player::moveUp(void)
 {
     center->moveX(UPDATE_VELOCITY_PLAYER*cos((playerAngle+90)*M_PI/180));
     center->moveY(UPDATE_VELOCITY_PLAYER*sin((playerAngle+90)*M_PI/180));
+    changeInverseFoots();
 }
 void Player::moveDown(void)
 {
     center->moveX(-UPDATE_VELOCITY_PLAYER*cos((playerAngle+90)*M_PI/180));
     center->moveY(-UPDATE_VELOCITY_PLAYER*sin((playerAngle+90)*M_PI/180));
+    changeInverseFoots();
 }
 
 double Player::getAfterX(int v)
@@ -281,19 +279,15 @@ float Player::angleBetween(double x1, double y1, double x2, double y2)
 void Player::changeInverseFoots(void)
 {
     inverseFoots = !inverseFoots;
-    bufferInverse++;
-    if(bufferInverse < 5 ){ return;}
-    bufferInverse = 0;
-    if(inverseFoots)
-    {
-        lFoot->setCoord_y(-lFoot->getHeight());
-        rFoot->setCoord_y(0);
-    }else
-    {
-        lFoot->setCoord_y(0);
-        rFoot->setCoord_y(-rFoot->getHeight());
-    }
+    count++;
+    if(count < 3){ return;}
+    count=0;
+    lFoot->setCoord_y(sin(bufferInverse*M_PI/180)* -lFoot->getHeight());
+    rFoot->setCoord_y(cos(bufferInverse*M_PI/180)* -rFoot->getHeight());
 
+    bufferInverse += 15 * signal;
+    if(bufferInverse >= 90 && signal > 0 ){ signal = -1; }
+    else if(bufferInverse <= 0 && signal < 0){ signal = 1;}
 }
 
 void Player::jump(void)
@@ -316,16 +310,18 @@ void Player::jump(void)
 void Player::changeSize(void)
 {
     double elapsed = std::chrono::duration_cast<std::chrono::milliseconds> ( std::chrono::system_clock::now() - startJump).count()/1000.00;
-    if(elapsed < 1)
+    if(resize){elapsed += 1;}
+    if(elapsed < 1 && !resize)
     {
         scale = (1.0 + elapsed*0.5);
     }else{
-        if(onElement){ return;}
+        if(onElement){ startJump =  std::chrono::system_clock::now(); resize = true; return;}
         scale = 1.0 + 0.5 - (elapsed*0.5 -0.5);
         if(elapsed >= 2)
         {
             jumping = false;
             scale = 1.0;
+            resize = false;
         }
     }
 
@@ -334,4 +330,10 @@ void Player::changeSize(void)
 void Player::setDown(bool value)
 {
     down = value;
+}
+
+
+bool Player::getResize()
+{
+    return resize;
 }

@@ -61,7 +61,6 @@ void mouseMotion(int x, int y) {}
 void mousePassiveMotion(int x, int y)
 {
 	arena->getPlayer()->moveHand(x,y - window->getHeight());
-	// cout << "x:" << x <<" - y:"<< y << "\n";	
 }
 
 void keyPress(unsigned char key, int x, int y) {
@@ -79,7 +78,6 @@ void idle(void) {
 			&& arena->isValidMove(-1)) {
 		person->setDown(true);
 		person->moveDown();
-		person->changeInverseFoots();
 	}
 
 	if ((key_status['a'] || key_status['A'])) {
@@ -93,7 +91,6 @@ void idle(void) {
 	if ((key_status['w'] || key_status['W'])
 			&& arena->isValidMove(1)) {
 		person->moveUp();
-		person->changeInverseFoots();
 	}
 
 	if ((key_status['p'] || key_status['P']) && !person->isJumping()

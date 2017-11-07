@@ -11,27 +11,6 @@ using namespace tinyxml2;
 
 Scanner::Scanner(){}
 
-// Circle* Scanner::readCircle(string file)
-// {
-//     int radius;
-//     double r_color,g_color,b_color;
-//     doc.LoadFile(file.data());
-//   	if(!doc.ErrorID())
-//   	{
-//           XMLElement* circulo = doc.FirstChildElement("aplicacao")->FirstChildElement("circulo");
-//   		    circulo->QueryIntAttribute("raio",&radius);
-//   	 	    circulo->QueryDoubleAttribute("corR",&r_color);
-//   		    circulo->QueryDoubleAttribute("corG",&g_color);
-//           circulo->QueryDoubleAttribute("corB",&b_color);
-//           Circle *circle = new Circle(0,radius,r_color,g_color,b_color);
-//           return circle;
-//     }else
-//   	{
-//   		cout << "Erro ao abrir o arquivo XML "<< file << "\n";
-//   	}
-
-// }
-
 string Scanner::readTitle(string file)
 {
     doc.LoadFile(file.data());
