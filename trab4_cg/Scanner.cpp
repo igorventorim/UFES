@@ -56,7 +56,7 @@ Window* Scanner::readWindow(string file)
 Stadium* Scanner::readArenaSVG(string file,double velTiro, double vel)
 {
     std::list<Circle*> lowElements;
-    std::list<Circle*> hightElements;
+    std::list<NPC*> NPCs;
     Player* person;
     Circle* limiteInterior;
     Circle* limiteExterior;
@@ -102,8 +102,9 @@ Stadium* Scanner::readArenaSVG(string file,double velTiro, double vel)
               lowElements.push_back(circle);
             }else if(color == "red")
             {
-              Circle* circle = new Circle(id,cor,radius,cx,height-cy);
-              hightElements.push_back(circle);
+              Circle* circle = new Circle(id,cor,radius/1.8,cx,height-cy);
+              NPC* npc = new NPC(circle,velTiro,vel);
+              NPCs.push_back(npc);
             }else if(color == "white")
             {
               limiteInterior = new Circle(id,cor,radius,cx,height-cy);
@@ -113,7 +114,7 @@ Stadium* Scanner::readArenaSVG(string file,double velTiro, double vel)
             }
         }
 
-        stadium = new Stadium(limiteExterior,limiteInterior,person,hightElements,lowElements);
+        stadium = new Stadium(limiteExterior,limiteInterior,person,NPCs,lowElements);
         return stadium;
   }else
     {

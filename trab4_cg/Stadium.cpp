@@ -16,12 +16,12 @@ Stadium::Stadium(list<Circle*> o,Player *p)
 	// maxPersonRadius = p->getHeadRadius()*1.5;
 }
 
-Stadium::Stadium(Circle* exterior, Circle *inferior, Player *p, list<Circle*> hight, list<Circle*>low)
+Stadium::Stadium(Circle* exterior, Circle *inferior, Player *p, list<NPC*> npcs, list<Circle*>low)
 {
 	limitExterior = exterior;
 	limitInterior = inferior;
 	player = p;
-	hightElements = hight;
+	NPCs = npcs;
 	lowElements = low;
 	// p->setJumping(false);
 	// setInLowElements(false);
@@ -44,12 +44,13 @@ void Stadium::drawStadium(void)
 		limitInterior->drawCircle();
 		glPopMatrix();
 
-		for (std::list<Circle*>::iterator circle=hightElements.begin(); circle != hightElements.end(); ++circle)
+		for (std::list<NPC*>::iterator npc=NPCs.begin(); npc != NPCs.end(); ++npc)
 		{
- 			glPushMatrix();
-			glTranslatef((*circle)->getCoord_x(),(*circle)->getCoord_y(),0);
-			  (*circle)->drawCircle();
-			glPopMatrix();
+ 		// 	glPushMatrix();
+			// glTranslatef((*circle)->getCoord_x(),(*circle)->getCoord_y(),0);
+			//   (*circle)->drawCircle();
+			// glPopMatrix();
+			(*npc)->draw();
 		}
 
 		for (std::list<Circle*>::iterator circle=lowElements.begin(); circle != lowElements.end(); ++circle)
@@ -95,9 +96,9 @@ bool Stadium::isValidMove(int c)
 	if(getPersonJumping() )
 	{
 		if(limitInterior->circleInCircle(x,y,r) || !limitExterior->circleInCircle(x,y,-r) || inHightElements(x,y,r))
-		{	
+		{
 			return false;
-		}	
+		}
 	}else
 	if(limitInterior->circleInCircle(x,y,r) || !limitExterior->circleInCircle(x,y,-r) || isInLowElements(x,y,r) || inHightElements(x,y,r))
 	{
@@ -118,15 +119,15 @@ bool Stadium::isValidMove(int c)
 
 
 	}
-	
+
 	return true;
 }
 
 bool Stadium::inHightElements(double x, double y, double r)
 {
-	for (std::list<Circle*>::iterator circle=hightElements.begin(); circle != hightElements.end(); ++circle)
+	for (std::list<NPC*>::iterator npc=NPCs.begin(); npc != NPCs.end(); ++npc)
 	{
-	  if((*circle)->circleInCircle(x,y,r))
+	  if((*npc)->getHead()->circleInCircle(x,y,r))
 	  {
 		  return true;
 	  }

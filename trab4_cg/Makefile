@@ -1,4 +1,5 @@
 all:
+	 g++ -std=c++11 -c NPC.cpp -o NPC.o
 	 g++ -std=c++11 -c Shot.cpp -o Shot.o
 	 g++ -std=c++11 -c Color.cpp  -o Color.o
 	 g++ -std=c++11 -c Elipse.cpp  -o Elipse.o
@@ -10,7 +11,7 @@ all:
 	 g++ -std=c++11 -c Scanner.cpp -o Scanner.o
 	 g++ -std=c++11 -c Window.cpp -o Window.o
 	 g++ -std=c++11 -c tinyxml2.cpp -o Tiny.o
-	 g++ -std=c++11 *.o main.cpp -o trabalhocg -lGL -lGLU -lglut 
+	 g++ -std=c++11 *.o main.cpp -o trabalhocg -lGL -lGLU -lglut
 
 clean:
 		rm -rf *.o trabalhocg

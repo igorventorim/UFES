@@ -4,7 +4,7 @@
 class Obstacle
 {
 	private:
-
+		// circle
 	public:
 };
 

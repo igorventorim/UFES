@@ -3,6 +3,7 @@
 
 #include "Circle.h"
 #include "Player.h"
+#include "NPC.h"
 #include <list>
 #include "Shot.h"
 
@@ -10,7 +11,7 @@ class Stadium
 {
 	private:
 		list<Circle*> objects;
-		list<Circle*> hightElements;
+		list<NPC*> NPCs;
 		list<Circle*> lowElements;
 		list<Shot*> shots;
 		// Circle *person;
@@ -25,7 +26,7 @@ class Stadium
 		// Stadium(list<Circle*>,Circle*);
 		// Stadium(Circle*,Circle *, Circle *, list<Circle*>,list<Circle*>);
 		Stadium(list<Circle*>,Player*);
-		Stadium(Circle*,Circle *, Player *, list<Circle*>,list<Circle*>);
+		Stadium(Circle*,Circle *, Player *, list<NPC*>,list<Circle*>);
 		void drawStadium(void);
 		// list<Circle*> getObjects(void);
 		// Circle* getPerson(void);
@@ -43,7 +44,7 @@ class Stadium
 		Player* getPlayer(void);
 		static double MILLISECONDS_BY_FRAME;
 		void addShot(Shot*);
-						
+
 		// static void setMillisecondsByFrame(double);
 
 };
