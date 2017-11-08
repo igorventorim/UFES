@@ -98,7 +98,7 @@ void idle(void) {
 		person->jump();
 	}
 
-	if(person->isJumping())
+	if(person->isJumping() || person->getResize())
 	{
 		person->changeSize();
 	}

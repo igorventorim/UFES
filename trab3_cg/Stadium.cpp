@@ -92,7 +92,7 @@ bool Stadium::isValidMove(int c)
 	y = player->getAfterY(c);
 
 	double r = player->getRadius();
-	if(getPersonJumping())
+	if(getPersonJumping() )
 	{
 		if(limitInterior->circleInCircle(x,y,r) || !limitExterior->circleInCircle(x,y,-r) || inHightElements(x,y,r))
 		{	
@@ -109,7 +109,14 @@ bool Stadium::isValidMove(int c)
 		player->setOnElement(true);
 	}
 	else if(!isInLowElements(x,y,r)){
+
+		if(player->isOnElement())
+		{
+			player->setJumping(false);
+		}
 		player->setOnElement(false);
+
+
 	}
 	
 	return true;

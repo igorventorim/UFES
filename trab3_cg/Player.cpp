@@ -147,7 +147,7 @@ Shot* Player::atirar(void){
     double y0=HEIGHT_HAND;
     double x = x0 * cos(playerAngle*M_PI/180) - y0 * sin(playerAngle*M_PI/180) + center->getX();
     double y = x0 * sin(playerAngle*M_PI/180) + y0 * cos(playerAngle*M_PI/180) + center->getY();
-    cout << "x:"<<x<<" y:"<<y<<" o:"<< playerAngle<<"\n";
+    // cout << "x:"<<x<<" y:"<<y<<" o:"<< playerAngle<<"\n";
     Color* color = new Color(1.0,1.0,0);
     Circle* circle = new Circle(0,color,RADIUS_SHOT,x,y);
     Shot* shot = new Shot(circle,UPDATE_VELOCITY_SHOT,playerAngle+angleHand+90);
