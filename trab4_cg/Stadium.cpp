@@ -250,10 +250,10 @@ int Stadium::getScore(void)
 	return score;
 }
 
-void Stadium::drawText(double x, double y, string s)
+void Stadium::drawText(Color* c,Point *p, string s)
 {
-	glColor3f( 0, 0, 1 );
-	glRasterPos2f( 470, 100 );
+	glColor3f( c->getRColor(), c->getGColor(), c->getBColor() );
+	glRasterPos2f( p->getX(), p->getY() );
 	// string s = "Score: "+std::to_string(arena->getScore());
 	int j = strlen( s.c_str() );
 	for( int i = 0; i < j; i++ ) {

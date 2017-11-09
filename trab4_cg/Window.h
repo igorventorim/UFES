@@ -1,6 +1,9 @@
 #ifndef _WINDOW_H_
 #define _WINDOW_H_
 #include <string>
+#include "Point.h"
+#include "Color.h"
+#include <map>
 
 using namespace std;
 
@@ -13,6 +16,12 @@ class Window
         double r_color,g_color,b_color;
         bool btn_right, btn_left;
         bool updateState;
+        double coord_initWindowX;
+        double coord_initWindowY;
+        Point *initWindow;
+        Point *scorePosition;
+        Point *msgFinishPosition;
+        // std::map<std::string, Color*> colors;
     public:
         Window(int,int,string);
         Window(int,int,double,double,double);
@@ -35,6 +44,16 @@ class Window
         void setTitle(string);
         bool isUpdateState();
         void setUpdateState(bool);
+        Point* getInitWindow(void);
+        void setInitWindow(double,double);
+        Point* getScorePosition(void);
+        Point* getMsgFinishPosition(void);
+        bool playAgain(void);
+        // Color* getColor(string);
+        // double getCoord_initWindowX(void);
+        // double getCoord_initWindowY(void);
+        // void setCoord_initWindowX(double);
+        // void setCoord_initWindowY(double);
 
 };
 #endif

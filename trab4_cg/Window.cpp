@@ -1,5 +1,6 @@
 #include "Window.h"
 #include <string>
+#include <iostream>
 
 Window::Window(int w,int h,string c)
 {
@@ -20,7 +21,10 @@ Window::Window(int w,int h,double r,double g, double b)
     b_color = b;
     btn_left = false;
     btn_right = false;
-    updateState = false; 
+    updateState = false;
+    // colors["black"] = new Color("black");
+    // colors["blue"] = new Color("blue");
+    // colors["red"] = new Color("red");
 }
 
 Window::Window(string t,int w,int h,string c)
@@ -132,3 +136,55 @@ void Window::setUpdateState(bool state)
 {
     updateState = state;
 }
+
+Point* Window::getInitWindow(void)
+{
+    return initWindow;
+}
+
+void Window::setInitWindow(double x, double y)
+{
+    initWindow= new Point(x,y);
+    scorePosition = new Point(initWindow->getX()+ width*0.85,initWindow->getY()*0.9);
+    msgFinishPosition = new Point(initWindow->getX()+ width*0.43,initWindow->getY()+height*0.48);
+}
+
+Point* Window::getScorePosition(void)
+{
+    return scorePosition;
+}
+
+Point* Window::getMsgFinishPosition(void)
+{
+    return msgFinishPosition;
+}
+
+bool Window::playAgain(void)
+{
+    char c;
+    cout << "Play again [Y/N]: ";
+    cin >> &c;
+    if(c == 'y' || c == 'Y')
+    {
+        return true;
+    }else if(c == 'n' || c == 'N')
+    {
+        exit(0);
+        
+    }
+
+    cout << "Valor inválido tente novamente!\n";
+    return playAgain();
+}
+
+// Color* Window::getColor(string s)
+// {
+//     // std::map<string,Color*>::iterator it = colors.find(s);
+//     // if (it == colors.end()) {
+//     //     return NULL;
+//     // } else 
+//     // {
+//     //     return it->second;
+//     // }
+//     return colors.find(s)->second;
+// }

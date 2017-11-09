@@ -8,6 +8,8 @@
 #include "Shot.h"
 #include "Obstacle.h"
 #include <string>
+#include "Color.h"
+#include "Point.h"
 
 class Stadium
 {
@@ -43,7 +45,7 @@ class Stadium
 		bool checkShotPlayer(void);
 		bool checkShotNPC(void);
 		int getScore(void);
-		void drawText(double,double,string);
+		void drawText(Color*,Point*,string);
 		void setWin(bool);
 		bool isWin(void);
 

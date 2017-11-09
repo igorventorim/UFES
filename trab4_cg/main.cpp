@@ -10,7 +10,6 @@
 #include <ctime>
 #include "Stadium.h"
 #include "Shot.h"
-#define CIRCLE_MINIMUM_SIZE 10
 
 using namespace std;
 
@@ -19,32 +18,36 @@ Window *window;
 int key_status[256];
 bool finished = false;
 std::chrono::time_point<std::chrono::system_clock> frameTime;
-
+Color *black = new Color("black");
+Color *blue = new Color("blue");
+Color *red = new Color("red");
 
 void display(void) {
+	
+	Point *initWindow = window->getInitWindow();
+
 	/* Limpar todos os pixels  */
 	glClear (GL_COLOR_BUFFER_BIT);
 
 	arena->drawStadium();
-
+	arena->drawText(black,window->getScorePosition(),"Score: "+std::to_string(arena->getScore()));
 	
-	if(!finished)
-	{
-		string s = "Score: "+std::to_string(arena->getScore());
-		arena->drawText(470, 100,s);
-	}else{
-		if(arena->isWin())
+	if(finished)
+	{	if(arena->isWin())
 		{
-			arena->drawText(470, 100,"You Win! :)");
-		}else{
-			arena->drawText(470, 100,"You Loser... :(");
+			arena->drawText(blue,window->getMsgFinishPosition(),"You Win! :)");
+		}else{	
+			arena->drawText(red,window->getMsgFinishPosition(),"You Loser... :(");
 		}
 	}
-
 
 	/*Não esperar*/
 	glutSwapBuffers();
 
+	if(finished)
+	{
+		finished = !window->playAgain();
+	}
 }
 
 void init(void) {
@@ -55,6 +58,7 @@ void init(void) {
 			- arena->getLimiteExterior()->getRadius();
 	double dy = arena->getLimiteExterior()->getCoord_y()
 			- arena->getLimiteExterior()->getRadius();
+	window->setInitWindow(dx,dy);
 
 	glOrtho(dx, dx + window->getWidth(), dy, dy + window->getHeight(), 0.0,
 			1.0);
@@ -143,7 +147,7 @@ int main(int argc, char **argv) {
 	string path;
 	Scanner scanner;
 	if (argc == 2) {
-		cout << argv[0] << "\n";
+		// cout << argv[0] << "\n";
 		path = std::string(argv[1]) + "config.xml";
 	} else {
 		cout << "Parâmetros inválidos!!!\n"
@@ -152,8 +156,7 @@ int main(int argc, char **argv) {
 	}
 	arena = scanner.readConfigXML(path);
 	window = scanner.buildWindowArena(path, arena->getLimiteExterior());
-	cout << "Size window: " << window->getWidth() << "x" << window->getHeight()
-			<< "\n";
+	// cout << "Size window: " << window->getWidth() << "x" << window->getHeight() << "\n";
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
 	glutInitWindowSize(window->getWidth(), window->getHeight());

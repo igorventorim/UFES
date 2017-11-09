@@ -14,7 +14,7 @@ Scanner::Scanner(){}
 string Scanner::readTitle(string file)
 {
     doc.LoadFile(file.data());
-    cout <<  file << "\n";
+    // cout <<  file << "\n";
   	if(!doc.ErrorID())
   	{
           XMLElement* janela = doc.FirstChildElement("aplicacao")->FirstChildElement("janela");
@@ -32,7 +32,7 @@ Window* Scanner::readWindow(string file)
     int width,height;
     double r_color,g_color,b_color;
     doc.LoadFile(file.data());
-    cout <<  file << "\n";
+    // cout <<  file << "\n";
   	if(!doc.ErrorID())
   	{
           XMLElement* janela = doc.FirstChildElement("aplicacao")->FirstChildElement("janela");
