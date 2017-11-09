@@ -5,7 +5,7 @@
 Obstacle::Obstacle(Circle* c,double h)
 {
     element = c;
-    height = h;
+    height = h/100;
 }
 
 double Obstacle::getHeight(void)

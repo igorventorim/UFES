@@ -14,6 +14,7 @@
 #define RADIUS_SHOT head->getRadius()*0.1
 #define UPDATE_VELOCITY_PLAYER moveVelocity*Stadium::MILLISECONDS_BY_FRAME
 #define UPDATE_VELOCITY_SHOT shotVelocity*Stadium::MILLISECONDS_BY_FRAME
+#define ADD_SIZE_JUMP 0.5
 
 Player::Player(Circle* circle, double shot, double move)
 {
@@ -28,6 +29,7 @@ Player::Player(Circle* circle, double shot, double move)
     onElement = false;
     radius = HEIGHT_FOOT;
     scale = 1;
+    inc_size = ADD_SIZE_JUMP;
 
 
     // CREATE SHOULDERS
@@ -314,13 +316,14 @@ void Player::jump(void)
 void Player::changeSize(void)
 {
     double elapsed = std::chrono::duration_cast<std::chrono::milliseconds> ( std::chrono::system_clock::now() - startJump).count()/1000.00;
-    if(resize){elapsed += 1;}
-    if(elapsed < 1 && !resize)
+    if(resize){elapsed += 1 + (1 - heightOnObstacle) ;}
+    if(elapsed < 1 /*&& !resize*/)
     {
-        scale = (1.0 + elapsed*0.5);
+        scale = (1.0 + elapsed*ADD_SIZE_JUMP);
     }else{
-        if(onElement){ startJump =  std::chrono::system_clock::now(); resize = true; return;}
-        scale = 1.0 + 0.5 - (elapsed*0.5 -0.5);
+        if(onElement && (scale-1) <= heightOnObstacle*ADD_SIZE_JUMP + ADD_SIZE_JUMP*0.02 ){ startJump =  std::chrono::system_clock::now(); resize = true; return;}
+        
+        scale = 1.0 + ADD_SIZE_JUMP - (elapsed*ADD_SIZE_JUMP - ADD_SIZE_JUMP);
         if(elapsed >= 2)
         {
             jumping = false;
@@ -345,4 +348,19 @@ bool Player::getResize()
 Point* Player::getCenter()
 {
     return center;
+}
+
+double Player::getScale(void)
+{
+    return scale;
+}
+
+double Player::getIncSize(void)
+{
+    return inc_size;
+}
+
+void Player::setHeightOnObstacle(double value)
+{
+    heightOnObstacle = value;
 }

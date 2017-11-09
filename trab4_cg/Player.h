@@ -29,6 +29,8 @@ class Player
 		bool onElement;
 		bool down;
 		bool resize;
+		double inc_size;
+		double heightOnObstacle;
 
 	public:
 		Player(Circle*,double,double);
@@ -70,8 +72,11 @@ class Player
 		bool isOnElement(void);
 		float angleBetween(double, double, double, double);
 		void setDown(bool value);
-		bool getResize();
-		Point* getCenter();
+		bool getResize(void);
+		Point* getCenter(void);
+		double getScale(void);
+		double getIncSize(void);
+		void setHeightOnObstacle(double);
 
 };
 #endif

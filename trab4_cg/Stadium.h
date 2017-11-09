@@ -36,7 +36,7 @@ class Stadium
 		bool getPersonJumping(void);
 		void setPersonJumping(bool);
 		bool inHightElements(double, double,double);
-		bool isInLowElements(double, double,double);
+		bool stopInObstacle(double, double,double);
 
 		Player* getPlayer(void);
 		static double MILLISECONDS_BY_FRAME;
@@ -48,6 +48,7 @@ class Stadium
 		void drawText(Color*,Point*,string);
 		void setWin(bool);
 		bool isWin(void);
+		bool inObstacle(double, double, double);		
 
 };
 

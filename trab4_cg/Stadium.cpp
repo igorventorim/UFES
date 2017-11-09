@@ -87,31 +87,15 @@ bool Stadium::isValidMove(int c)
 	y = player->getAfterY(c);
 
 	double r = player->getRadius();
-	if(getPersonJumping() )
-	{
-		if(limitInterior->circleInCircle(x,y,r) || !limitExterior->circleInCircle(x,y,-r) || inHightElements(x,y,r))
-		{
-			return false;
-		}
-	}else
-	if(limitInterior->circleInCircle(x,y,r) || !limitExterior->circleInCircle(x,y,-r) || isInLowElements(x,y,r) || inHightElements(x,y,r))
+
+	if(limitInterior->circleInCircle(x,y,r) || !limitExterior->circleInCircle(x,y,-r) || stopInObstacle(x,y,r)  || inHightElements(x,y,r))
 	{
 		return false;
 	}
 
-	if(isInLowElements(x,y,r))
+	if(!inObstacle(x,y,r) && player->isOnElement() )
 	{
-		player->setOnElement(true);
-	}
-	else if(!isInLowElements(x,y,r)){
-
-		if(player->isOnElement())
-		{
-			player->setJumping(false);
-		}
 		player->setOnElement(false);
-
-
 	}
 
 	return true;
@@ -129,16 +113,45 @@ bool Stadium::inHightElements(double x, double y, double r)
 	return false;
 }
 
-bool Stadium::isInLowElements(double x, double y, double r)
+bool Stadium::stopInObstacle(double x, double y, double r)
 {
 
+		for (std::list<Obstacle*>::iterator obstacle=obstacles.begin(); obstacle != obstacles.end(); ++obstacle)
+		{
+			if((*obstacle)->getElement()->circleInCircle(x,y,r))
+			{
+				if(getPersonJumping())
+				{
+					cout << (player->getScale() - 1)  << "\n";
+					if(player->getScale() - 1 > (*obstacle)->getHeight() * player->getIncSize() )
+					{
+						player->setHeightOnObstacle((*obstacle)->getHeight());
+						player->setOnElement(true);
+						return false;
+					}else 
+					{
+						return true;
+					}
+				}else
+				{
+					return true;
+				}
+			}
+		}
+	
+	return false;
+}
+
+bool Stadium::inObstacle(double x, double y, double r)
+{
 	for (std::list<Obstacle*>::iterator obstacle=obstacles.begin(); obstacle != obstacles.end(); ++obstacle)
 	{
-		if((*obstacle)->getElement()->circleInCircle(x,y,r) )
+		if((*obstacle)->getElement()->circleInCircle(x,y,r))
 		{
 			return true;
 		}
 	}
+
 	return false;
 }
 
