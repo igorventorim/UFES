@@ -147,7 +147,6 @@ int main(int argc, char **argv) {
 	string path;
 	Scanner scanner;
 	if (argc == 2) {
-		// cout << argv[0] << "\n";
 		path = std::string(argv[1]) + "config.xml";
 	} else {
 		cout << "Parâmetros inválidos!!!\n"
@@ -156,7 +155,6 @@ int main(int argc, char **argv) {
 	}
 	arena = scanner.readConfigXML(path);
 	window = scanner.buildWindowArena(path, arena->getLimiteExterior());
-	// cout << "Size window: " << window->getWidth() << "x" << window->getHeight() << "\n";
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
 	glutInitWindowSize(window->getWidth(), window->getHeight());
