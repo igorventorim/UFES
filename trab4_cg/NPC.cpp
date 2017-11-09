@@ -342,3 +342,8 @@ bool NPC::getResize()
 {
     return resize;
 }
+
+Point* NPC::getCenter()
+{
+    return center;
+}

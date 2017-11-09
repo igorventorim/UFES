@@ -9,6 +9,7 @@ class Shot{
         double angle;
     public:
         Shot(Circle*,double,double);
+        Circle* getShot(void);
         void draw();
 };
 

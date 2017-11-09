@@ -20,3 +20,8 @@ void Shot::draw()
     shot->drawCircle();
     glPopMatrix();
 }
+
+Circle* Shot::getShot(void)
+{
+    return shot;
+}

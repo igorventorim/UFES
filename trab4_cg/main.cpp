@@ -17,13 +17,30 @@ using namespace std;
 Stadium *arena;
 Window *window;
 int key_status[256];
+bool finished = false;
 std::chrono::time_point<std::chrono::system_clock> frameTime;
+
 
 void display(void) {
 	/* Limpar todos os pixels  */
 	glClear (GL_COLOR_BUFFER_BIT);
 
 	arena->drawStadium();
+
+	
+	if(!finished)
+	{
+		string s = "Score: "+std::to_string(arena->getScore());
+		arena->drawText(470, 100,s);
+	}else{
+		if(arena->isWin())
+		{
+			arena->drawText(470, 100,"You Win! :)");
+		}else{
+			arena->drawText(470, 100,"You Loser... :(");
+		}
+	}
+
 
 	/*Não esperar*/
 	glutSwapBuffers();
@@ -52,7 +69,7 @@ void mouse(int button, int state, int x, int y)
 	if(GLUT_LEFT_BUTTON == button && state && !arena->getPersonJumping() && !p->isOnElement() )
 	{	
 		Shot *s = p->atirar();
-		arena->addShot(s);
+		arena->addShotPlayer(s);
 	}
 }
 
@@ -73,7 +90,7 @@ void keyboad_free(unsigned char key, int x, int y) {
 
 void idle(void) {
 	Player *person = arena->getPlayer();
-
+	
 	if ((key_status['s'] || key_status['S'])
 			&& arena->isValidMove(-1)) {
 		person->setDown(true);
@@ -101,6 +118,18 @@ void idle(void) {
 	if(person->isJumping() || person->getResize())
 	{
 		person->changeSize();
+	}
+
+	if(arena->checkShotPlayer())
+	{
+		arena->setWin(true);
+		finished = true;
+	}
+	
+	if(arena->checkShotNPC())
+	{
+		arena->setWin(false);
+		finished = true;
 	}
 
 	double elapsed = std::chrono::duration_cast<std::chrono::milliseconds> ( std::chrono::system_clock::now() - frameTime).count();	

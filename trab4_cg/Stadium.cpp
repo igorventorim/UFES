@@ -2,31 +2,27 @@
 #include "Stadium.h"
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include <GL/freeglut.h>
+#include <cstring>
 #include <iostream>
 
+using namespace std;
 double Stadium::MILLISECONDS_BY_FRAME = 0;
 
 Stadium::Stadium(list<Circle*> o,Player *p)
 {
 	objects = o;
 	player = p;
-	// p->setJumping(false);
-	// setInLowElements(false);
-	// minPersonRadius = p->getHeadRadius();
-	// maxPersonRadius = p->getHeadRadius()*1.5;
 }
 
-Stadium::Stadium(Circle* exterior, Circle *inferior, Player *p, list<NPC*> npcs, list<Circle*>low)
+Stadium::Stadium(Circle* exterior, Circle *inferior, Player *p, list<NPC*> npcs, list<Obstacle*>obst)
 {
 	limitExterior = exterior;
 	limitInterior = inferior;
 	player = p;
 	NPCs = npcs;
-	lowElements = low;
-	// p->setJumping(false);
-	// setInLowElements(false);
-	// minPersonRadius = p->getHeadRadius();
-	// maxPersonRadius = p->getHeadRadius()*1.5;
+	obstacles = obst;
+	MAX_SCORE = npcs.size();
 }
 
 
@@ -46,22 +42,20 @@ void Stadium::drawStadium(void)
 
 		for (std::list<NPC*>::iterator npc=NPCs.begin(); npc != NPCs.end(); ++npc)
 		{
- 		// 	glPushMatrix();
-			// glTranslatef((*circle)->getCoord_x(),(*circle)->getCoord_y(),0);
-			//   (*circle)->drawCircle();
-			// glPopMatrix();
 			(*npc)->draw();
 		}
 
-		for (std::list<Circle*>::iterator circle=lowElements.begin(); circle != lowElements.end(); ++circle)
+		for (std::list<Obstacle*>::iterator obstacle=obstacles.begin(); obstacle != obstacles.end(); ++obstacle)
 		{
-			glPushMatrix();
-			glTranslatef((*circle)->getCoord_x(),(*circle)->getCoord_y(),0);
-			  (*circle)->drawCircle();
-			glPopMatrix();
+			(*obstacle)->draw();
 		}
 
-		for (std::list<Shot*>::iterator shot=shots.begin(); shot != shots.end(); ++shot)
+		for (std::list<Shot*>::iterator shot=shotsPlayer.begin(); shot != shotsPlayer.end(); ++shot)
+		{
+			(*shot)->draw();
+		}
+
+		for (std::list<Shot*>::iterator shot=shotsNPC.begin(); shot != shotsNPC.end(); ++shot)
 		{
 			(*shot)->draw();
 		}
@@ -138,9 +132,9 @@ bool Stadium::inHightElements(double x, double y, double r)
 bool Stadium::isInLowElements(double x, double y, double r)
 {
 
-	for (std::list<Circle*>::iterator circle=lowElements.begin(); circle != lowElements.end(); ++circle)
+	for (std::list<Obstacle*>::iterator obstacle=obstacles.begin(); obstacle != obstacles.end(); ++obstacle)
 	{
-		if((*circle)->circleInCircle(x,y,r) /*&& !(*circle)->circleInCircle(player->getCoord_x(),player->getCoord_y(),r)*/)
+		if((*obstacle)->getElement()->circleInCircle(x,y,r) )
 		{
 			return true;
 		}
@@ -153,7 +147,125 @@ Player* Stadium::getPlayer(void)
 	return player;
 }
 
-void Stadium::addShot(Shot* s)
+void Stadium::addShotPlayer(Shot* s)
 {
-	shots.push_back(s);
+	shotsPlayer.push_back(s);
+}
+
+
+list<NPC*> Stadium::getNPCs(void)
+{
+	return NPCs;
+}
+
+bool Stadium::checkShotPlayer(void)
+{
+	for (std::list<Shot*>::iterator shot=shotsPlayer.begin(); shot != shotsPlayer.end(); ++shot)
+	{
+		Circle* c = (*shot)->getShot();
+
+		if(!limitExterior->circleInCircle(c->getCoord_x(),c->getCoord_y(),c->getRadius()))
+		{
+			shotsPlayer.erase(shot++);
+			continue;
+		}
+
+		if(limitInterior->circleInCircle(c->getCoord_x(),c->getCoord_y(),c->getRadius()))
+		{
+			shotsPlayer.erase(shot++);
+			continue;
+		}
+
+		for (std::list<Obstacle*>::iterator obstacle=obstacles.begin(); obstacle != obstacles.end(); ++obstacle)
+		{
+			if((*obstacle)->getElement()->circleInCircle(c->getCoord_x(),c->getCoord_y(),c->getRadius()))
+			{
+				shotsPlayer.erase(shot++);
+				continue;
+			}
+		}
+
+		for (std::list<NPC*>::iterator npc=NPCs.begin(); npc != NPCs.end(); ++npc)
+		{
+			Point* p = (*npc)->getCenter();
+			if (c->circleInCircle(p->getX(),p->getY(),player->getRadius()))
+			{
+					score++;
+					NPCs.erase(npc++);
+					shotsPlayer.erase(shot++);
+			}
+		}
+	}
+
+	if(score == MAX_SCORE)
+	{
+		return true;
+	}else
+	{
+		return false;
+	}
+}
+
+bool Stadium::checkShotNPC(void)
+{
+	
+	for (std::list<Shot*>::iterator shot=shotsNPC.begin(); shot != shotsNPC.end(); ++shot)
+	{
+		Circle* c = (*shot)->getShot();
+
+		if(!limitExterior->circleInCircle(c->getCoord_x(),c->getCoord_y(),c->getRadius()))
+		{
+			shotsNPC.erase(shot++);
+			continue;
+		}
+
+		if(limitInterior->circleInCircle(c->getCoord_x(),c->getCoord_y(),c->getRadius()))
+		{
+			shotsNPC.erase(shot++);
+			continue;
+		}
+
+		for (std::list<Obstacle*>::iterator obstacle=obstacles.begin(); obstacle != obstacles.end(); ++obstacle)
+		{
+			if((*obstacle)->getElement()->circleInCircle(c->getCoord_x(),c->getCoord_y(),c->getRadius()))
+			{
+				shotsNPC.erase(shot++);
+				continue;
+			}
+		}
+
+		Point* p = player->getCenter();
+		if (c->circleInCircle(p->getX(),p->getY(),player->getRadius()))
+		{
+			shotsNPC.erase(shot++);
+			return true; 
+		}
+	}
+
+	return false;
+}
+
+int Stadium::getScore(void)
+{
+	return score;
+}
+
+void Stadium::drawText(double x, double y, string s)
+{
+	glColor3f( 0, 0, 1 );
+	glRasterPos2f( 470, 100 );
+	// string s = "Score: "+std::to_string(arena->getScore());
+	int j = strlen( s.c_str() );
+	for( int i = 0; i < j; i++ ) {
+		glutBitmapCharacter( GLUT_BITMAP_HELVETICA_18, s.c_str()[i] );
+	}
+}
+
+void Stadium::setWin(bool value)
+{
+	win = value;
+}
+bool Stadium::isWin(void)
+{
+	return win;
 }

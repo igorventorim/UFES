@@ -71,6 +71,7 @@ class NPC{
 		float angleBetween(double, double, double, double);
 		void setDown(bool value);
 		bool getResize();
+		Point* getCenter();
 
 };
 

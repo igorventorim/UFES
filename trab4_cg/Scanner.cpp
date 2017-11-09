@@ -53,9 +53,9 @@ Window* Scanner::readWindow(string file)
 }
 
 
-Stadium* Scanner::readArenaSVG(string file,double velTiro, double vel)
+Stadium* Scanner::readArenaSVG(string file,double velTiro, double vel, double velShotNpc,double velNpc, double heightObstacle )
 {
-    std::list<Circle*> lowElements;
+    std::list<Obstacle*> obstacles;
     std::list<NPC*> NPCs;
     Player* person;
     Circle* limiteInterior;
@@ -99,11 +99,12 @@ Stadium* Scanner::readArenaSVG(string file,double velTiro, double vel)
             if(color == "black")
             {
               Circle* circle = new Circle(id,cor,radius,cx,height-cy);
-              lowElements.push_back(circle);
+              Obstacle *obstacle = new Obstacle(circle,heightObstacle);
+              obstacles.push_back(obstacle);
             }else if(color == "red")
             {
               Circle* circle = new Circle(id,cor,radius/1.8,cx,height-cy);
-              NPC* npc = new NPC(circle,velTiro,vel);
+              NPC* npc = new NPC(circle,velShotNpc,velNpc);
               NPCs.push_back(npc);
             }else if(color == "white")
             {
@@ -114,7 +115,7 @@ Stadium* Scanner::readArenaSVG(string file,double velTiro, double vel)
             }
         }
 
-        stadium = new Stadium(limiteExterior,limiteInterior,person,NPCs,lowElements);
+        stadium = new Stadium(limiteExterior,limiteInterior,person,NPCs,obstacles);
         return stadium;
   }else
     {
@@ -128,6 +129,8 @@ Stadium* Scanner::readConfigXML(string file)
 {
     string name, type, path;
     double shot, move;
+    double npcVel, shotNpc, alturaObstaculo;
+
     doc.LoadFile(file.data());
     if(!doc.ErrorID())
     {
@@ -139,7 +142,13 @@ Stadium* Scanner::readConfigXML(string file)
         player->QueryDoubleAttribute("velTiro",&shot);
         player->QueryDoubleAttribute("vel",&move);
 
-        return readArenaSVG(path + name +"."+type,shot,move);
+        XMLElement* inimigo = doc.FirstChildElement("aplicacao")->FirstChildElement("inimigo");
+        inimigo->QueryDoubleAttribute("velTiro",&shotNpc);
+        inimigo->QueryDoubleAttribute("vel",&npcVel);
+
+        XMLElement* obstacle = doc.FirstChildElement("aplicacao")->FirstChildElement("obstaculo");
+        obstacle->QueryDoubleAttribute("altura",&alturaObstaculo);
+        return readArenaSVG(path + name +"."+type,shot,move,shotNpc,npcVel,alturaObstaculo);
   }else
     {
         cout << "Erro ao abrir o arquivo XML "<< file << "\n";

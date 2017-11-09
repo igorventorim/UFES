@@ -341,3 +341,8 @@ bool Player::getResize()
 {
     return resize;
 }
+
+Point* Player::getCenter()
+{
+    return center;
+}
