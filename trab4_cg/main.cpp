@@ -18,12 +18,13 @@ Window *window;
 int key_status[256];
 bool finished = false;
 std::chrono::time_point<std::chrono::system_clock> frameTime;
+int count = 0;
 Color *black = new Color("black");
 Color *blue = new Color("blue");
 Color *red = new Color("red");
 
 void display(void) {
-	
+
 	Point *initWindow = window->getInitWindow();
 
 	/* Limpar todos os pixels  */
@@ -31,12 +32,12 @@ void display(void) {
 
 	arena->drawStadium();
 	arena->drawText(black,window->getScorePosition(),"Score: "+std::to_string(arena->getScore()));
-	
+
 	if(finished)
 	{	if(arena->isWin())
 		{
 			arena->drawText(blue,window->getMsgFinishPosition(),"You Win! :)");
-		}else{	
+		}else{
 			arena->drawText(red,window->getMsgFinishPosition(),"You Loser... :(");
 		}
 	}
@@ -67,11 +68,11 @@ void init(void) {
 	frameTime = std::chrono::system_clock::now();
 }
 
-void mouse(int button, int state, int x, int y) 
+void mouse(int button, int state, int x, int y)
 {
 	Player *p = arena->getPlayer();
 	if(GLUT_LEFT_BUTTON == button && state && !arena->getPersonJumping(p) && !p->isOnElement() )
-	{	
+	{
 		Shot *s = p->atirar();
 		arena->addShotPlayer(s);
 	}
@@ -94,7 +95,7 @@ void keyboad_free(unsigned char key, int x, int y) {
 
 void idle(void) {
 	Player *person = arena->getPlayer();
-	
+
 	if ((key_status['s'] || key_status['S'])
 			&& arena->isValidMove(-1,person)) {
 		person->setDown(true);
@@ -106,7 +107,7 @@ void idle(void) {
 	}
 
 	if ((key_status['d'] || key_status['D'])) {
-		person->rotateRight();	
+		person->rotateRight();
 	}
 
 	if ((key_status['w'] || key_status['W'])
@@ -128,7 +129,7 @@ void idle(void) {
 		arena->setWin(true);
 		finished = true;
 	}
-	
+
 	if(arena->checkShotNPC())
 	{
 		arena->setWin(false);
@@ -137,12 +138,17 @@ void idle(void) {
 
 	// if()
 	// {
-		arena->shootShotsNPCs();	
+	 if(count == 50)
+	 {
+		 arena->shootShotsNPCs();
+		 count = 0;
+	 }
+	 count++;
 	// }
-	
 
 
-	double elapsed = std::chrono::duration_cast<std::chrono::milliseconds> ( std::chrono::system_clock::now() - frameTime).count();	
+
+	double elapsed = std::chrono::duration_cast<std::chrono::milliseconds> ( std::chrono::system_clock::now() - frameTime).count();
 	Stadium::MILLISECONDS_BY_FRAME = elapsed;
 	glutPostRedisplay();
 	frameTime = std::chrono::system_clock::now();
