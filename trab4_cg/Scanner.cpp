@@ -14,7 +14,6 @@ Scanner::Scanner(){}
 string Scanner::readTitle(string file)
 {
     doc.LoadFile(file.data());
-    // cout <<  file << "\n";
   	if(!doc.ErrorID())
   	{
           XMLElement* janela = doc.FirstChildElement("aplicacao")->FirstChildElement("janela");
@@ -145,7 +144,7 @@ Stadium* Scanner::readConfigXML(string file)
         XMLElement* inimigo = doc.FirstChildElement("aplicacao")->FirstChildElement("inimigo");
         inimigo->QueryDoubleAttribute("velTiro",&shotNpc);
         inimigo->QueryDoubleAttribute("vel",&npcVel);
-        inimigo->QueryDoubleAttribute("vel",&freqTiro);
+        inimigo->QueryDoubleAttribute("freqTiro",&freqTiro);
 
         XMLElement* obstacle = doc.FirstChildElement("aplicacao")->FirstChildElement("obstaculo");
         obstacle->QueryDoubleAttribute("altura",&alturaObstaculo);

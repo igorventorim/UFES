@@ -18,7 +18,7 @@ Window *window;
 int key_status[256];
 bool finished = false;
 std::chrono::time_point<std::chrono::system_clock> frameTime;
-int count = 0;
+double dShot = 0;
 Color *black = new Color("black");
 Color *blue = new Color("blue");
 Color *red = new Color("red");
@@ -136,22 +136,18 @@ void idle(void) {
 		finished = true;
 	}
 
-	// if()
-	// {
-	 if(count == 50)
-	 {
-		 arena->shootShotsNPCs();
-		 count = 0;
-	 }
-	 count++;
-	// }
-
+	if(dShot > 1000/arena->getFreqShotNPC())
+	{
+		arena->shootShotsNPCs();
+		dShot = 0;
+	}
 
 
 	double elapsed = std::chrono::duration_cast<std::chrono::milliseconds> ( std::chrono::system_clock::now() - frameTime).count();
 	Stadium::MILLISECONDS_BY_FRAME = elapsed;
 	glutPostRedisplay();
 	frameTime = std::chrono::system_clock::now();
+	dShot += Stadium::MILLISECONDS_BY_FRAME;
 	person->setDown(false);
 }
 

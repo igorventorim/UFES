@@ -13,7 +13,6 @@
 #define HEIGHT_HAND head->getRadius()*1.9
 #define RADIUS_SHOT head->getRadius()*0.1
 #define UPDATE_VELOCITY_PERSON moveVelocity*Stadium::MILLISECONDS_BY_FRAME
-#define UPDATE_VELOCITY_SHOT shotVelocity*Stadium::MILLISECONDS_BY_FRAME
 #define SCALE_PERSON 1
 
 Person::Person(Circle* circle, double shot, double move)
@@ -126,7 +125,7 @@ Shot* Person::atirar(void){
     // cout << "x:"<<x<<" y:"<<y<<" o:"<< personAngle<<"\n";
     Color* color = new Color(1.0,1.0,0);
     Circle* circle = new Circle(0,color,RADIUS_SHOT,x,y);
-    Shot* shot = new Shot(circle,UPDATE_VELOCITY_SHOT,personAngle+angleHand+90);
+    Shot* shot = new Shot(circle,shotVelocity,personAngle+angleHand+90);
     return shot;
 }
 

@@ -24,6 +24,7 @@ Stadium::Stadium(Circle* exterior, Circle *inferior, Player *p, list<NPC*> npcs,
 	obstacles = obst;
 	MAX_SCORE = npcs.size();
 	freqShotNPC = freqShot;
+	cout << "Frequencia de tiro no NPC:" << freqShotNPC<<"\n";
 }
 
 
