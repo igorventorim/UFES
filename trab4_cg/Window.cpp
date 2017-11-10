@@ -145,7 +145,7 @@ Point* Window::getInitWindow(void)
 void Window::setInitWindow(double x, double y)
 {
     initWindow= new Point(x,y);
-    scorePosition = new Point(initWindow->getX()+ width*0.85,initWindow->getY()*0.9);
+    scorePosition = new Point(initWindow->getX()+ width*0.85,initWindow->getY()+height*0.95);
     msgFinishPosition = new Point(initWindow->getX()+ width*0.43,initWindow->getY()+height*0.48);
 }
 

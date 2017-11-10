@@ -70,7 +70,7 @@ void init(void) {
 void mouse(int button, int state, int x, int y) 
 {
 	Player *p = arena->getPlayer();
-	if(GLUT_LEFT_BUTTON == button && state && !arena->getPersonJumping() && !p->isOnElement() )
+	if(GLUT_LEFT_BUTTON == button && state && !arena->getPersonJumping(p) && !p->isOnElement() )
 	{	
 		Shot *s = p->atirar();
 		arena->addShotPlayer(s);
@@ -96,7 +96,7 @@ void idle(void) {
 	Player *person = arena->getPlayer();
 	
 	if ((key_status['s'] || key_status['S'])
-			&& arena->isValidMove(-1)) {
+			&& arena->isValidMove(-1,person)) {
 		person->setDown(true);
 		person->moveDown();
 	}
@@ -110,7 +110,7 @@ void idle(void) {
 	}
 
 	if ((key_status['w'] || key_status['W'])
-			&& arena->isValidMove(1)) {
+			&& arena->isValidMove(1,person)) {
 		person->moveUp();
 	}
 

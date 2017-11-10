@@ -30,15 +30,14 @@ class Stadium
 		Stadium(list<Circle*>,Player*);
 		Stadium(Circle*,Circle *, Player *, list<NPC*>,list<Obstacle*>);
 		void drawStadium(void);
-
 		Circle* getLimiteExterior(void);
-		bool isValidMove(int);
-		bool getPersonJumping(void);
-		void setPersonJumping(bool);
-		bool inHightElements(double, double,double);
-		bool stopInObstacle(double, double,double);
-
+		bool isValidMove(int,Person *);
+		bool getPersonJumping(Person*);
+		void setPersonJumping(bool,Person*);
+		bool inNPC(double, double,double, Person*);
+		bool stopInObstacle(Person*,double, double,double);
 		Player* getPlayer(void);
+		void addShotNPC(Shot* s);
 		static double MILLISECONDS_BY_FRAME;
 		void addShotPlayer(Shot*);
 		list<NPC*> getNPCs(void);
@@ -48,7 +47,7 @@ class Stadium
 		void drawText(Color*,Point*,string);
 		void setWin(bool);
 		bool isWin(void);
-		bool inObstacle(double, double, double);		
+		bool inObstacle(double, double, double);
 
 };
 

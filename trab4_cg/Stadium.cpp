@@ -70,42 +70,42 @@ Circle* Stadium::getLimiteExterior(void)
 	return limitExterior;
 }
 
-bool Stadium::getPersonJumping(void)
+bool Stadium::getPersonJumping(Person* p)
 {
-	return player->isJumping();
+	return p->isJumping();
 }
 
-void Stadium::setPersonJumping(bool jump)
+void Stadium::setPersonJumping(bool jump,Person* p)
 {
-	player->setJumping(jump);
+	p->setJumping(jump);
 }
 
-bool Stadium::isValidMove(int c)
+bool Stadium::isValidMove(int c,Person *p)
 {
 	double x,y;
-	x = player->getAfterX(c);
-	y = player->getAfterY(c);
+	x = p->getAfterX(c);
+	y = p->getAfterY(c);
 
-	double r = player->getRadius();
+	double r = p->getRadius();
 
-	if(limitInterior->circleInCircle(x,y,r) || !limitExterior->circleInCircle(x,y,-r) || stopInObstacle(x,y,r)  || inHightElements(x,y,r))
+	if(limitInterior->circleInCircle(x,y,r) || !limitExterior->circleInCircle(x,y,-r) || stopInObstacle(p,x,y,r)  || inNPC(x,y,r,p))
 	{
 		return false;
 	}
 
-	if(!inObstacle(x,y,r) && player->isOnElement() )
+	if(!inObstacle(x,y,r) && p->isOnElement())
 	{
-		player->setOnElement(false);
+		p->setOnElement(false);
 	}
 
 	return true;
 }
 
-bool Stadium::inHightElements(double x, double y, double r)
+bool Stadium::inNPC(double x, double y, double r, Person *p)
 {
 	for (std::list<NPC*>::iterator npc=NPCs.begin(); npc != NPCs.end(); ++npc)
 	{
-	  if((*npc)->getHead()->circleInCircle(x,y,r))
+	  if((*npc)->getHead()->circleInCircle(x,y,r) && !(*npc)->isMe(p) )
 	  {
 		  return true;
 	  }
@@ -113,20 +113,20 @@ bool Stadium::inHightElements(double x, double y, double r)
 	return false;
 }
 
-bool Stadium::stopInObstacle(double x, double y, double r)
+bool Stadium::stopInObstacle(Person* p,double x, double y, double r)
 {
 
 		for (std::list<Obstacle*>::iterator obstacle=obstacles.begin(); obstacle != obstacles.end(); ++obstacle)
 		{
 			if((*obstacle)->getElement()->circleInCircle(x,y,r))
 			{
-				if(getPersonJumping())
+				if(getPersonJumping(p))
 				{
-					cout << (player->getScale() - 1)  << "\n";
-					if(player->getScale() - 1 > (*obstacle)->getHeight() * (player->getScaleInit()/2) )
+					// cout << (player->getScale() - 1)  << "\n";
+					if(p->getScale() - 1 > (*obstacle)->getHeight() * (p->getScaleInit()/2) )
 					{
-						player->setHeightOnObstacle((*obstacle)->getHeight());
-						player->setOnElement(true);
+						p->setHeightOnObstacle((*obstacle)->getHeight());
+						p->setOnElement(true);
 						return false;
 					}else 
 					{
@@ -163,6 +163,11 @@ Player* Stadium::getPlayer(void)
 void Stadium::addShotPlayer(Shot* s)
 {
 	shotsPlayer.push_back(s);
+}
+
+void Stadium::addShotNPC(Shot* s)
+{
+	shotsNPC.push_back(s);
 }
 
 
@@ -267,7 +272,6 @@ void Stadium::drawText(Color* c,Point *p, string s)
 {
 	glColor3f( c->getRColor(), c->getGColor(), c->getBColor() );
 	glRasterPos2f( p->getX(), p->getY() );
-	// string s = "Score: "+std::to_string(arena->getScore());
 	int j = strlen( s.c_str() );
 	for( int i = 0; i < j; i++ ) {
 		glutBitmapCharacter( GLUT_BITMAP_HELVETICA_18, s.c_str()[i] );
