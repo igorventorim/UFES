@@ -15,7 +15,7 @@ class Scanner
 {
     private:
         XMLDocument doc;
-        Stadium* readArenaSVG(string,double,double,double,double,double);
+        Stadium* readArenaSVG(string,double,double,double,double,double,double);
     public:
         Scanner();
         Circle* readCircle(string);

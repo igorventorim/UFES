@@ -15,7 +15,7 @@ Stadium::Stadium(list<Circle*> o,Player *p)
 	player = p;
 }
 
-Stadium::Stadium(Circle* exterior, Circle *inferior, Player *p, list<NPC*> npcs, list<Obstacle*>obst)
+Stadium::Stadium(Circle* exterior, Circle *inferior, Player *p, list<NPC*> npcs, list<Obstacle*>obst, double freqShot)
 {
 	limitExterior = exterior;
 	limitInterior = inferior;
@@ -23,6 +23,7 @@ Stadium::Stadium(Circle* exterior, Circle *inferior, Player *p, list<NPC*> npcs,
 	NPCs = npcs;
 	obstacles = obst;
 	MAX_SCORE = npcs.size();
+	freqShotNPC = freqShot;
 }
 
 
@@ -285,4 +286,17 @@ void Stadium::setWin(bool value)
 bool Stadium::isWin(void)
 {
 	return win;
+}
+
+double Stadium::getFreqShotNPC(void)
+{
+	return freqShotNPC;
+}
+
+void Stadium::shootShotsNPCs(void)
+{
+	for (std::list<NPC*>::iterator npc=NPCs.begin(); npc != NPCs.end(); ++npc)
+	{
+		addShotNPC((*npc)->atirar());		
+	}
 }

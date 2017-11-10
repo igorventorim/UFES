@@ -22,13 +22,14 @@ class Stadium
 		Player *player;
 		Circle *limitExterior;
 		Circle *limitInterior;
+		double freqShotNPC;
 		int score = 0;
 		int MAX_SCORE;
 		bool win = false;
 
 	public:
 		Stadium(list<Circle*>,Player*);
-		Stadium(Circle*,Circle *, Player *, list<NPC*>,list<Obstacle*>);
+		Stadium(Circle*,Circle *, Player *, list<NPC*>,list<Obstacle*>,double);
 		void drawStadium(void);
 		Circle* getLimiteExterior(void);
 		bool isValidMove(int,Person *);
@@ -48,6 +49,8 @@ class Stadium
 		void setWin(bool);
 		bool isWin(void);
 		bool inObstacle(double, double, double);
+		double getFreqShotNPC(void);
+		void shootShotsNPCs(void);
 
 };
 

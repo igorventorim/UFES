@@ -53,7 +53,7 @@ Window* Scanner::readWindow(string file)
 }
 
 
-Stadium* Scanner::readArenaSVG(string file,double velTiro, double vel, double velShotNpc,double velNpc, double heightObstacle )
+Stadium* Scanner::readArenaSVG(string file,double velTiro, double vel, double velShotNpc,double velNpc, double heightObstacle, double freqShot )
 {
     std::list<Obstacle*> obstacles;
     std::list<NPC*> NPCs;
@@ -115,7 +115,7 @@ Stadium* Scanner::readArenaSVG(string file,double velTiro, double vel, double ve
             }
         }
 
-        stadium = new Stadium(limiteExterior,limiteInterior,person,NPCs,obstacles);
+        stadium = new Stadium(limiteExterior,limiteInterior,person,NPCs,obstacles,freqShot);
         return stadium;
   }else
     {
@@ -129,7 +129,7 @@ Stadium* Scanner::readConfigXML(string file)
 {
     string name, type, path;
     double shot, move;
-    double npcVel, shotNpc, alturaObstaculo;
+    double npcVel, shotNpc, alturaObstaculo, freqTiro;
 
     doc.LoadFile(file.data());
     if(!doc.ErrorID())
@@ -145,10 +145,11 @@ Stadium* Scanner::readConfigXML(string file)
         XMLElement* inimigo = doc.FirstChildElement("aplicacao")->FirstChildElement("inimigo");
         inimigo->QueryDoubleAttribute("velTiro",&shotNpc);
         inimigo->QueryDoubleAttribute("vel",&npcVel);
+        inimigo->QueryDoubleAttribute("vel",&freqTiro);
 
         XMLElement* obstacle = doc.FirstChildElement("aplicacao")->FirstChildElement("obstaculo");
         obstacle->QueryDoubleAttribute("altura",&alturaObstaculo);
-        return readArenaSVG(path + name +"."+type,shot,move,shotNpc,npcVel,alturaObstaculo);
+        return readArenaSVG(path + name +"."+type,shot,move,shotNpc,npcVel,alturaObstaculo,freqTiro);
   }else
     {
         cout << "Erro ao abrir o arquivo XML "<< file << "\n";
