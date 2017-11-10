@@ -26,28 +26,17 @@ class Player
 		int signal = 1;
 	    std::chrono::time_point<std::chrono::system_clock> startJump;
 		double scale;
+		double scaleInit;
 		bool onElement;
 		bool down;
 		bool resize;
-		double inc_size;
+		bool jumpingOnElement;
 		double heightOnObstacle;
 
 	public:
 		Player(Circle*,double,double);
-		void setHead(Circle*);
-		Circle* getHead(void);
 		bool isJumping(void);
 		void setJumping(bool);
-		void setHand(Rectangle*);
-		void setRFoot(Rectangle*);
-		void setLFoot(Rectangle*);
-		void setLShoulder(Elipse*);
-		void setRShoulder(Elipse*);
-		Elipse* getLShoulder(void);
-		Elipse* getRShoulder(void);
-		Rectangle* getHand(void);
-		Rectangle* getLFoot(void);
-		Rectangle* getRFoot(void);
 		void draw(void);
 		double getHeadRadius(void);
 		void setHeadRadius(double);
@@ -75,8 +64,10 @@ class Player
 		bool getResize(void);
 		Point* getCenter(void);
 		double getScale(void);
-		double getIncSize(void);
+		double getScaleInit(void);
 		void setHeightOnObstacle(double);
+		bool isJumpingOnElement(void);
+		void inverse(void);
 
 };
 #endif

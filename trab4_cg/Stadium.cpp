@@ -123,7 +123,7 @@ bool Stadium::stopInObstacle(double x, double y, double r)
 				if(getPersonJumping())
 				{
 					cout << (player->getScale() - 1)  << "\n";
-					if(player->getScale() - 1 > (*obstacle)->getHeight() * player->getIncSize() )
+					if(player->getScale() - 1 > (*obstacle)->getHeight() * (player->getScaleInit()/2) )
 					{
 						player->setHeightOnObstacle((*obstacle)->getHeight());
 						player->setOnElement(true);

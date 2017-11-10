@@ -114,12 +114,11 @@ void idle(void) {
 		person->moveUp();
 	}
 
-	if ((key_status['p'] || key_status['P']) && !person->isJumping()
-			&& !person->isOnElement()) {
+	if ((key_status['p'] || key_status['P'])) {
 		person->jump();
 	}
 
-	if(person->isJumping() || person->getResize())
+	if(person->isJumping() || person->getResize() || person->isJumpingOnElement())
 	{
 		person->changeSize();
 	}

@@ -14,7 +14,7 @@
 #define RADIUS_SHOT head->getRadius()*0.1
 #define UPDATE_VELOCITY_PLAYER moveVelocity*Stadium::MILLISECONDS_BY_FRAME
 #define UPDATE_VELOCITY_SHOT shotVelocity*Stadium::MILLISECONDS_BY_FRAME
-#define ADD_SIZE_JUMP 0.5
+#define SCALE_PERSON 1
 
 Player::Player(Circle* circle, double shot, double move)
 {
@@ -28,8 +28,7 @@ Player::Player(Circle* circle, double shot, double move)
     inverseFoots = false;
     onElement = false;
     radius = HEIGHT_FOOT;
-    scale = 1;
-    inc_size = ADD_SIZE_JUMP;
+    scaleInit = scale = SCALE_PERSON;
 
 
     // CREATE SHOULDERS
@@ -50,14 +49,14 @@ Player::Player(Circle* circle, double shot, double move)
     hand = new Rectangle(handPoint,WIDTH_HAND,HEIGHT_HAND,head->getColor());
 
 }
-void Player::setHead(Circle* circle)
-{
-    head = circle;
-}
-Circle* Player::getHead(void)
-{
-    return head;
-}
+// void Player::setHead(Circle* circle)
+// {
+//     head = circle;
+// }
+// Circle* Player::getHead(void)
+// {
+//     return head;
+// }
 bool Player::isJumping(void)
 {
     return jumping;
@@ -66,30 +65,30 @@ void Player::setJumping(bool jump)
 {
     jumping = jump;
 }
-void Player::setHand(Rectangle* r)
-{
-    hand = r;
-}
-void Player::setRFoot(Rectangle* r)
-{
-    rFoot = r;
-}
-void Player::setLFoot(Rectangle* r)
-{
-    lFoot = r;
-}
-Rectangle* Player::getHand(void)
-{
-    return hand;
-}
-Rectangle* Player::getLFoot(void)
-{
-    return lFoot;
-}
-Rectangle* Player::getRFoot(void)
-{
-    return rFoot;
-}
+// void Player::setHand(Rectangle* r)
+// {
+//     hand = r;
+// }
+// void Player::setRFoot(Rectangle* r)
+// {
+//     rFoot = r;
+// }
+// void Player::setLFoot(Rectangle* r)
+// {
+//     lFoot = r;
+// }
+// Rectangle* Player::getHand(void)
+// {
+//     return hand;
+// }
+// Rectangle* Player::getLFoot(void)
+// {
+//     return lFoot;
+// }
+// Rectangle* Player::getRFoot(void)
+// {
+//     return rFoot;
+// }
 void Player::draw(void)
 {
     glPushMatrix();
@@ -216,19 +215,19 @@ double Player::getCoord_y(void)
 {
     center->getY();
 }
-void Player::setLShoulder(Elipse* e)
-{
-    lShoulder = e;
-}
-void Player::setRShoulder(Elipse* e){
-    rShoulder = e;
-}
-Elipse* Player::getLShoulder(void){
-    return lShoulder;
-}
-Elipse* Player::getRShoulder(void){
-    return rShoulder;
-}
+// void Player::setLShoulder(Elipse* e)
+// {
+//     lShoulder = e;
+// }
+// void Player::setRShoulder(Elipse* e){
+//     rShoulder = e;
+// }
+// Elipse* Player::getLShoulder(void){
+//     return lShoulder;
+// }
+// Elipse* Player::getRShoulder(void){
+//     return rShoulder;
+// }
 
 void Player::setPlayerAngle(double a){
     playerAngle = a;
@@ -297,9 +296,25 @@ void Player::changeInverseFoots(void)
 }
 
 void Player::jump(void)
+{   
+    if(!jumping)
+    {
+        scaleInit = scale;
+        jumping = true;
+        startJump = std::chrono::system_clock::now();
+        inverse();
+       
+    }else if(onElement && !jumpingOnElement)
+    {
+        jumpingOnElement = true;
+        scaleInit = scale;
+        startJump = std::chrono::system_clock::now();
+        inverse();
+    }
+}
+
+void Player::inverse(void)
 {
-    jumping = true;
-    startJump = std::chrono::system_clock::now();
     inverseFoots = !inverseFoots;
     if(inverseFoots)
     {
@@ -310,25 +325,41 @@ void Player::jump(void)
         lFoot->setCoord_y(0);
         rFoot->setCoord_y(-rFoot->getHeight());
     }
-
 }
 
 void Player::changeSize(void)
 {
     double elapsed = std::chrono::duration_cast<std::chrono::milliseconds> ( std::chrono::system_clock::now() - startJump).count()/1000.00;
-    if(resize){elapsed += 1 + (1 - heightOnObstacle) ;}
-    if(elapsed < 1 /*&& !resize*/)
+    if(resize && !jumpingOnElement)
     {
-        scale = (1.0 + elapsed*ADD_SIZE_JUMP);
+        elapsed += 1 + (1 - heightOnObstacle) ;
+    }
+    if(elapsed <= 1)
+    {
+        scale = (scaleInit + elapsed*(scaleInit/2));
     }else{
-        if(onElement && (scale-1) <= heightOnObstacle*ADD_SIZE_JUMP + ADD_SIZE_JUMP*0.02 ){ startJump =  std::chrono::system_clock::now(); resize = true; return;}
+        if(!jumpingOnElement && onElement && (scale-1) <= heightOnObstacle*(scaleInit/2) + (scaleInit/2)*0.02 )
+        {
+         startJump =  std::chrono::system_clock::now(); 
+         resize = true; 
+         return;
+        }
         
-        scale = 1.0 + ADD_SIZE_JUMP - (elapsed*ADD_SIZE_JUMP - ADD_SIZE_JUMP);
+        scale = scaleInit + (scaleInit/2) - (elapsed*(scaleInit/2) - (scaleInit/2));
         if(elapsed >= 2)
         {
-            jumping = false;
-            scale = 1.0;
-            resize = false;
+            if(jumpingOnElement)
+            {
+                jumpingOnElement = false;
+                startJump =  std::chrono::system_clock::now();
+                resize = true;
+            }else
+            {
+                resize = false;
+                jumping = false;
+            }
+            scale = scaleInit;
+            scaleInit = SCALE_PERSON;
         }
     }
 
@@ -355,12 +386,17 @@ double Player::getScale(void)
     return scale;
 }
 
-double Player::getIncSize(void)
+double Player::getScaleInit(void)
 {
-    return inc_size;
+    return scaleInit;
 }
 
 void Player::setHeightOnObstacle(double value)
 {
     heightOnObstacle = value;
+}
+
+bool Player::isJumpingOnElement(void)
+{
+    return jumpingOnElement;
 }
