@@ -48,14 +48,15 @@ void Stadium::drawStadium(void)
 		limitInterior->drawCircle();
 		glPopMatrix();
 
-		for (std::list<NPC*>::iterator npc=NPCs.begin(); npc != NPCs.end(); ++npc)
-		{
-			(*npc)->draw();
-		}
 
 		for (std::list<Obstacle*>::iterator obstacle=obstacles.begin(); obstacle != obstacles.end(); ++obstacle)
 		{
 			(*obstacle)->draw();
+		}
+
+		for (std::list<NPC*>::iterator npc=NPCs.begin(); npc != NPCs.end(); ++npc)
+		{
+			(*npc)->draw();
 		}
 
 		for (std::list<Shot*>::iterator shot=shotsPlayer.begin(); shot != shotsPlayer.end(); ++shot)
@@ -311,4 +312,17 @@ void Stadium::shootShotsNPCs(void)
 void Stadium::moveNPC(void)
 {
 	ga->run(NPCs);
+}
+
+void Stadium::changeSizeNPCs(void)
+{
+
+	for (std::list<NPC*>::iterator npc=NPCs.begin(); npc != NPCs.end(); ++npc)
+	{
+		if((*npc)->isJumping() || (*npc)->getResize() || (*npc)->isJumpingOnElement())
+		{
+			(*npc)->changeSize();
+		}
+	}
+
 }

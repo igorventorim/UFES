@@ -40,6 +40,8 @@ double NPC::getAfterPersonAngle(int right,int left)
 			after_person_angle += getUpdateVelocityPerson();
 		}
 	}
+
+	return after_person_angle;
 }
 
 void NPC::simulateLook(double centerX, double centerY, double personAngle, double& lookX,double& lookY)
@@ -109,37 +111,37 @@ void NPC::moveNPC(vector<int> individual,int size_vector)
 */
 int NPC::movementEvaluate(vector<int> individual,int size_vector)
 {
-	int score;
+	int score = 0;
+	double afterAngle = getAfterPersonAngle(0,0);
 	double current_distance = getLook()->distance2D(player->getX(),player->getY());
-	// for(int i = 0; i < size_vector; i++)
-	// {
+	double afterX = getCenter()->getX();
+	double afterY = getCenter()->getY();
 
-	// }
 	if(individual[0])
 	{
-
+		
 	}
 
 	if(individual[1])
 	{
-
+		
 	}
 
 	if(individual[2])
 	{
-
+		
 	}
 
 	if(individual[3])
 	{
-
+		
 	}
 
 	if(individual[4])
 	{
-
+		
 	}
 
-	return 0;
+	return score;
 }
 

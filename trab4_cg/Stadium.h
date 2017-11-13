@@ -54,6 +54,7 @@ class Stadium
 		double getFreqShotNPC(void);
 		void shootShotsNPCs(void);
 		void moveNPC(void);
+		void changeSizeNPCs(void);
 
 };
 

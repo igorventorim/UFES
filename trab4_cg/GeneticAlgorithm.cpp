@@ -126,6 +126,7 @@ void GeneticAlgorithm::run(list<NPC*> npcs)
             for(int j = 0; j < tournament_size; j++)
             {
                 double prob = ((double) rand() / ((double)RAND_MAX + 1));
+                
                 if(prob < crossover_prob)
                 {
                     int parent1_index = rand() % population_size;
@@ -138,7 +139,6 @@ void GeneticAlgorithm::run(list<NPC*> npcs)
 
                     vector<int> son;
                     crossover(parent1_index,parent2_index,son);
-
                     if(prob < mutation_prob)
                     {
                         mutation(son);
