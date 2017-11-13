@@ -67,14 +67,14 @@ void NPC::setPlayer(Point *p)
 */
 void NPC::moveNPC(vector<int> individual,int size_vector)
 {
-	cout << "Vou mover para : [ ";
-	for(int j = 0; j < size_vector; j++)
-    {
-        cout << individual[j] << " ";
-    }
-    cout << "]"<<endl; 
+	// cout << "Vou mover para : [ ";
+	// for(int j = 0; j < size_vector; j++)
+  //   {
+  //       cout << individual[j] << " ";
+  //   }
+  //   cout << "]"<<endl;
 
-    if(individual[0])
+  if(individual[0])
 	{
 		rotateRight();
 	}
@@ -111,6 +111,8 @@ void NPC::moveNPC(vector<int> individual,int size_vector)
 */
 int NPC::movementEvaluate(vector<int> individual,int size_vector)
 {
+  bool rotate = false;
+  bool walk = false;
 	int score = 0;
 	double afterAngle = getAfterPersonAngle(0,0);
 	double current_distance = getLook()->distance2D(player->getX(),player->getY());
@@ -119,29 +121,61 @@ int NPC::movementEvaluate(vector<int> individual,int size_vector)
 
 	if(individual[0])
 	{
-		
+		afterAngle = getAfterPersonAngle(1,0);
+    rotate = true;
+    score++;
 	}
 
 	if(individual[1])
 	{
-		
+    afterAngle = getAfterPersonAngle(0,1);
+    if(rotate){
+      score = -2;
+    }
+    score++;
 	}
 
 	if(individual[2])
 	{
-		
+    afterX = getAfterX(1,afterAngle);
+    afterY = getAfterY(1,afterAngle);
+    walk = true;
+    score++;
 	}
 
 	if(individual[3])
 	{
-		
+    afterX = getAfterX(-1,afterAngle);
+    afterY = getAfterY(-1,afterAngle);
+    if(walk)
+    {
+      score = -2;
+    }
+    walk = true;
+    score++;
 	}
 
-	if(individual[4])
-	{
-		
-	}
+  if(walk)
+  {
+    if(individual[4])
+  	{
+      score++;
+  	}
+  }else{
+    if(individual[4])
+  	{
+      score--;
+  	}
+  }
+  double x,y;
+  simulateLook(afterX,afterY, afterAngle, x,y);
+
+   if(player->distance2D(x,y))
+   {
+     score += 5;
+   }
+
+
 
 	return score;
 }
-

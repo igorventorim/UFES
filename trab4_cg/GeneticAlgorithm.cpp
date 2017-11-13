@@ -3,11 +3,11 @@
 #include <stdlib.h>
 #include <time.h>
 #define CHROMOSOME_SIZE 5
-#define POPULATION_SIZE 50
-#define TOURNAMENT_SIZE 20
-#define GENERATIONS 100
-#define MUTATION_PROB 0.2
-#define CROSSOVER_PROB 0.7
+#define POPULATION_SIZE 32
+#define TOURNAMENT_SIZE 5
+#define GENERATIONS 50
+#define MUTATION_PROB 0.4
+#define CROSSOVER_PROB 0.9
 
 
 
@@ -67,7 +67,7 @@ int GeneticAlgorithm::evaluate(vector<int> individuo, NPC* npc)
 
 void GeneticAlgorithm::mutation(vector<int>& individuo)
 {
-    // GENERATION ELEMENT IN INTERVAL [0, CHROMOSOME_SIZE] 
+    // GENERATION ELEMENT IN INTERVAL [0, CHROMOSOME_SIZE]
     int gene = rand() % chromosome_size;
 
     if(individuo[gene] == 0)
@@ -126,7 +126,7 @@ void GeneticAlgorithm::run(list<NPC*> npcs)
             for(int j = 0; j < tournament_size; j++)
             {
                 double prob = ((double) rand() / ((double)RAND_MAX + 1));
-                
+
                 if(prob < crossover_prob)
                 {
                     int parent1_index = rand() % population_size;
@@ -154,26 +154,28 @@ void GeneticAlgorithm::run(list<NPC*> npcs)
                             population[parent1_index][k] = son[k];
                         }
                     }
-                }    
-            } 
+                }
+            }
 
             // cout << "Geracao " << i+1 << endl;
             // cout << "Melhor: ";
             fitness_index = getFitness((*npc));
-            // int fitness_score = evaluate(population[fitness_index],(*npc));
+            int fitness_score = evaluate(population[fitness_index],(*npc));
 
             // for(int j = 0; j < chromosome_size; j++)
             // {
                 // cout << population[fitness_index][j] << " ";
             // }
             // cout << "\n Score: "<< fitness_score << "\n\n";
+            // cout << "SCORE: " << fitness_score << endl;
         }
 
         (*npc)->moveNPC(population[fitness_index],chromosome_size);
+
     }
 
 
-    
-    // return population[fitness_index]; 
+
+    // return population[fitness_index];
 
 }
