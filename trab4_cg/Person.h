@@ -31,6 +31,7 @@ class Person
 		bool resize;
 		bool jumpingOnElement;
 		double heightOnObstacle;
+		Point *look;
 		
 
 	public:
@@ -54,14 +55,15 @@ class Person
 		void changeInverseFoots(void);
 		void moveHand(double,double);
 		double getRadius(void);
-		double getAfterX(int);
-		double getAfterY(int);
+		double getAfterX(int,double);
+		double getAfterY(int,double);
 		void jump(void);
 		void changeSize(void);
 		void setOnElement(bool);
 		bool isOnElement(void);
 		float angleBetween(double, double, double, double);
 		void setDown(bool value);
+		bool getDown(void);
 		bool getResize(void);
 		Point* getCenter(void);
 		double getScale(void);
@@ -69,7 +71,11 @@ class Person
 		void setHeightOnObstacle(double);
 		bool isJumpingOnElement(void);
 		void inverse(void);
-
+		void adjustLook(void);
+		Point* getLook(void);
+		double getUpdateVelocityPerson(void);
+		double getHeightHand(void);
+		double getRadiusShoulderA(void);
 };
 
 

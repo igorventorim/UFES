@@ -24,7 +24,13 @@ Stadium::Stadium(Circle* exterior, Circle *inferior, Player *p, list<NPC*> npcs,
 	obstacles = obst;
 	MAX_SCORE = npcs.size();
 	freqShotNPC = freqShot;
-	cout << "Frequencia de tiro no NPC:" << freqShotNPC<<"\n";
+
+	for (std::list<NPC*>::iterator npc=NPCs.begin(); npc != NPCs.end(); ++npc)
+	{
+		(*npc)->setPlayer(p->getCenter());
+	}
+
+	ga = new GeneticAlgorithm();
 }
 
 
@@ -85,8 +91,8 @@ void Stadium::setPersonJumping(bool jump,Person* p)
 bool Stadium::isValidMove(int c,Person *p)
 {
 	double x,y;
-	x = p->getAfterX(c);
-	y = p->getAfterY(c);
+	x = p->getAfterX(c,p->getPersonAngle());
+	y = p->getAfterY(c,p->getPersonAngle());
 
 	double r = p->getRadius();
 
@@ -300,4 +306,9 @@ void Stadium::shootShotsNPCs(void)
 	{
 		addShotNPC((*npc)->atirar());		
 	}
+}
+
+void Stadium::moveNPC(void)
+{
+	ga->run(NPCs);
 }

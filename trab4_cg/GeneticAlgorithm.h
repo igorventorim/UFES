@@ -1,6 +1,8 @@
 #ifndef _GENETICALGORITHM_H_
 #define _GENETICALGORITHM_H_
 #include <vector>
+#include "NPC.h"
+#include <list>
 
 using namespace std;
 
@@ -16,14 +18,14 @@ class GeneticAlgorithm
         vector <vector<int>> population;
         void initPopulation(void);
         void showPopulation(void);
-        int evaluate(vector<int>);
+        int evaluate(vector<int>,NPC*);
         void mutation(vector<int>&);
         void crossover(int,int,vector<int>&);
-        int getFitness(void);
+        int getFitness(NPC* npc);
     public:
-        GeneticAlgorithm();
+        GeneticAlgorithm(void);
         GeneticAlgorithm(int,int,int,int,double,double);
-        vector<int> run(void);
+        void run(list<NPC*>);
 
 };
 

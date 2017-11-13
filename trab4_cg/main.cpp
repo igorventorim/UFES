@@ -142,6 +142,7 @@ void idle(void) {
 		dShot = 0;
 	}
 
+	arena->moveNPC();
 
 	double elapsed = std::chrono::duration_cast<std::chrono::milliseconds> ( std::chrono::system_clock::now() - frameTime).count();
 	Stadium::MILLISECONDS_BY_FRAME = elapsed;

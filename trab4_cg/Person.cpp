@@ -47,6 +47,11 @@ Person::Person(Circle* circle, double shot, double move)
     Point *handPoint = new Point(circle->getRadius()+RADIUS_SHOULDER_A/2,0);
     hand = new Rectangle(handPoint,WIDTH_HAND,HEIGHT_HAND,head->getColor());
 
+
+    look = new Point(0,0);
+    adjustLook();
+    
+
 }
 
 bool Person::isJumping(void)
@@ -118,13 +123,14 @@ double Person::getRadius()
 
 Shot* Person::atirar(void){
 
-    double x0=head->getRadius()+RADIUS_SHOULDER_A/2;
-    double y0=HEIGHT_HAND;
-    double x = x0 * cos(personAngle*M_PI/180) - y0 * sin(personAngle*M_PI/180) + center->getX();
-    double y = x0 * sin(personAngle*M_PI/180) + y0 * cos(personAngle*M_PI/180) + center->getY();
+    adjustLook();
+    // double x0=head->getRadius()+RADIUS_SHOULDER_A/2;
+    // double y0=HEIGHT_HAND;
+    // double x = x0 * cos(personAngle*M_PI/180) - y0 * sin(personAngle*M_PI/180) + center->getX();
+    // double y = x0 * sin(personAngle*M_PI/180) + y0 * cos(personAngle*M_PI/180) + center->getY();
     // cout << "x:"<<x<<" y:"<<y<<" o:"<< personAngle<<"\n";
     Color* color = new Color(1.0,1.0,0);
-    Circle* circle = new Circle(0,color,RADIUS_SHOT,x,y);
+    Circle* circle = new Circle(0,color,RADIUS_SHOT,look->getX(),look->getY());
     Shot* shot = new Shot(circle,shotVelocity,personAngle+angleHand+90);
     return shot;
 }
@@ -136,8 +142,15 @@ void Person::rotateRight(void)
     }else{
         incPersonAngle(-UPDATE_VELOCITY_PERSON);
     }
+    adjustLook();
     
 }
+
+bool Person::getDown(void)
+{
+    return down;
+}
+
 void Person::rotateLeft(void)
 {
 
@@ -146,21 +159,24 @@ void Person::rotateLeft(void)
     }else{
         incPersonAngle(UPDATE_VELOCITY_PERSON);
     }
+    adjustLook();
 }
 void Person::moveUp(void)
 {
     center->moveX(UPDATE_VELOCITY_PERSON*cos((personAngle+90)*M_PI/180));
     center->moveY(UPDATE_VELOCITY_PERSON*sin((personAngle+90)*M_PI/180));
     changeInverseFoots();
+    adjustLook();
 }
 void Person::moveDown(void)
 {
     center->moveX(-UPDATE_VELOCITY_PERSON*cos((personAngle+90)*M_PI/180));
     center->moveY(-UPDATE_VELOCITY_PERSON*sin((personAngle+90)*M_PI/180));
     changeInverseFoots();
+    adjustLook();
 }
 
-double Person::getAfterX(int v)
+double Person::getAfterX(int v, double personAngle)
 {
     if(v > 0)
     {
@@ -170,7 +186,7 @@ double Person::getAfterX(int v)
         return -UPDATE_VELOCITY_PERSON*cos((personAngle+90)*M_PI/180) + center->getX();
     }
 }
-double Person::getAfterY(int v)
+double Person::getAfterY(int v, double personAngle)
 {
     if(v > 0)
     {
@@ -361,3 +377,33 @@ bool Person::isJumpingOnElement(void)
 {
     return jumpingOnElement;
 }
+
+void Person::adjustLook(void)
+{
+    double x0=head->getRadius()+RADIUS_SHOULDER_A/2;
+    double y0=HEIGHT_HAND;
+    double x = x0 * cos(personAngle*M_PI/180) - y0 * sin(personAngle*M_PI/180) + center->getX();
+    double y = x0 * sin(personAngle*M_PI/180) + y0 * cos(personAngle*M_PI/180) + center->getY();
+    look->setPoint2D(x,y);
+}
+
+Point* Person::getLook(void)
+{
+    return look;
+}
+
+double Person::getUpdateVelocityPerson(void)
+{
+    return UPDATE_VELOCITY_PERSON;
+}
+
+double Person::getHeightHand(void)
+{
+    return HEIGHT_HAND;
+}
+
+double Person::getRadiusShoulderA(void)
+{
+    return RADIUS_SHOULDER_A;
+}
+

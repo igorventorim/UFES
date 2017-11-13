@@ -2,7 +2,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <time.h>
-#define CHROMOSOME_SIZE 10
+#define CHROMOSOME_SIZE 5
 #define POPULATION_SIZE 50
 #define TOURNAMENT_SIZE 20
 #define GENERATIONS 100
@@ -57,22 +57,25 @@ void GeneticAlgorithm::showPopulation(void)
     }
 }
 
-int GeneticAlgorithm::evaluate(vector<int> individuo)
+
+/* OVERRIDE: Your method evaluate*/
+int GeneticAlgorithm::evaluate(vector<int> individuo, NPC* npc)
 {
-    return 0;
+    int score = npc->movementEvaluate(individuo, chromosome_size);
+    return score;
 }
 
 void GeneticAlgorithm::mutation(vector<int>& individuo)
 {
     // GENERATION ELEMENT IN INTERVAL [0, CHROMOSOME_SIZE] 
-    int genes = rand() % chromosome_size;
+    int gene = rand() % chromosome_size;
 
-    if(individuo[genes] == 0)
+    if(individuo[gene] == 0)
     {
-        individuo[genes] = 1;
+        individuo[gene] = 1;
     }else
     {
-        individuo[genes] = 0;
+        individuo[gene] = 0;
     }
 }
 
@@ -91,14 +94,14 @@ void GeneticAlgorithm::crossover(int parents1_index,int parents2_index,vector<in
     }
 }
 
-int GeneticAlgorithm::getFitness(void)
+int GeneticAlgorithm::getFitness(NPC* npc)
 {
     int fitness_index = 0;
-    int fitness_score = evaluate(population[0]);
+    int fitness_score = evaluate(population[0],npc);
 
     for( int i = 1; i < population_size; i++)
     {
-        int score = evaluate(population[i]);
+        int score = evaluate(population[i],npc);
         if(score > fitness_score )
         {
             fitness_index = i;
@@ -109,60 +112,68 @@ int GeneticAlgorithm::getFitness(void)
     return fitness_index;
 }
 
-vector<int> GeneticAlgorithm::run(void)
+void GeneticAlgorithm::run(list<NPC*> npcs)
 {
-    srand(time(NULL));
-    int fitness_index;
-    initPopulation();
 
-    for(int i = 0; i < generations; i++)
+    for (std::list<NPC*>::iterator npc=npcs.begin(); npc != npcs.end(); ++npc)
     {
-        for(int j = 0; j < tournament_size; j++)
+        srand(time(NULL));
+        int fitness_index = -1;
+        initPopulation();
+
+        for(int i = 0; i < generations; i++)
         {
-            double prob = ((double) rand() / ((double)RAND_MAX + 1));
-            if(prob < crossover_prob)
+            for(int j = 0; j < tournament_size; j++)
             {
-                int parent1_index = rand() % population_size;
-                int parent2_index;
-
-                do
+                double prob = ((double) rand() / ((double)RAND_MAX + 1));
+                if(prob < crossover_prob)
                 {
-                    parent2_index = rand() % population_size;
-                }while(parent1_index == parent2_index);
+                    int parent1_index = rand() % population_size;
+                    int parent2_index;
 
-                vector<int> son;
-                crossover(parent1_index,parent2_index,son);
-
-                if(prob < mutation_prob)
-                {
-                    mutation(son);
-                }
-
-                int score_parent1 = evaluate(population[parent1_index]);
-                int score_son = evaluate(son);
-
-                if(score_son > score_parent1)
-                {
-                    for(int k = 0; k < chromosome_size; k++)
+                    do
                     {
-                        population[parent1_index][k] = son[k];
+                        parent2_index = rand() % population_size;
+                    }while(parent1_index == parent2_index);
+
+                    vector<int> son;
+                    crossover(parent1_index,parent2_index,son);
+
+                    if(prob < mutation_prob)
+                    {
+                        mutation(son);
                     }
-                }
-            }    
-        } 
 
-        cout << "Geracao " << i+1 << endl;
-        cout << "Melhor: ";
-        fitness_index = getFitness();
-        int fitness_score = evaluate(population[fitness_index]);
+                    int score_parent1 = evaluate(population[parent1_index],(*npc));
+                    int score_son = evaluate(son,(*npc));
 
-        for(int j = 0; j < chromosome_size; j++)
-        {
-            cout << population[fitness_index][j] << " ";
+                    if(score_son > score_parent1)
+                    {
+                        for(int k = 0; k < chromosome_size; k++)
+                        {
+                            population[parent1_index][k] = son[k];
+                        }
+                    }
+                }    
+            } 
+
+            // cout << "Geracao " << i+1 << endl;
+            // cout << "Melhor: ";
+            fitness_index = getFitness((*npc));
+            // int fitness_score = evaluate(population[fitness_index],(*npc));
+
+            // for(int j = 0; j < chromosome_size; j++)
+            // {
+                // cout << population[fitness_index][j] << " ";
+            // }
+            // cout << "\n Score: "<< fitness_score << "\n\n";
         }
-        cout << "\n Score: "<< fitness_score << "\n\n";
+
+        (*npc)->moveNPC(population[fitness_index],chromosome_size);
     }
 
-    return population[fitness_index]; 
+
+    
+    // return population[fitness_index]; 
 
 }
