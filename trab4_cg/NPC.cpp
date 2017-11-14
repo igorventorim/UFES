@@ -1,6 +1,8 @@
 #include "NPC.h"
 #include <iostream>
 #include <cmath>
+#include "Stadium.h"
+
 
 NPC::NPC(Circle* circle, double shot, double move): Person(circle,shot,move){}
 
@@ -67,14 +69,11 @@ void NPC::setPlayer(Point *p)
 */
 void NPC::moveNPC(vector<int> individual,int size_vector)
 {
-	// cout << "Vou mover para : [ ";
-	// for(int j = 0; j < size_vector; j++)
-  //   {
-  //       cout << individual[j] << " ";
-  //   }
-  //   cout << "]"<<endl;
 
-  if(individual[0])
+	double value = movementEvaluate(individual,size_vector);
+	
+	if(value < 0){return;}	
+  	if(individual[0])
 	{
 		rotateRight();
 	}
@@ -111,8 +110,8 @@ void NPC::moveNPC(vector<int> individual,int size_vector)
 */
 int NPC::movementEvaluate(vector<int> individual,int size_vector)
 {
-  bool rotate = false;
-  bool walk = false;
+    bool rotate = false;
+  	bool walk = false;
 	int score = 0;
 	double afterAngle = getAfterPersonAngle(0,0);
 	double current_distance = getLook()->distance2D(player->getX(),player->getY());
@@ -122,60 +121,68 @@ int NPC::movementEvaluate(vector<int> individual,int size_vector)
 	if(individual[0])
 	{
 		afterAngle = getAfterPersonAngle(1,0);
-    rotate = true;
-    score++;
+    	rotate = true;
+    	score++;
 	}
 
 	if(individual[1])
 	{
-    afterAngle = getAfterPersonAngle(0,1);
-    if(rotate){
-      score = -2;
-    }
-    score++;
+    	afterAngle = getAfterPersonAngle(0,1);
+		if(rotate){
+		 score = -99;
+		}
+    	score++;
 	}
 
 	if(individual[2])
 	{
-    afterX = getAfterX(1,afterAngle);
-    afterY = getAfterY(1,afterAngle);
-    walk = true;
-    score++;
+    	afterX = getAfterX(1,afterAngle);
+    	afterY = getAfterY(1,afterAngle);
+    	walk = true;
+    	score += 4;
 	}
 
 	if(individual[3])
 	{
-    afterX = getAfterX(-1,afterAngle);
-    afterY = getAfterY(-1,afterAngle);
-    if(walk)
-    {
-      score = -2;
-    }
-    walk = true;
-    score++;
+    	afterX = getAfterX(-1,afterAngle);
+    	afterY = getAfterY(-1,afterAngle);
+		if(walk)
+		{
+		score = -99;
+		}
+    	walk = true;
+    	score +=2;
 	}
 
   if(walk)
   {
     if(individual[4])
   	{
-      score++;
+      score +=2;
   	}
   }else{
     if(individual[4])
   	{
-      score--;
+      score = -99;
   	}
   }
   double x,y;
   simulateLook(afterX,afterY, afterAngle, x,y);
 
-   if(player->distance2D(x,y))
-   {
-     score += 5;
-   }
-
-
-
+  if(!stadium->isValidMoveNPC(this,afterX,afterY))
+  {
+	score -= 999999;
+  }else if(player->distance2D(x,y) < current_distance)
+  {
+     score += 10;
+  }
+    
+ 
 	return score;
+}
+
+
+void NPC::setStadium(Stadium* s)
+{
+	stadium = s;
 }

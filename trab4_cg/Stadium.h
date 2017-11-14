@@ -1,9 +1,10 @@
-#ifndef _STADIUM_H_
-#define _STADIUM_H_
+#ifndef STADIUM_H
+#define STADIUM_H
 
+
+#include "NPC.h"
 #include "Circle.h"
 #include "Player.h"
-#include "NPC.h"
 #include <list>
 #include "Shot.h"
 #include "Obstacle.h"
@@ -30,7 +31,6 @@ class Stadium
 		GeneticAlgorithm *ga;
 
 	public:
-		Stadium(list<Circle*>,Player*);
 		Stadium(Circle*,Circle *, Player *, list<NPC*>,list<Obstacle*>,double);
 		void drawStadium(void);
 		Circle* getLimiteExterior(void);
@@ -55,6 +55,8 @@ class Stadium
 		void shootShotsNPCs(void);
 		void moveNPC(void);
 		void changeSizeNPCs(void);
+		bool isValidMoveNPC(Person*,double, double);
+		bool inPlayer(double x, double y, double r);
 
 };
 

@@ -9,12 +9,6 @@
 using namespace std;
 double Stadium::MILLISECONDS_BY_FRAME = 0;
 
-Stadium::Stadium(list<Circle*> o,Player *p)
-{
-	objects = o;
-	player = p;
-}
-
 Stadium::Stadium(Circle* exterior, Circle *inferior, Player *p, list<NPC*> npcs, list<Obstacle*>obst, double freqShot)
 {
 	limitExterior = exterior;
@@ -28,6 +22,7 @@ Stadium::Stadium(Circle* exterior, Circle *inferior, Player *p, list<NPC*> npcs,
 	for (std::list<NPC*>::iterator npc=NPCs.begin(); npc != NPCs.end(); ++npc)
 	{
 		(*npc)->setPlayer(p->getCenter());
+		(*npc)->setStadium(this);
 	}
 
 	ga = new GeneticAlgorithm();
@@ -110,6 +105,24 @@ bool Stadium::isValidMove(int c,Person *p)
 	return true;
 }
 
+
+bool Stadium::isValidMoveNPC(Person *p,double x, double y)
+{
+	double r = p->getRadius();
+
+	if(limitInterior->circleInCircle(x,y,r) || !limitExterior->circleInCircle(x,y,-r) || stopInObstacle(p,x,y,r)  || inNPC(x,y,r,p) || inPlayer(x,y,r) )
+	{
+		return false;
+	}
+
+	if(!inObstacle(x,y,r) && p->isOnElement())
+	{
+		p->setOnElement(false);
+	}
+
+	return true;
+}
+
 bool Stadium::inNPC(double x, double y, double r, Person *p)
 {
 	for (std::list<NPC*>::iterator npc=NPCs.begin(); npc != NPCs.end(); ++npc)
@@ -119,6 +132,16 @@ bool Stadium::inNPC(double x, double y, double r, Person *p)
 		  return true;
 	  }
 	}
+	return false;
+}
+
+bool Stadium::inPlayer(double x, double y, double r)
+{
+	if(player->getHead()->circleInCircle(x,y,r) )
+	{
+		return true;
+	}
+
 	return false;
 }
 

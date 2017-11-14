@@ -1,10 +1,10 @@
-#ifndef _GENETICALGORITHM_H_
-#define _GENETICALGORITHM_H_
-#include <vector>
-#include "NPC.h"
-#include <list>
+#ifndef GENETICALGORITHM_H
+#define GENETICALGORITHM_H
 
-using namespace std;
+#include <vector>
+#include <list>
+#include "NPC.h"
+
 
 class GeneticAlgorithm
 {
@@ -17,6 +17,7 @@ class GeneticAlgorithm
         double crossover_prob;
         vector <vector<int>> population;
         void initPopulation(void);
+        void initFullPopulation(void);
         void showPopulation(void);
         int evaluate(vector<int>,NPC*);
         void mutation(vector<int>&);

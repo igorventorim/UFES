@@ -1,21 +1,23 @@
-#ifndef _NPC_H_
-#define _NPC_H_
+#ifndef NPC_H
+#define NPC_H
+
+
 #include "Person.h"
 #include "Circle.h"
-#include "Rectangle.h"
-#include "Elipse.h"
 #include "Point.h"
-#include "Shot.h"
 #include <vector>
 #include <chrono>
 #include <ctime>
+// #include "Stadium.h"
+class Stadium;
 
-using namespace std;
 
 class NPC: public Person{
 
 	private:
 		Point* player;
+		Stadium* stadium;
+
 
 	public:
 		NPC(Circle*,double,double);
@@ -25,6 +27,7 @@ class NPC: public Person{
 		double getAfterPersonAngle(int,int);
 		void simulateLook(double,double,double,double&,double&);
 		void moveNPC(vector<int>,int);
+		void setStadium(Stadium*);
 
 };
 
