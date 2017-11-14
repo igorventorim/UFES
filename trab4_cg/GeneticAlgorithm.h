@@ -17,7 +17,6 @@ class GeneticAlgorithm
         double crossover_prob;
         vector <vector<int>> population;
         void initPopulation(void);
-        void initFullPopulation(void);
         void showPopulation(void);
         int evaluate(vector<int>,NPC*);
         void mutation(vector<int>&);
@@ -27,6 +26,8 @@ class GeneticAlgorithm
         GeneticAlgorithm(void);
         GeneticAlgorithm(int,int,int,int,double,double);
         void run(list<NPC*>);
+        void initFullPopulation(void);
+        void modifyRun(list<NPC*>);
 
 };
 

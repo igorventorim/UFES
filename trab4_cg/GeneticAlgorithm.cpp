@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 #define CHROMOSOME_SIZE 5
-#define POPULATION_SIZE 64
+#define POPULATION_SIZE 32
 #define TOURNAMENT_SIZE 5
 #define GENERATIONS 10
 #define MUTATION_PROB 0.5
@@ -19,6 +19,7 @@ GeneticAlgorithm::GeneticAlgorithm(void)
     generations = GENERATIONS;
     mutation_prob = MUTATION_PROB;
     crossover_prob = CROSSOVER_PROB;
+    initFullPopulation();
 }
 
 GeneticAlgorithm::GeneticAlgorithm(int csize,int psize ,int tsize,int gen,double mprob,double cprob)
@@ -46,37 +47,38 @@ void GeneticAlgorithm::initPopulation(void)
         population.push_back(chromossome);
     }
 }
-/*
+
 void GeneticAlgorithm::initFullPopulation(void)
 {
     for(int i = 2; i < population_size; i++)
     {
         std::vector<int> chromossome(chromosome_size, 0);
         int count = 0;
-        for(int k = i, j = chromosome_size-1; k > 1; j--, k = k/2)
+        for(int k = i, j = 0; k > 1; j++, k = k/2)
         {
-            int num = i%2;
+            int num = k%2;
             chromossome[j] = num;
-            // chromossome.push_back(num);
             count++;
         }
-        if(i%2)
+        chromossome[count] = 1;
+
+        if((chromossome[0] == 1 && chromossome[1] == 1) || (chromossome[2] == 1 && chromossome[3] == 1) )
         {
-            chromossome[count] = 0;
-        }else{
-            chromossome[count] = 1;
+            continue;
         }
 
         population.push_back(chromossome);
     }
     std::vector<int> chromossome1(chromosome_size, 0);
     std::vector<int> chromossome2(chromosome_size, 0);
-    chromossome2[chromosome_size-1] = 1;
+    chromossome2[0] = 1;
     population.push_back(chromossome1);
     population.push_back(chromossome2);
 
+    population_size = population.size();
+
 }
-*/
+
 void GeneticAlgorithm::showPopulation(void)
 {
      for(int i = 0; i < population_size; i++)
@@ -197,4 +199,15 @@ void GeneticAlgorithm::run(list<NPC*> npcs)
     }
 
 
+}
+
+
+void GeneticAlgorithm::modifyRun(list<NPC*> npcs)
+{
+    int fitness_index = -1;
+    for (std::list<NPC*>::iterator npc=npcs.begin(); npc != npcs.end(); ++npc)
+    {
+        fitness_index = getFitness((*npc));
+        (*npc)->moveNPC(population[fitness_index],chromosome_size);
+    }
 }

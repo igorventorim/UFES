@@ -334,7 +334,8 @@ void Stadium::shootShotsNPCs(void)
 
 void Stadium::moveNPC(void)
 {
-	ga->run(NPCs);
+	// ga->run(NPCs);
+	ga->modifyRun(NPCs);
 }
 
 void Stadium::changeSizeNPCs(void)
