@@ -110,72 +110,123 @@ void NPC::moveNPC(vector<int> individual,int size_vector)
 */
 int NPC::movementEvaluate(vector<int> individual,int size_vector)
 {
-    bool rotate = false;
   	bool walk = false;
 	int score = 0;
-	double afterAngle = getAfterPersonAngle(0,0);
+	double afterAngle = 0;
 	double current_distance = getLook()->distance2D(player->getX(),player->getY());
 	double afterX = getCenter()->getX();
 	double afterY = getCenter()->getY();
 
-	if(individual[0])
+	if(individual[0] == 1)
 	{
 		afterAngle = getAfterPersonAngle(1,0);
-    	rotate = true;
-    	score++;
+		score++;
+		
 	}
-
-	if(individual[1])
+	if(individual[1] == 1)
 	{
-    	afterAngle = getAfterPersonAngle(0,1);
-		if(rotate){
-		 score = -99;
-		}
-    	score++;
+		afterAngle = getAfterPersonAngle(0,1);
+		score++;
 	}
-
-	if(individual[2])
+	
+	if(individual[2] == 1)
 	{
     	afterX = getAfterX(1,afterAngle);
     	afterY = getAfterY(1,afterAngle);
-    	walk = true;
-    	score += 4;
+		score =+ 3;
+		walk = true;
 	}
 
-	if(individual[3])
+	if(individual[3] == 1)
 	{
     	afterX = getAfterX(-1,afterAngle);
-    	afterY = getAfterY(-1,afterAngle);
-		if(walk)
-		{
-		score = -99;
-		}
-    	walk = true;
-    	score +=2;
+		afterY = getAfterY(-1,afterAngle);
+		score =+ 2;
+		walk = true;
 	}
 
-  if(walk)
-  {
-    if(individual[4])
+	if(individual[4] == 1)
   	{
-      score +=2;
-  	}
-  }else{
-    if(individual[4])
-  	{
-      score = -99;
-  	}
-  }
-  double x,y;
-  simulateLook(afterX,afterY, afterAngle, x,y);
+	  if(stadium->inObstacle(afterX, afterY, getRadius() && !stadium->inObstacle(getCenter()->getX(),getCenter()->getY() , getRadius() )))
+	  {
+		score += 30;
+		// moveOk = true;
+	  }else{
+		score -=2;
+	  }
+	}
+	
+	double x,y;
+	simulateLook(afterX,afterY, afterAngle, x,y);
 
-  if(!stadium->isValidMoveNPC(this,afterX,afterY))
-  {
-	score -= 999999;
-  }else if(player->distance2D(x,y) < current_distance)
-  {
-     score += 10;
-  }
+	if(!stadium->isValidMoveNPC(this,afterX,afterY) )
+	{
+		score -= 999999;
+	}else if(player->distance2D(x,y) < current_distance)
+	{
+		score += 10;
+	}
+  
+
+
+// 	if(individual[0])
+// 	{
+// 		afterAngle = getAfterPersonAngle(1,0);
+//     	rotate = true;
+//     	score++;
+// 	}
+
+// 	if(individual[1])
+// 	{
+//     	afterAngle = getAfterPersonAngle(0,1);
+// 		if(rotate){
+// 		 score = -99;
+// 		}
+//     	score++;
+// 	}
+
+// 	if(individual[2])
+// 	{
+//     	afterX = getAfterX(1,afterAngle);
+//     	afterY = getAfterY(1,afterAngle);
+//     	walk = true;
+//     	score += 4;
+// 	}
+
+// 	if(individual[3])
+// 	{
+//     	afterX = getAfterX(-1,afterAngle);
+//     	afterY = getAfterY(-1,afterAngle);
+// 		if(walk)
+// 		{
+// 		score = -99;
+// 		}
+//     	walk = true;
+//     	score +=2;
+// 	}
+
+//   if(walk)
+//   {
+//     if(individual[4])
+//   	{
+//       score +=2;
+//   	}
+//   }else{
+//     if(individual[4])
+//   	{
+//       score = -99;
+//   	}
+//   }
+//   double x,y;
+//   simulateLook(afterX,afterY, afterAngle, x,y);
+
+//   if(!stadium->isValidMoveNPC(this,afterX,afterY))
+//   {
+// 	score -= 999999;
+//   }else if(player->distance2D(x,y) < current_distance)
+//   {
+//      score += 10;
+//   }
     
  
 	return score;

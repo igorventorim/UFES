@@ -70,6 +70,7 @@ Circle* Person::getHead(void)
 
 void Person::draw(void)
 {
+    head->setCenter(center->getX(), center->getY());
     glPushMatrix();
 
             glTranslatef(center->getX(), center->getY(), 0);

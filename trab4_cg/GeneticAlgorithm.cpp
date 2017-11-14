@@ -20,6 +20,7 @@ GeneticAlgorithm::GeneticAlgorithm(void)
     mutation_prob = MUTATION_PROB;
     crossover_prob = CROSSOVER_PROB;
     initFullPopulation();
+    showPopulation();
 }
 
 GeneticAlgorithm::GeneticAlgorithm(int csize,int psize ,int tsize,int gen,double mprob,double cprob)
@@ -153,6 +154,12 @@ int GeneticAlgorithm::getFitness(NPC* npc)
         fitness_index = group_fitness[point]; 
     }
 
+    if(fitness_score < 0)
+    {
+        for( int i = 1; i < population_size; i++)
+            cout << "Score:"<< evaluate(population[i],npc) << endl;
+    }
+
     return fitness_index;
 }
 
@@ -220,6 +227,7 @@ void GeneticAlgorithm::modifyRun(list<NPC*> npcs)
     for (std::list<NPC*>::iterator npc=npcs.begin(); npc != npcs.end(); ++npc)
     {
         fitness_index = getFitness((*npc));
+        cout << "Result: " << evaluate(population[fitness_index],(*npc)) << endl;
         (*npc)->moveNPC(population[fitness_index],chromosome_size);
     }
 }
