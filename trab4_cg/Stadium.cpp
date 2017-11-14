@@ -328,7 +328,11 @@ void Stadium::shootShotsNPCs(void)
 {
 	for (std::list<NPC*>::iterator npc=NPCs.begin(); npc != NPCs.end(); ++npc)
 	{
-		addShotNPC((*npc)->atirar());		
+		if(!(*npc)->isOnElement() && !(*npc)->isJumping() )
+		{
+			addShotNPC((*npc)->atirar());
+		}
+				
 	}
 }
 

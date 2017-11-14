@@ -130,7 +130,7 @@ int GeneticAlgorithm::getFitness(NPC* npc)
 {
     int fitness_index = 0;
     int fitness_score = evaluate(population[0],npc);
-
+    vector<int> group_fitness;
     for( int i = 1; i < population_size; i++)
     {
         int score = evaluate(population[i],npc);
@@ -138,7 +138,19 @@ int GeneticAlgorithm::getFitness(NPC* npc)
         {
             fitness_index = i;
             fitness_score = score;
+            group_fitness.clear();
+        }else if( score == fitness_score )
+        {
+            group_fitness.push_back(i);
         }
+
+    }
+
+    int size = group_fitness.size();
+    if(size > 1)
+    {
+        int point = rand()%size;
+        fitness_index = group_fitness[point]; 
     }
 
     return fitness_index;
