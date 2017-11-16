@@ -129,10 +129,10 @@ void GeneticAlgorithm::crossover(int parents1_index,int parents2_index,vector<in
 
 int GeneticAlgorithm::getFitness(NPC* npc)
 {
-    int fitness_index = 0;
-    int fitness_score = evaluate(population[0],npc);
+    int fitness_index = -1;
+    int fitness_score = 0;
     vector<int> group_fitness;
-    for( int i = 1; i < population_size; i++)
+    for( int i = 0; i < population_size; i++)
     {
         int score = evaluate(population[i],npc);
         if(score > fitness_score )
@@ -157,7 +157,12 @@ int GeneticAlgorithm::getFitness(NPC* npc)
     if(fitness_score < 0)
     {
         for( int i = 1; i < population_size; i++)
-            cout << "Score:"<< evaluate(population[i],npc) << endl;
+        {
+            cout << "[ ";
+            for(int j = 0; j < chromosome_size; j++)
+                cout << population[i][j] << " ";
+            cout << "] Score:"<< evaluate(population[i],npc) << endl;
+        }
     }
 
     return fitness_index;
