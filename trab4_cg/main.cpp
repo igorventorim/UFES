@@ -10,6 +10,7 @@
 #include <ctime>
 #include "Stadium.h"
 #include "Shot.h"
+#include "GeneticAlgorithm.h"
 
 using namespace std;
 
@@ -22,6 +23,9 @@ double dShot = 0;
 Color *black = new Color("black");
 Color *blue = new Color("blue");
 Color *red = new Color("red");
+GeneticAlgorithm* ga = new GeneticAlgorithm();
+
+
 
 void display(void) {
 
@@ -93,8 +97,44 @@ void keyboad_free(unsigned char key, int x, int y) {
 	key_status[tolower(key)] = 0;
 }
 
+
+void moveNPC(NPC *person)
+{
+	if ((person)->getCurrentMovement()[3]
+			&& arena->isValidMove(-1,person)) {
+		person->setDown(true);
+		person->moveDown();
+	}
+
+	if ((person)->getCurrentMovement()[1]) {
+		person->rotateLeft();
+	}
+
+	if ((person)->getCurrentMovement()[0]) {
+		person->rotateRight();
+	}
+
+	if ((person)->getCurrentMovement()[2]
+			&& arena->isValidMove(1,person)) {
+		person->moveUp();
+	}
+
+	if ((person)->getCurrentMovement()[4]) {
+		person->jump();
+	}
+
+	if(person->isJumping() || person->getResize() || person->isJumpingOnElement())
+	{
+		person->changeSize();
+	}
+
+}
+
+
 void idle(void) {
 	Player *person = arena->getPlayer();
+	list<NPC*> npcs = arena->getNPCs();
+	ga->modifyRun(npcs);
 
 	if ((key_status['s'] || key_status['S'])
 			&& arena->isValidMove(-1,person)) {
@@ -142,9 +182,16 @@ void idle(void) {
 		dShot = 0;
 	}
 
-	arena->changeSizeNPCs();
+	// arena->changeSizeNPCs();
 
-	arena->moveNPC();
+	for (std::list<NPC*>::iterator npc=npcs.begin(); npc != npcs.end(); ++npc)
+	{
+		moveNPC((*npc));
+		(*npc)->setDown(false);
+	}
+
+
+	// arena->moveNPC();
 
 	double elapsed = std::chrono::duration_cast<std::chrono::milliseconds> ( std::chrono::system_clock::now() - frameTime).count();
 	Stadium::MILLISECONDS_BY_FRAME = elapsed;
@@ -153,6 +200,7 @@ void idle(void) {
 	dShot += Stadium::MILLISECONDS_BY_FRAME;
 	person->setDown(false);
 }
+
 
 int main(int argc, char **argv) {
 	string path;

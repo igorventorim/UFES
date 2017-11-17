@@ -92,9 +92,9 @@ void GeneticAlgorithm::showPopulation(void)
 
 
 /* OVERRIDE: Your method evaluate*/
-int GeneticAlgorithm::evaluate(vector<int> individuo, NPC* npc)
+double GeneticAlgorithm::evaluate(vector<int> individuo, NPC* npc)
 {
-    int score = npc->movementEvaluate(individuo, chromosome_size);
+    double score = npc->movementEvaluate(individuo, chromosome_size);
     return score;
 }
 
@@ -130,11 +130,11 @@ void GeneticAlgorithm::crossover(int parents1_index,int parents2_index,vector<in
 int GeneticAlgorithm::getFitness(NPC* npc)
 {
     int fitness_index = -1;
-    int fitness_score = 0;
+    double fitness_score = 0;
     vector<int> group_fitness;
     for( int i = 0; i < population_size; i++)
     {
-        int score = evaluate(population[i],npc);
+        double score = evaluate(population[i],npc);
         if(score > fitness_score )
         {
             fitness_index = i;
@@ -150,19 +150,9 @@ int GeneticAlgorithm::getFitness(NPC* npc)
     int size = group_fitness.size();
     if(size > 1)
     {
+        srand(time(NULL));
         int point = rand()%size;
         fitness_index = group_fitness[point]; 
-    }
-
-    if(fitness_score < 0)
-    {
-        for( int i = 1; i < population_size; i++)
-        {
-            cout << "[ ";
-            for(int j = 0; j < chromosome_size; j++)
-                cout << population[i][j] << " ";
-            cout << "] Score:"<< evaluate(population[i],npc) << endl;
-        }
     }
 
     return fitness_index;
@@ -217,8 +207,8 @@ void GeneticAlgorithm::run(list<NPC*> npcs)
             int fitness_score = evaluate(population[fitness_index],(*npc));
 
         }
-
-        (*npc)->moveNPC(population[fitness_index],chromosome_size);
+        (*npc)->setCurrentMovement(population[fitness_index]);
+        // (*npc)->moveNPC(population[fitness_index],chromosome_size);
 
     }
 
@@ -233,6 +223,7 @@ void GeneticAlgorithm::modifyRun(list<NPC*> npcs)
     {
         fitness_index = getFitness((*npc));
         cout << "Result: " << evaluate(population[fitness_index],(*npc)) << endl;
-        (*npc)->moveNPC(population[fitness_index],chromosome_size);
+        // (*npc)->moveNPC(population[fitness_index],chromosome_size);
+        (*npc)->setCurrentMovement(population[fitness_index]);
     }
 }

@@ -11,7 +11,7 @@
 #include <string>
 #include "Color.h"
 #include "Point.h"
-#include "GeneticAlgorithm.h"
+// #include "GeneticAlgorithm.h"
 
 class Stadium
 {
@@ -28,7 +28,7 @@ class Stadium
 		int score = 0;
 		int MAX_SCORE;
 		bool win = false;
-		GeneticAlgorithm *ga;
+		// GeneticAlgorithm *ga;
 
 	public:
 		Stadium(Circle*,Circle *, Player *, list<NPC*>,list<Obstacle*>,double);
@@ -53,7 +53,7 @@ class Stadium
 		bool inObstacle(double, double, double);
 		double getFreqShotNPC(void);
 		void shootShotsNPCs(void);
-		void moveNPC(void);
+		// void moveNPC(void);
 		void changeSizeNPCs(void);
 		bool isValidMoveNPC(Person*,double, double);
 		bool inPlayer(double x, double y, double r);

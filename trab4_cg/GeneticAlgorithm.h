@@ -18,7 +18,7 @@ class GeneticAlgorithm
         vector <vector<int>> population;
         void initPopulation(void);
         void showPopulation(void);
-        int evaluate(vector<int>,NPC*);
+        double evaluate(vector<int>,NPC*);
         void mutation(vector<int>&);
         void crossover(int,int,vector<int>&);
         int getFitness(NPC* npc);

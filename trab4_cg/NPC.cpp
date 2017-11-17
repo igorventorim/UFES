@@ -1,21 +1,10 @@
 #include "NPC.h"
 #include <iostream>
 #include <cmath>
-#include "Stadium.h"
+// #include "Stadium.h"
 
 
 NPC::NPC(Circle* circle, double shot, double move): Person(circle,shot,move){}
-
-bool NPC::isMe(Person* p)
-{
-    if(getCoord_x() == p->getCoord_x() && getCoord_y() == p->getCoord_y())
-    {
-        return true;
-    }else
-    {
-        return false;
-    }
-}
 
 double NPC::getAfterPersonAngle(int right,int left)
 {
@@ -67,61 +56,18 @@ void NPC::setPlayer(Point *p)
 	POSITION 3: MOVE DOWN
 	POSITION 4: JUMP
 */
-void NPC::moveNPC(vector<int> individual,int size_vector)
+double NPC::movementEvaluate(vector<int> individual,int size_vector)
 {
-
-	double value = movementEvaluate(individual,size_vector);
-	
-	if(value < 0){return;}	
-	if(individual[2])
-	{
-		moveUp();
-	}
-  	
-  	if(individual[1])
-	{
-		rotateLeft();
-	}
-
-  	if(individual[0])
-	{
-		rotateRight();
-	}
-
-	if(individual[3])
-	{
-		moveDown();
-	}
-
-	if(individual[4])
-	{
-		jump();
-	}
-
-}
-
-
-/*
-	POSITION 0: ROTATE RIGHT
-	POSITION 1: ROTATE LEFT
-	POSITION 2: MOVE UP
-	POSITION 3: MOVE DOWN
-	POSITION 4: JUMP
-*/
-int NPC::movementEvaluate(vector<int> individual,int size_vector)
-{
-  	bool walk = false;
-  	bool jump = false;
-	int score = 0;
+	double score = 0;
 	double afterAngle = 0;
-	double current_distance = getLook()->distance2D(player->getX(),player->getY());
+	// double current_distance = getLook()->distance2D(player->getX(),player->getY());
 	double afterX = getCenter()->getX();
 	double afterY = getCenter()->getY();
 
 	if(individual[0] == 1)
 	{
 		afterAngle = getAfterPersonAngle(1,0);
-		score++;
+		score +=4;
 		
 	}
 	if(individual[1] == 1)
@@ -134,46 +80,59 @@ int NPC::movementEvaluate(vector<int> individual,int size_vector)
 	{
     	afterX = getAfterX(1,0);
     	afterY = getAfterY(1,0);
-		score =+ 3;
-		walk = true;
+		score += 3;
 	}
 
 	if(individual[3] == 1)
 	{
     	afterX = getAfterX(-1,afterAngle);
 		afterY = getAfterY(-1,afterAngle);
-		score =+ 2;
-		walk = true;
+		score += 2;
 	}
 
 	if(individual[4] == 1)
   	{
-	  if(stadium->inObstacle(afterX, afterY, getRadius() && !stadium->inObstacle(getCenter()->getX(),getCenter()->getY() , getRadius() )))
-	  {
-		score += 30;
-	  }else{
-		score -=2;
-	  }
+	 //  if(stadium->inObstacle(afterX, afterY, getRadius() && !stadium->inObstacle(getCenter()->getX(),getCenter()->getY() , getRadius() )))
+	 //  {
+		// score += 30;
+	 //  }else{
+		// score -=2;
+	 //  }
+  		// score--;
+
 	}
 	
-	double x,y;
-	simulateLook(afterX,afterY, afterAngle, x,y);
+	// double x,y;
+	// simulateLook(afterX,afterY, afterAngle, x,y);
 	
-	if(!stadium->isValidMoveNPC(this,afterX,afterY))
-	{
-		score -= 999999;
-	}else if(player->distance2D(x,y) < current_distance)
-	{
-		score += 10;
-	}
-  	cout << afterX << ":"<<afterY<< ":"<< score<<endl;
+	// if(!stadium->isValidMoveNPC(this,afterX,afterY))
+	// {
+	// 	score -= 999999;
+	// }else
+
+	// double norma = player->distance2D(x,y) / current_distance;
+	 // if(norma < 1)
+	 // {
+		// score += 1 - norma;
+	 // }
+  	// cout << afterX << ":"<<afterY<< ":"<< score<<endl;
     
  
 	return score;
 }
 
-
-void NPC::setStadium(Stadium* s)
+void NPC::setCurrentMovement(vector<int> movement)
 {
-	stadium = s;
+	current_movement = movement;
 }
+
+vector<int> NPC::getCurrentMovement(void)
+{
+	return current_movement;
+}
+
+
+// void NPC::setStadium(Stadium* s)
+// {
+// 	stadium = s;
+// }

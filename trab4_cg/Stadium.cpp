@@ -22,10 +22,10 @@ Stadium::Stadium(Circle* exterior, Circle *inferior, Player *p, list<NPC*> npcs,
 	for (std::list<NPC*>::iterator npc=NPCs.begin(); npc != NPCs.end(); ++npc)
 	{
 		(*npc)->setPlayer(p->getCenter());
-		(*npc)->setStadium(this);
+		// (*npc)->setStadium(this);
 	}
 
-	ga = new GeneticAlgorithm();
+	// ga = new GeneticAlgorithm();
 }
 
 
@@ -92,7 +92,7 @@ bool Stadium::isValidMove(int c,Person *p)
 
 	double r = p->getRadius();
 
-	if(limitInterior->circleInCircle(x,y,r) || !limitExterior->circleInCircle(x,y,-r) || stopInObstacle(p,x,y,r)  || inNPC(x,y,r,p))
+	if(limitInterior->circleInCircle(x,y,r) || !limitExterior->circleInCircle(x,y,-r) || stopInObstacle(p,x,y,r)  || inNPC(x,y,r,p) || (inPlayer(x,y,r) && !player->isMe(p)))
 	{
 		return false;
 	}
@@ -106,22 +106,22 @@ bool Stadium::isValidMove(int c,Person *p)
 }
 
 
-bool Stadium::isValidMoveNPC(Person *p,double x, double y)
-{
-	double r = p->getRadius();
+// bool Stadium::isValidMoveNPC(Person *p,double x, double y)
+// {
+// 	double r = p->getRadius();
 
-	if(limitInterior->circleInCircle(x,y,r) || !limitExterior->circleInCircle(x,y,-r) || stopInObstacle(p,x,y,r)  || inNPC(x,y,r,p) || inPlayer(x,y,r) )
-	{
-		return false;
-	}
+// 	if(limitInterior->circleInCircle(x,y,r) || !limitExterior->circleInCircle(x,y,-r) || stopInObstacle(p,x,y,r)  || inNPC(x,y,r,p) || inPlayer(x,y,r) )
+// 	{
+// 		return false;
+// 	}
 
-	if(!inObstacle(x,y,r) && p->isOnElement())
-	{
-		p->setOnElement(false);
-	}
+// 	if(!inObstacle(x,y,r) && p->isOnElement())
+// 	{
+// 		p->setOnElement(false);
+// 	}
 
-	return true;
-}
+// 	return true;
+// }
 
 bool Stadium::inNPC(double x, double y, double r, Person *p)
 {
@@ -336,11 +336,11 @@ void Stadium::shootShotsNPCs(void)
 	}
 }
 
-void Stadium::moveNPC(void)
-{
-	// ga->run(NPCs);
-	ga->modifyRun(NPCs);
-}
+// void Stadium::moveNPC(void)
+// {
+// 	// ga->run(NPCs);
+// 	ga->modifyRun(NPCs);
+// }
 
 void Stadium::changeSizeNPCs(void)
 {

@@ -408,3 +408,14 @@ double Person::getRadiusShoulderA(void)
     return RADIUS_SHOULDER_A;
 }
 
+bool Person::isMe(Person* p)
+{
+    if(getCoord_x() == p->getCoord_x() && getCoord_y() == p->getCoord_y())
+    {
+        return true;
+    }else
+    {
+        return false;
+    }
+}
+

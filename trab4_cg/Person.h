@@ -77,6 +77,7 @@ class Person
 		double getUpdateVelocityPerson(void);
 		double getHeightHand(void);
 		double getRadiusShoulderA(void);
+		bool isMe(Person*);
 };
 
 
