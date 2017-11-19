@@ -53,10 +53,11 @@ class Stadium
 		bool inObstacle(double, double, double);
 		double getFreqShotNPC(void);
 		void shootShotsNPCs(void);
-		// void moveNPC(void);
+		void moveNPC(void);
 		void changeSizeNPCs(void);
 		bool isValidMoveNPC(Person*,double, double);
 		bool inPlayer(double x, double y, double r);
+		bool nextToObstacle(NPC*);
 
 };
 

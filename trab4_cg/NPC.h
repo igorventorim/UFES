@@ -9,18 +9,18 @@
 #include <chrono>
 #include <ctime>
 // #include "Stadium.h"
-// class Stadium;
+class Stadium;
 // 
 
 class NPC: public Person{
 
 	private:
 		Point* player;
-		// Stadium* stadium;
 		vector<int> current_movement;
 
-
 	public:
+		static Stadium* stadium;
+		~NPC();
 		NPC(Circle*,double,double);
 		void setPlayer(Point*);
 		double movementEvaluate(vector<int>,int );
@@ -29,7 +29,6 @@ class NPC: public Person{
 		// void moveNPC(vector<int>,int);
 		void setCurrentMovement(vector<int>);
 		vector<int> getCurrentMovement(void);
-		// void setStadium(Stadium*);
 
 };
 

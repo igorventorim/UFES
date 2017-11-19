@@ -49,10 +49,6 @@ void display(void) {
 	/*Não esperar*/
 	glutSwapBuffers();
 
-	if(finished)
-	{
-		finished = !window->playAgain();
-	}
 }
 
 void init(void) {
@@ -98,40 +94,20 @@ void keyboad_free(unsigned char key, int x, int y) {
 }
 
 
-void moveNPC(NPC *person)
-{
-	if ((person)->getCurrentMovement()[3]
-			&& arena->isValidMove(-1,person)) {
-		person->setDown(true);
-		person->moveDown();
-	}
+// void moveNPC(NPC *person)
+// {
 
-	if ((person)->getCurrentMovement()[1]) {
-		person->rotateLeft();
-	}
 
-	if ((person)->getCurrentMovement()[0]) {
-		person->rotateRight();
-	}
-
-	if ((person)->getCurrentMovement()[2]
-			&& arena->isValidMove(1,person)) {
-		person->moveUp();
-	}
-
-	if ((person)->getCurrentMovement()[4]) {
-		person->jump();
-	}
-
-	if(person->isJumping() || person->getResize() || person->isJumpingOnElement())
-	{
-		person->changeSize();
-	}
-
-}
+// }
 
 
 void idle(void) {
+
+	if(finished)
+	{
+		return;
+	}
+
 	Player *person = arena->getPlayer();
 	list<NPC*> npcs = arena->getNPCs();
 	ga->modifyRun(npcs);
@@ -182,16 +158,7 @@ void idle(void) {
 		dShot = 0;
 	}
 
-	// arena->changeSizeNPCs();
-
-	for (std::list<NPC*>::iterator npc=npcs.begin(); npc != npcs.end(); ++npc)
-	{
-		moveNPC((*npc));
-		(*npc)->setDown(false);
-	}
-
-
-	// arena->moveNPC();
+	arena->moveNPC();
 
 	double elapsed = std::chrono::duration_cast<std::chrono::milliseconds> ( std::chrono::system_clock::now() - frameTime).count();
 	Stadium::MILLISECONDS_BY_FRAME = elapsed;

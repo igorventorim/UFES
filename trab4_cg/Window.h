@@ -48,7 +48,7 @@ class Window
         void setInitWindow(double,double);
         Point* getScorePosition(void);
         Point* getMsgFinishPosition(void);
-        bool playAgain(void);
+        // bool playAgain(void);
         // Color* getColor(string);
         // double getCoord_initWindowX(void);
         // double getCoord_initWindowY(void);

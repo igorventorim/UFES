@@ -159,23 +159,23 @@ Point* Window::getMsgFinishPosition(void)
     return msgFinishPosition;
 }
 
-bool Window::playAgain(void)
-{
-    char c;
-    cout << "Play again [Y/N]: ";
-    cin >> &c;
-    if(c == 'y' || c == 'Y')
-    {
-        return true;
-    }else if(c == 'n' || c == 'N')
-    {
-        exit(0);
+// bool Window::playAgain(void)
+// {
+//     char c;
+//     cout << "Play again [Y/N]: ";
+//     cin >> &c;
+//     if(c == 'y' || c == 'Y')
+//     {
+//         return true;
+//     }else if(c == 'n' || c == 'N')
+//     {
+//         exit(0);
         
-    }
+//     }
 
-    cout << "Valor inválido tente novamente!\n";
-    return playAgain();
-}
+//     cout << "Valor inválido tente novamente!\n";
+//     return playAgain();
+// }
 
 // Color* Window::getColor(string s)
 // {

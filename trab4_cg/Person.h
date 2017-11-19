@@ -36,6 +36,7 @@ class Person
 		
 
 	public:
+		~Person();
 		Person(Circle*,double,double);
 		bool isJumping(void);
 		void setJumping(bool);
