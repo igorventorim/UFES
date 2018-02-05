@@ -230,7 +230,7 @@ void Person::moveHand(double x,double y)
 {
     double newX =  center->getX() - x;
     double newY =  center->getY() - y;
-    angleHand = atan2(newX - hand->getCoord_x(),newY - hand->getCoord_y() + HEIGHT_HAND) *180/M_PI - 45;
+    angleHand = atan2(newX - hand->getCoord_x(),newY - hand->getCoord_y()) *180/M_PI - 45;
     // angleHand = angleBetween(newX,newY,hand->getCoord_x(),hand->getCoord_y()) *180/M_PI - 45;
     if(angleHand > 45)
     {
@@ -417,5 +417,15 @@ bool Person::isMe(Person* p)
     {
         return false;
     }
+}
+
+Person::~Person()
+{
+    delete center;
+    delete head;
+    delete hand;
+    delete lFoot;
+    delete rFoot;
+    delete look;
 }
 

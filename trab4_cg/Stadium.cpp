@@ -5,6 +5,7 @@
 #include <GL/freeglut.h>
 #include <cstring>
 #include <iostream>
+#include "NPC.h"
 
 using namespace std;
 double Stadium::MILLISECONDS_BY_FRAME = 0;
@@ -26,6 +27,8 @@ Stadium::Stadium(Circle* exterior, Circle *inferior, Player *p, list<NPC*> npcs,
 	}
 
 	// ga = new GeneticAlgorithm();
+
+	NPC::stadium = this;
 }
 
 
@@ -104,24 +107,6 @@ bool Stadium::isValidMove(int c,Person *p)
 
 	return true;
 }
-
-
-// bool Stadium::isValidMoveNPC(Person *p,double x, double y)
-// {
-// 	double r = p->getRadius();
-
-// 	if(limitInterior->circleInCircle(x,y,r) || !limitExterior->circleInCircle(x,y,-r) || stopInObstacle(p,x,y,r)  || inNPC(x,y,r,p) || inPlayer(x,y,r) )
-// 	{
-// 		return false;
-// 	}
-
-// 	if(!inObstacle(x,y,r) && p->isOnElement())
-// 	{
-// 		p->setOnElement(false);
-// 	}
-
-// 	return true;
-// }
 
 bool Stadium::inNPC(double x, double y, double r, Person *p)
 {
@@ -238,7 +223,7 @@ bool Stadium::checkShotPlayer(void)
 		for (std::list<NPC*>::iterator npc=NPCs.begin(); npc != NPCs.end(); ++npc)
 		{
 			Point* p = (*npc)->getCenter();
-			if (c->circleInCircle(p->getX(),p->getY(),player->getRadius()))
+			if (c->circleInCircle(p->getX(),p->getY(),player->getRadius()) && !(*npc)->isOnElement())
 			{
 					score++;
 					NPCs.erase(npc++);
@@ -258,7 +243,7 @@ bool Stadium::checkShotPlayer(void)
 
 bool Stadium::checkShotNPC(void)
 {
-	
+
 	for (std::list<Shot*>::iterator shot=shotsNPC.begin(); shot != shotsNPC.end(); ++shot)
 	{
 		Circle* c = (*shot)->getShot();
@@ -285,7 +270,7 @@ bool Stadium::checkShotNPC(void)
 		}
 
 		Point* p = player->getCenter();
-		if (c->circleInCircle(p->getX(),p->getY(),player->getRadius()))
+		if (c->circleInCircle(p->getX(),p->getY(),player->getRadius()) && !player->isOnElement())
 		{
 			shotsNPC.erase(shot++);
 			return true; 
@@ -336,11 +321,69 @@ void Stadium::shootShotsNPCs(void)
 	}
 }
 
-// void Stadium::moveNPC(void)
-// {
-// 	// ga->run(NPCs);
-// 	ga->modifyRun(NPCs);
-// }
+void Stadium::moveNPC(void)
+{
+	// ga->run(NPCs);
+	// ga->modifyRun(NPCs);
+
+	for (std::list<NPC*>::iterator npc=NPCs.begin(); npc != NPCs.end(); ++npc)
+	{
+
+		// moveNPC((*npc));
+		if(nextToObstacle((*npc)))
+		{
+			(*npc)->jump();
+		}
+
+		if ((*npc)->getCurrentMovement()[3]
+		&& isValidMove(-1,(*npc))){
+			(*npc)->setDown(true);
+			(*npc)->moveDown();
+		}
+
+		if (((*npc))->getCurrentMovement()[1]) {
+			(*npc)->rotateLeft();
+		}
+
+		if (((*npc))->getCurrentMovement()[0]) {
+			(*npc)->rotateRight();
+		}
+
+		if (((*npc))->getCurrentMovement()[2]
+				&& isValidMove(1,(*npc))) {
+			(*npc)->moveUp();
+		}
+
+		// if (((*npc))->getCurrentMovement()[4]) {
+		// 	(*npc)->jump();
+		// }
+
+		if((*npc)->isJumping() || (*npc)->getResize() || (*npc)->isJumpingOnElement())
+		{
+			(*npc)->changeSize();
+		}
+
+
+		(*npc)->setDown(false);
+	}
+}
+
+bool Stadium::nextToObstacle(NPC* npc)
+{
+	double x,y;
+	x = npc->getCoord_x();
+	y = npc->getCoord_y();
+		for (std::list<Obstacle*>::iterator obstacle=obstacles.begin(); obstacle != obstacles.end(); ++obstacle)
+		{
+			if((*obstacle)->getElement()->distance2Center(x,y) < (*obstacle)->getElement()->getRadius()+ 2*npc->getHead()->getRadius() )
+			{
+				return true;
+			}
+		}
+
+		return false;
+
+}
 
 void Stadium::changeSizeNPCs(void)
 {
